@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WIN", "WIN\WIN.csproj", "{1AE9796E-FFE1-442F-BC50-E9A4EA64F5EA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weibo", "Weibo\Weibo.csproj", "{13D4C530-EE23-4F0C-BDC2-BB517F84DE4B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{1AE9796E-FFE1-442F-BC50-E9A4EA64F5EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1AE9796E-FFE1-442F-BC50-E9A4EA64F5EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1AE9796E-FFE1-442F-BC50-E9A4EA64F5EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13D4C530-EE23-4F0C-BDC2-BB517F84DE4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13D4C530-EE23-4F0C-BDC2-BB517F84DE4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13D4C530-EE23-4F0C-BDC2-BB517F84DE4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13D4C530-EE23-4F0C-BDC2-BB517F84DE4B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
