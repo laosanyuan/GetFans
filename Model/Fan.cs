@@ -8,7 +8,7 @@ namespace Model
 {
     class Fan
     {
-        public String Uid {get;se;}//uid
+        public String Uid {get;set;}//uid
         public String NickName {get; set}//昵称
 
         public bool IsFollowMe {get; set;}//是否关注我
