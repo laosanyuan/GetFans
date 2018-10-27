@@ -19,5 +19,7 @@ namespace Model
 
         public CookieContainer Cookies { get; set; }//Cookies
 
+        public LoginParameter LoginPara { get; set; }//登录参数
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -127,6 +128,19 @@ namespace DAL
 
             }
 
+        }
+
+        ///<summary>
+        /// 获得网页图片
+        ///</summary>
+        /// <param name="url">请求的URL</param>
+        /// <returns>返回图像</returns>
+        public static Image GetImage(string url)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = "GET";
+            WebResponse response = request.GetResponse();
+            return Image.FromStream(response.GetResponseStream());
         }
     }
 }

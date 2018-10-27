@@ -30,8 +30,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Interop.MSScriptControl, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>Resources\Interop.MSScriptControl.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,12 +49,21 @@
   <ItemGroup>
     <Compile Include="HttpHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScriptEngine.cs" />
+    <Compile Include="Weibo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Weibo\Weibo.csproj">
-      <Project>{13d4c530-ee23-4f0c-bdc2-bb517f84de4b}</Project>
-      <Name>Weibo</Name>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{a859ad9a-8944-48c1-bcda-3a57419207bd}</Project>
+      <Name>Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\CSkin.dll" />
+    <Content Include="Resources\Interop.MSScriptControl.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sinaSSOEncoder" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
