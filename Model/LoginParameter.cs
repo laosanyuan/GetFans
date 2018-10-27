@@ -16,5 +16,7 @@ namespace Model
         public string pcid; //预登录参数2
         public string nonce; //预登录参数3（随机数）
         public string showpin; //预登录参数4（是否需要验证码）
+
+        public bool IsForcedPin;//强制验证码
     }
 }

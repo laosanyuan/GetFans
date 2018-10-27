@@ -24,7 +24,7 @@ namespace DAL
             Model.User User = new Model.User();
             User.UserName = userName;
             User.Password = password;
-
+            User.LoginPara = new Model.LoginParameter();
             //加密用户名
             Encoding myEncoding = Encoding.GetEncoding("utf-8");
             byte[] suByte = myEncoding.GetBytes(HttpUtility.UrlEncode(userName));
@@ -54,6 +54,8 @@ namespace DAL
             pos = content.IndexOf("showpin");
             user.LoginPara.showpin = content.Substring(pos + 9, 1);
 
+            user.LoginPara.IsForcedPin = true;
+
             //获取验证码
             url = "http://login.sina.com.cn/cgi/pin.php?p=" + user.LoginPara.pcid;
             return HttpHelper.GetImage(url);
@@ -73,13 +75,13 @@ namespace DAL
                 return "RSA加密失败";
             }
 
-            string postData = "entry=weibo&gateway=1&from=&savestate=7&useticket=1&pagerefer=&vsnf=1&su=" + su
+            string postData = "entry=weibo&gateway=1&from=&savestate=7&useticket=1&pagerefer=&vsnf=1&su=" + user.LoginPara.su
                 + "&service=miniblog&servertime=" + user.LoginPara.servertime
                 + "&nonce=" + user.LoginPara.nonce
-                + "&pwencode=rsa2&rsakv=" + user.LoginPara.RSAKV + "&sp=" + user.LoginPara.sp
+                + "&pwencode=rsa2&rsakv=" + user.LoginPara.RSAKV + "&sp=" + securityPassword
                 + "&sr=1366*768&encoding=UTF-8&prelt=104&url=http%3A%2F%2Fweibo.com%2Fajaxlogin.php%3Fframelogin%3D1%26callback%3Dparent.sinaSSOController.feedBackUrlCallBack&returntype=META";
 
-            if (user.LoginPara.showpin.Equals("1"))
+            if (((user.LoginPara.showpin !=null && user.LoginPara.showpin.Equals("1")) || user.LoginPara.IsForcedPin)&&door != null)
             {
                 postData += "&pcid=" + user.LoginPara.pcid + "&door=" + door;
             }
@@ -91,6 +93,7 @@ namespace DAL
             if (retcode == "0")
             {
                 //获取cookie
+                user.Cookies = new CookieContainer();
                 pos = content.IndexOf("location.replace");
                 string url = content.Substring(pos + 18, 276);//285->276 fuck!! 
                 content = HttpHelper.Get(url, user.Cookies, false);
