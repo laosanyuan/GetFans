@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,6 +42,34 @@ namespace BLL
         public static string StartLogin(Model.User user, string door = null)
         {
             return DAL.Weibo.StartLogin(user, door);
+        }
+        #endregion
+
+        #region 关注
+        /// <summary>
+        /// 关注用户
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="nickName"></param>
+        /// <param name="cookie"></param>
+        /// <returns></returns>
+        public static bool Follow(string uid, string nickName, CookieContainer cookie)
+        {
+            return DAL.Weibo.Follow(uid, nickName, cookie);
+        }
+        #endregion
+
+        #region 取消关注
+        /// <summary>
+        /// 取消关注
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="nickName"></param>
+        /// <param name="cookie"></param>
+        /// <returns></returns>
+        public static bool CancelFollow(string uid, string nickName, CookieContainer cookie)
+        {
+            return DAL.Weibo.CancelFollow(uid, nickName, cookie);
         }
         #endregion
     }

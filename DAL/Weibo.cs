@@ -110,6 +110,48 @@ namespace DAL
         }
         #endregion
 
+        #region 关注
+        /// <summary>
+        /// 关注一个用户
+        /// </summary>
+        /// <param name="uid">uid</param>
+        /// <param name="nickName">昵称</param>
+        /// <param name="cookie">登录cookie</param>
+        /// <returns>是否关注成功</returns>
+        public static bool Follow(string uid,string nickName,CookieContainer cookie)
+        {
+            string data = String.Format("uid={0}&objectid=&f=1&extra=&refer_sort=&refer_flag=1005050001_&location=page_100505_home&oid={0}&wforce=1&nogroup=1&fnick={1}&refer_lflag=1005050005_&refer_from=profile_headerv6&template=7&special_focus=1&isrecommend=1&is_special=0&redirect_url=%252Fp%252F1005056676557674%252Fmyfollow%253Fgid%253D4279893657022870%2523place&_t=0", uid, nickName);
+            string url = @"https://weibo.com/aj/f/followed?ajwvr=6&__rnd=" + GetTimeStamp();
+
+            string s = HttpHelper.SendDataByPost(url, cookie, data);
+
+            //返回是否关注成功
+
+            return true;
+        }
+        #endregion
+
+        #region 取消关注
+        /// <summary>
+        /// 取消关注用户
+        /// </summary>
+        /// <param name="uid">uid</param>
+        /// <param name="nickName">昵称</param>
+        /// <param name="cookies">cookie</param>
+        /// <returns>是否取消关注成功</returns>
+        public static bool CancelFollow(string uid, string nickName, CookieContainer cookie)
+        {
+            string data = String.Format("uid={0}&objectid=&f=1&extra=&refer_sort=&refer_flag=1005050001_&location=page_100505_home&oid={0}&wforce=1&nogroup=1&fnick={1}&refer_lflag=1005050005_&refer_from=profile_headerv6&template=7&special_focus=1&isrecommend=1&is_special=0&redirect_url=%2Fp%2F1005056676557674%2Fmyfollow%3Fgid%3D4279893657022870%23place", uid, nickName);
+            string url = @"https://weibo.com/aj/f/unfollow?ajwvr=6";
+
+            string s = HttpHelper.SendDataByPost(url, cookie, data);
+
+            //返回成功与否
+
+            return true;
+        }
+        #endregion
+
         #region 私有方法
         /// <summary>
         /// 获取加密后的密码
@@ -159,6 +201,16 @@ namespace DAL
             {
                 //获取失败
             }
+        }
+
+        /// <summary>
+        /// 获取当前时间戳
+        /// </summary>
+        /// <returns></returns>
+        private static string GetTimeStamp()
+        {
+            TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            return Convert.ToInt64(ts.TotalMilliseconds).ToString();
         }
         #endregion
     }
