@@ -35,6 +35,7 @@
             this.skinTextBox3 = new CCWin.SkinControl.SkinTextBox();
             this.skinPictureBox1 = new CCWin.SkinControl.SkinPictureBox();
             this.skinButton2 = new CCWin.SkinControl.SkinButton();
+            this.userLoginControl1 = new WIN.Controls.UserLoginControl();
             ((System.ComponentModel.ISupportInitialize)(this.skinPictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -209,11 +210,19 @@
             this.skinButton2.UseVisualStyleBackColor = false;
             this.skinButton2.Click += new System.EventHandler(this.skinButton2_Click);
             // 
+            // userLoginControl1
+            // 
+            this.userLoginControl1.Location = new System.Drawing.Point(215, 278);
+            this.userLoginControl1.Name = "userLoginControl1";
+            this.userLoginControl1.Size = new System.Drawing.Size(494, 147);
+            this.userLoginControl1.TabIndex = 6;
+            // 
             // MainPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.userLoginControl1);
             this.Controls.Add(this.skinButton2);
             this.Controls.Add(this.skinPictureBox1);
             this.Controls.Add(this.skinTextBox3);
@@ -235,5 +244,6 @@
         private CCWin.SkinControl.SkinTextBox skinTextBox3;
         private CCWin.SkinControl.SkinPictureBox skinPictureBox1;
         private CCWin.SkinControl.SkinButton skinButton2;
+        private Controls.UserLoginControl userLoginControl1;
     }
 }
