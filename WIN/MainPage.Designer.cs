@@ -212,9 +212,12 @@
             // 
             // userLoginControl1
             // 
-            this.userLoginControl1.Location = new System.Drawing.Point(215, 278);
+            this.userLoginControl1.BackColor = System.Drawing.SystemColors.Control;
+            this.userLoginControl1.Location = new System.Drawing.Point(246, 283);
+            this.userLoginControl1.MaximumSize = new System.Drawing.Size(440, 147);
+            this.userLoginControl1.MinimumSize = new System.Drawing.Size(440, 147);
             this.userLoginControl1.Name = "userLoginControl1";
-            this.userLoginControl1.Size = new System.Drawing.Size(494, 147);
+            this.userLoginControl1.Size = new System.Drawing.Size(440, 147);
             this.userLoginControl1.TabIndex = 6;
             // 
             // MainPage

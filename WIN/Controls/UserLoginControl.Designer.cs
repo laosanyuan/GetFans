@@ -28,19 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserLoginControl));
             System.Windows.Forms.Label label1;
             System.Windows.Forms.Label label2;
             System.Windows.Forms.Label label3;
             System.Windows.Forms.Label label4;
             System.Windows.Forms.Label label5;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserLoginControl));
             this.skinGroupBox1 = new CCWin.SkinControl.SkinGroupBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.labelLoginFansCount = new System.Windows.Forms.Label();
-            this.labelNowFansCount = new System.Windows.Forms.Label();
-            this.labelSuccessCount = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.labelSuccessCount = new System.Windows.Forms.Label();
+            this.labelNowFansCount = new System.Windows.Forms.Label();
+            this.labelLoginFansCount = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.buttonStart = new System.Windows.Forms.Button();
+            this.buttonExit = new System.Windows.Forms.Button();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
@@ -49,48 +51,6 @@
             this.skinGroupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // skinGroupBox1
-            // 
-            this.skinGroupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.skinGroupBox1.BackColor = System.Drawing.Color.Transparent;
-            this.skinGroupBox1.BorderColor = System.Drawing.Color.DarkGray;
-            this.skinGroupBox1.Controls.Add(this.label7);
-            this.skinGroupBox1.Controls.Add(this.label6);
-            this.skinGroupBox1.Controls.Add(this.labelSuccessCount);
-            this.skinGroupBox1.Controls.Add(this.labelNowFansCount);
-            this.skinGroupBox1.Controls.Add(this.labelLoginFansCount);
-            this.skinGroupBox1.Controls.Add(label5);
-            this.skinGroupBox1.Controls.Add(label4);
-            this.skinGroupBox1.Controls.Add(label3);
-            this.skinGroupBox1.Controls.Add(label2);
-            this.skinGroupBox1.Controls.Add(label1);
-            this.skinGroupBox1.Controls.Add(this.pictureBox1);
-            this.skinGroupBox1.ForeColor = System.Drawing.Color.Black;
-            this.skinGroupBox1.Location = new System.Drawing.Point(4, 4);
-            this.skinGroupBox1.Name = "skinGroupBox1";
-            this.skinGroupBox1.RectBackColor = System.Drawing.Color.White;
-            this.skinGroupBox1.RoundStyle = CCWin.SkinClass.RoundStyle.All;
-            this.skinGroupBox1.Size = new System.Drawing.Size(430, 140);
-            this.skinGroupBox1.TabIndex = 0;
-            this.skinGroupBox1.TabStop = false;
-            this.skinGroupBox1.Text = "登录窗口";
-            this.skinGroupBox1.TitleBorderColor = System.Drawing.Color.Transparent;
-            this.skinGroupBox1.TitleRadius = 10;
-            this.skinGroupBox1.TitleRectBackColor = System.Drawing.Color.White;
-            this.skinGroupBox1.TitleRoundStyle = CCWin.SkinClass.RoundStyle.All;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(14, 20);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(65, 65);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
             // 
             // label1
             // 
@@ -137,41 +97,39 @@
             label5.TabIndex = 5;
             label5.Text = "互粉耗时：";
             // 
-            // labelLoginFansCount
+            // skinGroupBox1
             // 
-            this.labelLoginFansCount.AutoSize = true;
-            this.labelLoginFansCount.Location = new System.Drawing.Point(217, 24);
-            this.labelLoginFansCount.Name = "labelLoginFansCount";
-            this.labelLoginFansCount.Size = new System.Drawing.Size(11, 12);
-            this.labelLoginFansCount.TabIndex = 6;
-            this.labelLoginFansCount.Text = "0";
-            // 
-            // labelNowFansCount
-            // 
-            this.labelNowFansCount.AutoSize = true;
-            this.labelNowFansCount.Location = new System.Drawing.Point(217, 46);
-            this.labelNowFansCount.Name = "labelNowFansCount";
-            this.labelNowFansCount.Size = new System.Drawing.Size(11, 12);
-            this.labelNowFansCount.TabIndex = 7;
-            this.labelNowFansCount.Text = "0";
-            // 
-            // labelSuccessCount
-            // 
-            this.labelSuccessCount.AutoSize = true;
-            this.labelSuccessCount.Location = new System.Drawing.Point(217, 68);
-            this.labelSuccessCount.Name = "labelSuccessCount";
-            this.labelSuccessCount.Size = new System.Drawing.Size(11, 12);
-            this.labelSuccessCount.TabIndex = 8;
-            this.labelSuccessCount.Text = "0";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(217, 90);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(35, 12);
-            this.label6.TabIndex = 9;
-            this.label6.Text = "19:22";
+            this.skinGroupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.skinGroupBox1.BackColor = System.Drawing.Color.Transparent;
+            this.skinGroupBox1.BorderColor = System.Drawing.Color.DarkGray;
+            this.skinGroupBox1.Controls.Add(this.buttonExit);
+            this.skinGroupBox1.Controls.Add(this.buttonStart);
+            this.skinGroupBox1.Controls.Add(this.label7);
+            this.skinGroupBox1.Controls.Add(this.label6);
+            this.skinGroupBox1.Controls.Add(this.labelSuccessCount);
+            this.skinGroupBox1.Controls.Add(this.labelNowFansCount);
+            this.skinGroupBox1.Controls.Add(this.labelLoginFansCount);
+            this.skinGroupBox1.Controls.Add(label5);
+            this.skinGroupBox1.Controls.Add(label4);
+            this.skinGroupBox1.Controls.Add(label3);
+            this.skinGroupBox1.Controls.Add(label2);
+            this.skinGroupBox1.Controls.Add(label1);
+            this.skinGroupBox1.Controls.Add(this.pictureBox1);
+            this.skinGroupBox1.ForeColor = System.Drawing.Color.Black;
+            this.skinGroupBox1.Location = new System.Drawing.Point(4, 4);
+            this.skinGroupBox1.Name = "skinGroupBox1";
+            this.skinGroupBox1.RectBackColor = System.Drawing.Color.White;
+            this.skinGroupBox1.RoundStyle = CCWin.SkinClass.RoundStyle.All;
+            this.skinGroupBox1.Size = new System.Drawing.Size(430, 140);
+            this.skinGroupBox1.TabIndex = 0;
+            this.skinGroupBox1.TabStop = false;
+            this.skinGroupBox1.Text = "登录窗口";
+            this.skinGroupBox1.TitleBorderColor = System.Drawing.Color.Transparent;
+            this.skinGroupBox1.TitleRadius = 10;
+            this.skinGroupBox1.TitleRectBackColor = System.Drawing.Color.White;
+            this.skinGroupBox1.TitleRoundStyle = CCWin.SkinClass.RoundStyle.All;
             // 
             // label7
             // 
@@ -182,11 +140,78 @@
             this.label7.TabIndex = 10;
             this.label7.Text = "10:22";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(217, 90);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(35, 12);
+            this.label6.TabIndex = 9;
+            this.label6.Text = "19:22";
+            // 
+            // labelSuccessCount
+            // 
+            this.labelSuccessCount.AutoSize = true;
+            this.labelSuccessCount.Location = new System.Drawing.Point(217, 68);
+            this.labelSuccessCount.Name = "labelSuccessCount";
+            this.labelSuccessCount.Size = new System.Drawing.Size(11, 12);
+            this.labelSuccessCount.TabIndex = 8;
+            this.labelSuccessCount.Text = "0";
+            // 
+            // labelNowFansCount
+            // 
+            this.labelNowFansCount.AutoSize = true;
+            this.labelNowFansCount.Location = new System.Drawing.Point(217, 46);
+            this.labelNowFansCount.Name = "labelNowFansCount";
+            this.labelNowFansCount.Size = new System.Drawing.Size(11, 12);
+            this.labelNowFansCount.TabIndex = 7;
+            this.labelNowFansCount.Text = "0";
+            // 
+            // labelLoginFansCount
+            // 
+            this.labelLoginFansCount.AutoSize = true;
+            this.labelLoginFansCount.Location = new System.Drawing.Point(217, 24);
+            this.labelLoginFansCount.Name = "labelLoginFansCount";
+            this.labelLoginFansCount.Size = new System.Drawing.Size(11, 12);
+            this.labelLoginFansCount.TabIndex = 6;
+            this.labelLoginFansCount.Text = "0";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(16, 24);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(65, 65);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
+            // buttonStart
+            // 
+            this.buttonStart.Location = new System.Drawing.Point(320, 34);
+            this.buttonStart.Name = "buttonStart";
+            this.buttonStart.Size = new System.Drawing.Size(80, 30);
+            this.buttonStart.TabIndex = 11;
+            this.buttonStart.Text = "开始";
+            this.buttonStart.UseVisualStyleBackColor = true;
+            // 
+            // buttonExit
+            // 
+            this.buttonExit.Location = new System.Drawing.Point(320, 84);
+            this.buttonExit.Name = "buttonExit";
+            this.buttonExit.Size = new System.Drawing.Size(80, 30);
+            this.buttonExit.TabIndex = 12;
+            this.buttonExit.Text = "退出";
+            this.buttonExit.UseVisualStyleBackColor = true;
+            // 
             // UserLoginControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.Controls.Add(this.skinGroupBox1);
+            this.MaximumSize = new System.Drawing.Size(440, 147);
+            this.MinimumSize = new System.Drawing.Size(440, 147);
             this.Name = "UserLoginControl";
             this.Size = new System.Drawing.Size(440, 147);
             this.skinGroupBox1.ResumeLayout(false);
@@ -205,5 +230,7 @@
         private System.Windows.Forms.Label labelSuccessCount;
         private System.Windows.Forms.Label labelNowFansCount;
         private System.Windows.Forms.Label labelLoginFansCount;
+        private System.Windows.Forms.Button buttonExit;
+        private System.Windows.Forms.Button buttonStart;
     }
 }
