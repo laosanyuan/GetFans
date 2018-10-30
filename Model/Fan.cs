@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model
 {
-    class Fan
+    public class Fan
     {
         public String Uid { get; set; }//uid
         public String NickName { get; set; }//昵称

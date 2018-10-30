@@ -135,6 +135,7 @@
             this.buttonCancel.TabIndex = 0;
             this.buttonCancel.Text = "取消";
             this.buttonCancel.UseVisualStyleBackColor = true;
+            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
             // buttonLogin
             // 
@@ -154,6 +155,7 @@
             this.pictureBoxCode.Size = new System.Drawing.Size(74, 30);
             this.pictureBoxCode.TabIndex = 4;
             this.pictureBoxCode.TabStop = false;
+            this.pictureBoxCode.Click += new System.EventHandler(this.pictureBoxCode_Click);
             // 
             // skinTextBoxCheck
             // 
