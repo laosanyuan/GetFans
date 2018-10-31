@@ -65,11 +65,23 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\BuySerialView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\BuySerialView.Designer.cs">
+      <DependentUpon>BuySerialView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoginView.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Views\LoginView.Designer.cs">
       <DependentUpon>LoginView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SerialNumberView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\SerialNumberView.Designer.cs">
+      <DependentUpon>SerialNumberView.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Controls\UserLoginControl.resx">
       <DependentUpon>UserLoginControl.cs</DependentUpon>
@@ -87,8 +99,14 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Views\BuySerialView.resx">
+      <DependentUpon>BuySerialView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\LoginView.resx">
       <DependentUpon>LoginView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\SerialNumberView.resx">
+      <DependentUpon>SerialNumberView.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
