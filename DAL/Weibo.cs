@@ -152,6 +152,34 @@ namespace DAL
         }
         #endregion
 
+        #region 群聊相关
+        /// <summary>
+        /// 发布一条群聊信息
+        /// </summary>
+        /// <param name="cookie"></param>
+        /// <param name="gid">群id</param>
+        /// <param name="message">文字内容</param>
+        public void SendMessage2Group(CookieContainer cookie, string gid, string message)
+        {
+            string data = String.Format("source=209678993&text={0}&gid={1}&fids=", message, gid);
+            string url = @"https://weibo.com/aj/message/groupchatadd?_wv=5&ajwvr=6&__rnd=" + GetTimeStamp();
+            string s = HttpHelper.SendDataByPost(url, cookie, data);
+        }
+        /// <summary>
+        /// 加群
+        /// </summary>
+        /// <param name="cookie"></param>
+        /// <param name="gid"></param>
+        /// <param name="groupName">群名</param>
+        public void AddGroup(CookieContainer cookie, string gid, string groupName)
+        {
+            string data = String.Format("gid={0}&name={1}&isadmin=&_t=0", gid, groupName);
+            string url = @"https://weibo.com/p/aj/groupchat/applygroup?ajwvr=6&__rnd=" + GetTimeStamp();
+            string s = HttpHelper.SendDataByPost(url, cookie, data);
+        }
+        #endregion
+
+
         #region 私有方法
         /// <summary>
         /// 获取加密后的密码
