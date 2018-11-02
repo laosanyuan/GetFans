@@ -57,9 +57,6 @@ namespace BLL
         {
             return DAL.Weibo.Follow(uid, nickName, cookie);
         }
-        #endregion
-
-        #region 取消关注
         /// <summary>
         /// 取消关注
         /// </summary>
@@ -71,6 +68,44 @@ namespace BLL
         {
             return DAL.Weibo.CancelFollow(uid, nickName, cookie);
         }
+        #endregion
+
+        #region 群聊
+        /// <summary>
+        /// 加群
+        /// </summary>
+        /// <param name="cookie"></param>
+        /// <param name="gid"></param>
+        /// <param name="groupName">群名</param>
+        public static void AddGroup(CookieContainer cookie, string gid, string groupName)
+        {
+            //判断是否已入此群
+            //加群
+            DAL.Weibo.AddGroup(cookie, gid, groupName);
+        }
+        /// <summary>
+        /// 向群内发布一条消息
+        /// </summary>
+        /// <param name="cookie"></param>
+        /// <param name="gid"></param>
+        /// <param name="message"></param>
+        public static void SendMessage2Group(CookieContainer cookie, string gid, string message)
+        {
+            DAL.Weibo.SendMessage2Group(cookie, gid, message);
+        }
+        /// <summary>
+        /// 获取当前用户的互粉群列表
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public static List<Model.Group> GetGroups(Model.User user)
+        {
+            //获取当前用户的互粉群列表
+            return new List<Model.Group>();
+        }
+
+
+
         #endregion
     }
 }
