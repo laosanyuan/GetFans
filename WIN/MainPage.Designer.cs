@@ -33,7 +33,9 @@
             this.skinTabPage1 = new CCWin.SkinControl.SkinTabPage();
             this.skinTabPage2 = new CCWin.SkinControl.SkinTabPage();
             this.skinTabPage3 = new CCWin.SkinControl.SkinTabPage();
+            this.button1 = new System.Windows.Forms.Button();
             this.skinTabControl1.SuspendLayout();
+            this.skinTabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // skinTabControl1
@@ -69,6 +71,7 @@
             // skinTabPage1
             // 
             this.skinTabPage1.BackColor = System.Drawing.Color.White;
+            this.skinTabPage1.Controls.Add(this.button1);
             this.skinTabPage1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.skinTabPage1.Location = new System.Drawing.Point(0, 30);
             this.skinTabPage1.Name = "skinTabPage1";
@@ -99,6 +102,16 @@
             this.skinTabPage3.TabItemImage = null;
             this.skinTabPage3.Text = "帮助";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(126, 68);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // MainPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -108,6 +121,7 @@
             this.Name = "MainPage";
             this.Text = "MainPage";
             this.skinTabControl1.ResumeLayout(false);
+            this.skinTabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -118,5 +132,6 @@
         private CCWin.SkinControl.SkinTabPage skinTabPage1;
         private CCWin.SkinControl.SkinTabPage skinTabPage2;
         private CCWin.SkinControl.SkinTabPage skinTabPage3;
+        private System.Windows.Forms.Button button1;
     }
 }
