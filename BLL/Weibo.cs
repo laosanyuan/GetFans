@@ -68,6 +68,16 @@ namespace BLL
         {
             return DAL.Weibo.CancelFollow(uid, nickName, cookie);
         }
+        /// <summary>
+        /// 获取未关注粉丝列表
+        /// </summary>
+        /// <param name="cookie"></param>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        public static List<Model.Fan> GetUnfollowFansList(CookieContainer cookie,string uid)
+        {
+            return DAL.Weibo.GetUnfollowFansList(cookie, uid);
+        }
         #endregion
 
         #region 群聊
@@ -98,10 +108,9 @@ namespace BLL
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public static List<Model.Group> GetGroups(Model.User user)
+        public static List<Model.Group> GetGroups(CookieContainer cookie)
         {
-            //获取当前用户的互粉群列表
-            return new List<Model.Group>();
+            return DAL.Weibo.GetGroups(cookie);
         }
 
 

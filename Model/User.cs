@@ -21,5 +21,10 @@ namespace Model
 
         public LoginParameter LoginPara { get; set; }//登录参数
 
+        public string FollowCount { get; set; }//关注数
+
+        public string FansCount { get; set; }//粉丝数
+
+
     }
 }

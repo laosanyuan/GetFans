@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -110,7 +111,7 @@ namespace DAL
         }
         #endregion
 
-        #region 关注
+        #region 粉丝相关
         /// <summary>
         /// 关注一个用户
         /// </summary>
@@ -129,9 +130,6 @@ namespace DAL
 
             return true;
         }
-        #endregion
-
-        #region 取消关注
         /// <summary>
         /// 取消关注用户
         /// </summary>
@@ -149,6 +147,44 @@ namespace DAL
             //返回成功与否
 
             return true;
+        }
+        /// <summary>
+        /// 获取未关注粉丝列表
+        /// </summary>
+        /// <param name="cookie"></param>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        public static List<Model.Fan> GetUnfollowFansList(CookieContainer cookie, string uid)
+        {
+            List<Model.Fan> Fans = new List<Model.Fan>();
+            string url = String.Format(@"https://weibo.com/{0}/fans?topnav=1&wvr=6&mod=message&need_filter=1", uid);
+            string result = HttpHelper.Get(url, cookie, true);
+            string regexString = @"followlist&uid=(\d)*?&fnick=(.)*?&f=1";
+            MatchCollection matches = Regex.Matches(result, regexString);
+
+            foreach (Match match in matches)
+            {
+                string data = match.Value.Replace(@"followlist&uid=", "").Replace("fnick=", "").Replace("&f=1", "");
+                string[] values = data.Split('&');
+                Model.Fan fan = new Model.Fan();
+                fan.Uid = values[0];
+                fan.NickName = values[1];
+                Fans.Add(fan);
+            }
+   
+            return Fans;
+        }
+        /// <summary>
+        /// 更新粉丝数、关注数
+        /// </summary>
+        /// <param name=""></param>
+        public static void UpdateUsersFansCount(Model.User user)
+        {
+            string userHomePageTxt = HttpHelper.Get("https://weibo.com", user.Cookies, true);
+
+            GetFansAndFollowCount(userHomePageTxt, out string fansCount, out string followCount);
+            user.FansCount = fansCount;
+            user.FollowCount = followCount;
         }
         #endregion
 
@@ -177,6 +213,42 @@ namespace DAL
             string url = @"https://weibo.com/p/aj/groupchat/applygroup?ajwvr=6&__rnd=" + GetTimeStamp();
             string s = HttpHelper.SendDataByPost(url, cookie, data);
         }
+        /// <summary>
+        /// 获取登录用户私信列表第一页的所有群（群名、gid）
+        /// </summary>
+        /// <param name="cookie"></param>
+        /// <returns></returns>
+        public static List<Model.Group> GetGroups(CookieContainer cookie)
+        {
+            List<Model.Group> Groups = new List<Model.Group>();
+
+            string url = @"https://weibo.com/messages?topnav=1&wvr=6";
+            string regexString = @"gid=(\d)*?&name=(.)*?&type=2";
+            string result = HttpHelper.Get(url, cookie, true);
+
+            MatchCollection matches = Regex.Matches(result, regexString);
+
+            foreach (Match match in matches)
+            {
+                //剔除非互粉群
+                if (match.Value.IndexOf("互粉") == -1 &&
+                    match.Value.IndexOf("互赞") == -1 &&
+                    match.Value.IndexOf("互评") == -1)
+                {
+                    continue;
+                }
+
+                string data = match.Value.Replace("gid=", "").Replace("&type=2", "").Replace("name=","");
+                string[] values = data.Split('&');
+
+                Model.Group group = new Model.Group();
+                group.Name = values[0];
+                group.Gid = values[1];
+
+                Groups.Add(group);
+            }
+            return Groups;
+        }
         #endregion
 
 
@@ -200,7 +272,6 @@ namespace DAL
             sr.Close();
             return obj.ToString();
         }
-
         /// <summary>
         /// 获取昵称、uid、头像
         /// </summary>
@@ -210,6 +281,11 @@ namespace DAL
             try
             {
                 var userHomePageTxt = HttpHelper.Get("https://weibo.com", user.Cookies, true);
+
+                GetFansAndFollowCount(userHomePageTxt, out string fansCount, out string followCount);
+                user.FansCount = fansCount;
+                user.FollowCount = followCount;
+
                 //获取用户uid
                 int indexStart = userHomePageTxt.IndexOf("$CONFIG['uid']='") + "$CONFIG['uid']='".Length;
                 userHomePageTxt = userHomePageTxt.Substring(indexStart);
@@ -228,6 +304,33 @@ namespace DAL
             catch (Exception ex)
             {
                 //获取失败
+            }
+        }
+        /// <summary>
+        /// 从网页文本中获取关注数、粉丝数
+        /// </summary>
+        /// <param name="txt"></param>
+        /// <param name="fansCount">粉丝数</param>
+        /// <param name="followCount">关注数</param>
+        private static void GetFansAndFollowCount(string txt, out string fansCount, out string followCount)
+        {
+            fansCount = "";
+            followCount = "";
+
+            string regexFans = "fans\\\\\">(\\d)+?<";
+            string regexFollow = "follow\\\\\">(\\d)+?<";
+
+            MatchCollection FansMatchs = Regex.Matches(txt, regexFans);
+            MatchCollection FollowMatchs = Regex.Matches(txt, regexFollow);
+
+            foreach (Match match in FansMatchs)
+            {
+                fansCount = match.Value.Replace("fans\\\">","").Replace("<","");
+            }
+
+            foreach (Match match in FollowMatchs)
+            {
+                followCount = match.Value.Replace("follow\\\">","").Replace("<","");
             }
         }
 
