@@ -96,7 +96,9 @@ namespace DAL
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
 
                 request.Method = "post";
-                request.Referer = "https://weibo.com/u/2716618757/home?topnav=1&wvr=6";
+
+                request.Referer = "https://weibo.com";
+
                 request.Host = "weibo.com";
                 //request.Connection = "keep-alive";
                 request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.75 Safari/537.36";

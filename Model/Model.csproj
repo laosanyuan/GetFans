@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BackJson.cs" />
     <Compile Include="Fan.cs" />
     <Compile Include="Group.cs" />
     <Compile Include="LoginParameter.cs" />

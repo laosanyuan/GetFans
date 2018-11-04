@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Script.Serialization;
 
 namespace DAL
 {
@@ -33,7 +34,6 @@ namespace DAL
 
             return User;
         }
-
         /// <summary>
         /// 获取验证码
         /// </summary>
@@ -61,7 +61,6 @@ namespace DAL
             url = "http://login.sina.com.cn/cgi/pin.php?p=" + user.LoginPara.pcid;
             return HttpHelper.GetImage(url);
         }
-
         /// <summary>
         /// 正式开始登录
         /// </summary>
@@ -124,11 +123,9 @@ namespace DAL
             string data = String.Format("uid={0}&objectid=&f=1&extra=&refer_sort=&refer_flag=1005050001_&location=page_100505_home&oid={0}&wforce=1&nogroup=1&fnick={1}&refer_lflag=1005050005_&refer_from=profile_headerv6&template=7&special_focus=1&isrecommend=1&is_special=0&redirect_url=%252Fp%252F1005056676557674%252Fmyfollow%253Fgid%253D4279893657022870%2523place&_t=0", uid, nickName);
             string url = @"https://weibo.com/aj/f/followed?ajwvr=6&__rnd=" + GetTimeStamp();
 
-            string s = HttpHelper.SendDataByPost(url, cookie, data);
+            var s = HttpHelper.SendDataByPost(url, cookie, data);
 
-            //返回是否关注成功
-
-            return true;
+            return CheckBackCode(JsonHelper.GetBackJson(s).code);
         }
         /// <summary>
         /// 取消关注用户
@@ -144,9 +141,7 @@ namespace DAL
 
             string s = HttpHelper.SendDataByPost(url, cookie, data);
 
-            //返回成功与否
-
-            return true;
+            return CheckBackCode(JsonHelper.GetBackJson(s).code);
         }
         /// <summary>
         /// 获取未关注粉丝列表
@@ -195,11 +190,13 @@ namespace DAL
         /// <param name="cookie"></param>
         /// <param name="gid">群id</param>
         /// <param name="message">文字内容</param>
-        public static void SendMessage2Group(CookieContainer cookie, string gid, string message)
+        public static bool SendMessage2Group(CookieContainer cookie, string gid, string message)
         {
             string data = String.Format("source=209678993&text={0}&gid={1}&fids=", message, gid);
             string url = @"https://weibo.com/aj/message/groupchatadd?_wv=5&ajwvr=6&__rnd=" + GetTimeStamp();
             string s = HttpHelper.SendDataByPost(url, cookie, data);
+
+            return CheckBackCode(JsonHelper.GetBackJson(s).code);
         }
         /// <summary>
         /// 加群
@@ -207,11 +204,13 @@ namespace DAL
         /// <param name="cookie"></param>
         /// <param name="gid"></param>
         /// <param name="groupName">群名</param>
-        public static void AddGroup(CookieContainer cookie, string gid, string groupName)
+        public static bool AddGroup(CookieContainer cookie, string gid, string groupName)
         {
             string data = String.Format("gid={0}&name={1}&isadmin=&_t=0", gid, groupName);
             string url = @"https://weibo.com/p/aj/groupchat/applygroup?ajwvr=6&__rnd=" + GetTimeStamp();
             string s = HttpHelper.SendDataByPost(url, cookie, data);
+
+            return CheckBackCode(JsonHelper.GetBackJson(s).code);
         }
         /// <summary>
         /// 获取登录用户私信列表第一页的所有群（群名、gid）
@@ -250,7 +249,6 @@ namespace DAL
             return Groups;
         }
         #endregion
-
 
         #region 私有方法
         /// <summary>
@@ -332,6 +330,22 @@ namespace DAL
             {
                 followCount = match.Value.Replace("follow\\\">","").Replace("<","");
             }
+        }
+        /// <summary>
+        /// 识别微博操作返回值
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        private static bool CheckBackCode(string code)
+        {
+            
+            switch (code)
+            {
+                case "100000":
+                    return true;
+                default:
+                    return false;
+            }    
         }
 
         /// <summary>

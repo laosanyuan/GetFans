@@ -22,7 +22,6 @@ namespace BLL
         {
             return DAL.Weibo.PrepareLogin(userName, password);
         }
-
         /// <summary>
         /// 获取验证码
         /// </summary>
@@ -32,7 +31,6 @@ namespace BLL
         {
             return DAL.Weibo.GetCodeImage(user);
         }
-
         /// <summary>
         /// 正式开始登录
         /// </summary>
@@ -112,9 +110,6 @@ namespace BLL
         {
             return DAL.Weibo.GetGroups(cookie);
         }
-
-
-
         #endregion
     }
 }
