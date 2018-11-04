@@ -99,9 +99,6 @@
             // 
             // skinGroupBox1
             // 
-            this.skinGroupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.skinGroupBox1.BackColor = System.Drawing.SystemColors.Control;
             this.skinGroupBox1.BorderColor = System.Drawing.Color.DarkGray;
             this.skinGroupBox1.Controls.Add(this.buttonExit);
@@ -122,7 +119,7 @@
             this.skinGroupBox1.Name = "skinGroupBox1";
             this.skinGroupBox1.RectBackColor = System.Drawing.SystemColors.Control;
             this.skinGroupBox1.RoundStyle = CCWin.SkinClass.RoundStyle.All;
-            this.skinGroupBox1.Size = new System.Drawing.Size(430, 140);
+            this.skinGroupBox1.Size = new System.Drawing.Size(390, 137);
             this.skinGroupBox1.TabIndex = 0;
             this.skinGroupBox1.TabStop = false;
             this.skinGroupBox1.Text = "登录窗口";
@@ -133,7 +130,7 @@
             // 
             // buttonExit
             // 
-            this.buttonExit.Location = new System.Drawing.Point(320, 84);
+            this.buttonExit.Location = new System.Drawing.Point(289, 81);
             this.buttonExit.Name = "buttonExit";
             this.buttonExit.Size = new System.Drawing.Size(80, 30);
             this.buttonExit.TabIndex = 12;
@@ -142,7 +139,7 @@
             // 
             // buttonStart
             // 
-            this.buttonStart.Location = new System.Drawing.Point(320, 34);
+            this.buttonStart.Location = new System.Drawing.Point(289, 28);
             this.buttonStart.Name = "buttonStart";
             this.buttonStart.Size = new System.Drawing.Size(80, 30);
             this.buttonStart.TabIndex = 11;
@@ -210,10 +207,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.Controls.Add(this.skinGroupBox1);
-            this.MaximumSize = new System.Drawing.Size(440, 147);
-            this.MinimumSize = new System.Drawing.Size(440, 147);
+            this.MaximumSize = new System.Drawing.Size(400, 147);
+            this.MinimumSize = new System.Drawing.Size(400, 147);
             this.Name = "UserLoginControl";
-            this.Size = new System.Drawing.Size(440, 147);
+            this.Padding = new System.Windows.Forms.Padding(0, 0, 3, 3);
+            this.Size = new System.Drawing.Size(400, 147);
             this.skinGroupBox1.ResumeLayout(false);
             this.skinGroupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

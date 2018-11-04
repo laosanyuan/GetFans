@@ -7,8 +7,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Script.Serialization;
 using System.Windows.Forms;
+using WIN.Controls;
 
 namespace WIN
 {
@@ -34,5 +34,126 @@ namespace WIN
 
             //BLL.Weibo.AddGroup(user.Cookies, "4296821419377098", "千人微博 互 粉互 动群");
         }
+
+        #region [登录账号]
+        private void buttonLogin_Click(object sender, EventArgs e)
+        {
+
+            LayoutControl();
+            return;
+
+            Views.LoginView loginView = new Views.LoginView();
+            loginView.ShowDialog();
+
+            if (loginView.IsSuccess)
+            {
+                Model.User user = loginView.User;
+
+                
+
+                this.WriteOutputMessages(new string[] { String.Format("账号【{0}】登陆成功！",user.NickName),
+                    String.Format("当前关注数：{0}",user.FollowCount),
+                String.Format("当前粉丝数：{0}",user.FansCount)});
+            }
+            else
+            {
+                this.WriteOutputMessage("取消登录");
+                return;
+            }
+        }
+        #endregion
+
+        #region [页面布局]
+        /// <summary>
+        /// 根据页面情况对登录后控件进行布局
+        /// </summary>
+        private void LayoutControl()
+        {
+            UserLoginControl userLogin = new UserLoginControl();
+
+            int columnCount = (this.panelWeibo.Width - 20) / 533;//求列数
+            int controlCount = this.panelWeibo.Controls.Count;//求已存在微博控件数
+
+            int height = 147; //控件默认长宽
+            int width = 400;
+
+
+            if (columnCount < 1)
+            {
+                columnCount = 1;
+            }
+
+            int row = controlCount / columnCount;
+            int column = controlCount % columnCount;
+
+            //if (this.panelWeibo.Controls.Count == 0)
+            //{
+            //    userLogin.Location = new Point(4, 4);
+            //}
+            //else if (this.panelWeibo.Controls.Count < columnCount)
+            //{
+            //    userLogin.Location = new Point(this.panelWeibo.Controls[this.panelWeibo.Controls.Count - 1].Location.X + width + 3);
+            //}
+            //else if (row != 0 && column == 0)
+            //{
+            //    userLogin.Location = new Point(4, this.panelWeibo.Controls[this.panelWeibo.Controls.Count - 1].Location.Y + height + 3);
+            //}
+            //else
+            //{
+            //    //userLogin.Location = new Point(column * (width + 3) + 4, row * (height + 3) + 4);
+            //    userLogin.Location = new Point(this.panelWeibo.Controls[column].Location.X,
+            //        this.panelWeibo.Controls[this.panelWeibo.Controls.Count - 1].Location.Y);
+            //}
+
+
+            if (row == 0)
+            {
+                userLogin.Location = new Point((width + 4) * column + 4, 4);
+            }
+            else
+            {
+                if (column == 0)
+                {
+                    //userLogin.Location = new Point(4, this.panelWeibo.Controls[this.panelWeibo.Controls.Count - 1].Location.Y + height + 4);
+                    userLogin.Location = new Point(4, (int)(this.panelWeibo.Controls[this.panelWeibo.Controls.Count - 1].Location.Y / 1.165) + height +4);
+
+                }
+                else
+                {
+                    userLogin.Location = new Point((width + 4) * column + 4,
+                        (int)(this.panelWeibo.Controls[this.panelWeibo.Controls.Count - 1].Location.Y/1.165));
+                }
+
+            }
+
+            this.panelWeibo.Controls.Add(userLogin);
+        }
+        #endregion
+
+        #region [输出信息]
+        /// <summary>
+        /// 向状态窗口输出一组信息
+        /// </summary>
+        /// <param name="messages"></param>
+        private void WriteOutputMessages(string[] messages)
+        {
+            string timeStr = DateTime.Now.ToString();
+
+            this.richTextBoxOutput.Text += timeStr + ":" + System.Environment.NewLine;
+
+            foreach (string str in messages)
+            {
+                this.richTextBoxOutput.Text += str + Environment.NewLine;
+            }
+        }
+        /// <summary>
+        /// 向状态窗口输出一条信息
+        /// </summary>
+        /// <param name="message"></param>
+        private void WriteOutputMessage(string message)
+        {
+            this.WriteOutputMessages(new string[] { message });
+        }
+        #endregion
     }
 }
