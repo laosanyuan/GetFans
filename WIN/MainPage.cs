@@ -39,8 +39,6 @@ namespace WIN
         private void buttonLogin_Click(object sender, EventArgs e)
         {
 
-            LayoutControl();
-            return;
 
             Views.LoginView loginView = new Views.LoginView();
             loginView.ShowDialog();
@@ -49,7 +47,7 @@ namespace WIN
             {
                 Model.User user = loginView.User;
 
-                
+                LayoutControl(user);
 
                 this.WriteOutputMessages(new string[] { String.Format("账号【{0}】登陆成功！",user.NickName),
                     String.Format("当前关注数：{0}",user.FollowCount),
@@ -67,9 +65,9 @@ namespace WIN
         /// <summary>
         /// 根据页面情况对登录后控件进行布局
         /// </summary>
-        private void LayoutControl()
+        private void LayoutControl(Model.User user)
         {
-            UserLoginControl userLogin = new UserLoginControl();
+            UserLoginControl userLogin = new UserLoginControl(user);
 
             int columnCount = (this.panelWeibo.Width - 20) / 533;//求列数
             int controlCount = this.panelWeibo.Controls.Count;//求已存在微博控件数
@@ -86,26 +84,6 @@ namespace WIN
             int row = controlCount / columnCount;
             int column = controlCount % columnCount;
 
-            //if (this.panelWeibo.Controls.Count == 0)
-            //{
-            //    userLogin.Location = new Point(4, 4);
-            //}
-            //else if (this.panelWeibo.Controls.Count < columnCount)
-            //{
-            //    userLogin.Location = new Point(this.panelWeibo.Controls[this.panelWeibo.Controls.Count - 1].Location.X + width + 3);
-            //}
-            //else if (row != 0 && column == 0)
-            //{
-            //    userLogin.Location = new Point(4, this.panelWeibo.Controls[this.panelWeibo.Controls.Count - 1].Location.Y + height + 3);
-            //}
-            //else
-            //{
-            //    //userLogin.Location = new Point(column * (width + 3) + 4, row * (height + 3) + 4);
-            //    userLogin.Location = new Point(this.panelWeibo.Controls[column].Location.X,
-            //        this.panelWeibo.Controls[this.panelWeibo.Controls.Count - 1].Location.Y);
-            //}
-
-
             if (row == 0)
             {
                 userLogin.Location = new Point((width + 4) * column + 4, 4);
@@ -114,7 +92,6 @@ namespace WIN
             {
                 if (column == 0)
                 {
-                    //userLogin.Location = new Point(4, this.panelWeibo.Controls[this.panelWeibo.Controls.Count - 1].Location.Y + height + 4);
                     userLogin.Location = new Point(4, (int)(this.panelWeibo.Controls[this.panelWeibo.Controls.Count - 1].Location.Y / 1.165) + height +4);
 
                 }

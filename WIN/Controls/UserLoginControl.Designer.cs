@@ -38,7 +38,7 @@
             this.buttonExit = new System.Windows.Forms.Button();
             this.buttonStart = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.labelBeginTime = new System.Windows.Forms.Label();
             this.labelSuccessCount = new System.Windows.Forms.Label();
             this.labelNowFansCount = new System.Windows.Forms.Label();
             this.labelLoginFansCount = new System.Windows.Forms.Label();
@@ -104,7 +104,7 @@
             this.skinGroupBox1.Controls.Add(this.buttonExit);
             this.skinGroupBox1.Controls.Add(this.buttonStart);
             this.skinGroupBox1.Controls.Add(this.label7);
-            this.skinGroupBox1.Controls.Add(this.label6);
+            this.skinGroupBox1.Controls.Add(this.labelBeginTime);
             this.skinGroupBox1.Controls.Add(this.labelSuccessCount);
             this.skinGroupBox1.Controls.Add(this.labelNowFansCount);
             this.skinGroupBox1.Controls.Add(this.labelLoginFansCount);
@@ -155,14 +155,14 @@
             this.label7.TabIndex = 10;
             this.label7.Text = "10:22";
             // 
-            // label6
+            // labelBeginTime
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(217, 90);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(35, 12);
-            this.label6.TabIndex = 9;
-            this.label6.Text = "19:22";
+            this.labelBeginTime.AutoSize = true;
+            this.labelBeginTime.Location = new System.Drawing.Point(217, 90);
+            this.labelBeginTime.Name = "labelBeginTime";
+            this.labelBeginTime.Size = new System.Drawing.Size(35, 12);
+            this.labelBeginTime.TabIndex = 9;
+            this.labelBeginTime.Text = "19:22";
             // 
             // labelSuccessCount
             // 
@@ -196,7 +196,7 @@
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(16, 24);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(65, 65);
+            this.pictureBox1.Size = new System.Drawing.Size(56, 65);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
@@ -224,7 +224,7 @@
         private CCWin.SkinControl.SkinGroupBox skinGroupBox1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label labelBeginTime;
         private System.Windows.Forms.Label labelSuccessCount;
         private System.Windows.Forms.Label labelNowFansCount;
         private System.Windows.Forms.Label labelLoginFansCount;
