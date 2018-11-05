@@ -145,6 +145,7 @@
             this.buttonStart.TabIndex = 11;
             this.buttonStart.Text = "开始";
             this.buttonStart.UseVisualStyleBackColor = true;
+            this.buttonStart.Click += new System.EventHandler(this.buttonStart_Click);
             // 
             // label7
             // 
@@ -212,6 +213,7 @@
             this.Name = "UserLoginControl";
             this.Padding = new System.Windows.Forms.Padding(0, 0, 3, 3);
             this.Size = new System.Drawing.Size(400, 147);
+            this.Load += new System.EventHandler(this.UserLoginControl_Load);
             this.skinGroupBox1.ResumeLayout(false);
             this.skinGroupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

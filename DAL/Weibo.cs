@@ -193,7 +193,7 @@ namespace DAL
         public static bool SendMessage2Group(CookieContainer cookie, string gid, string message)
         {
             string data = String.Format("source=209678993&text={0}&gid={1}&fids=", message, gid);
-            string url = @"https://weibo.com/aj/message/groupchatadd?_wv=5&ajwvr=6&__rnd=" + GetTimeStamp();
+            string url = @"https://weibo.com/aj/message/groupchatadd?_wv=5";//&ajwvr=6&__rnd=" + GetTimeStamp();
             string s = HttpHelper.SendDataByPost(url, cookie, data);
 
             return CheckBackCode(JsonHelper.GetBackJson(s).code);
@@ -230,19 +230,19 @@ namespace DAL
             foreach (Match match in matches)
             {
                 //剔除非互粉群
-                if (match.Value.IndexOf("互粉") == -1 &&
-                    match.Value.IndexOf("互赞") == -1 &&
-                    match.Value.IndexOf("互评") == -1)
-                {
-                    continue;
-                }
+                //if (match.Value.IndexOf("互粉") == -1 &&
+                //    match.Value.IndexOf("互赞") == -1 &&
+                //    match.Value.IndexOf("互评") == -1)
+                //{
+                //    continue;
+                //}
 
                 string data = match.Value.Replace("gid=", "").Replace("&type=2", "").Replace("name=","");
                 string[] values = data.Split('&');
 
                 Model.Group group = new Model.Group();
-                group.Name = values[0];
-                group.Gid = values[1];
+                group.Gid = values[0];
+                group.Name = values[1];
 
                 Groups.Add(group);
             }

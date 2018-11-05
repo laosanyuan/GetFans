@@ -76,6 +76,11 @@ namespace BLL
         {
             return DAL.Weibo.GetUnfollowFansList(cookie, uid);
         }
+        //更新关注数
+        public static void UpdateUsersFansCount(Model.User user)
+        {
+            DAL.Weibo.UpdateUsersFansCount(user);
+        }
         #endregion
 
         #region 群聊

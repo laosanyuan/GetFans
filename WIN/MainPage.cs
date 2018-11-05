@@ -103,6 +103,7 @@ namespace WIN
 
             }
 
+            userLogin.OptionEvent += UserLogin_OptionEvent;
             this.panelWeibo.Controls.Add(userLogin);
         }
         #endregion
@@ -130,6 +131,14 @@ namespace WIN
         private void WriteOutputMessage(string message)
         {
             this.WriteOutputMessages(new string[] { message });
+        }
+        /// <summary>
+        /// 账号消息
+        /// </summary>
+        /// <param name="message"></param>
+        private void UserLogin_OptionEvent(string message)
+        {
+            this.WriteOutputMessage(message);
         }
         #endregion
     }
