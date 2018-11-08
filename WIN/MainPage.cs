@@ -105,6 +105,8 @@ namespace WIN
 
             userLogin.OptionEvent += UserLogin_OptionEvent;
             this.panelWeibo.Controls.Add(userLogin);
+
+            List<Model.GroupFriend> friends = BLL.Weibo.GetGroupFriendsList(user.Cookies,userLogin.User.Uid, "4300602894782087", "沧海互粉 粉评赞");
         }
         #endregion
 

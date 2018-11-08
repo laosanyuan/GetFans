@@ -44,6 +44,7 @@
     <Compile Include="BackJson.cs" />
     <Compile Include="Fan.cs" />
     <Compile Include="Group.cs" />
+    <Compile Include="GroupFriend.cs" />
     <Compile Include="LoginParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User.cs" />

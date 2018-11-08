@@ -115,6 +115,29 @@ namespace BLL
         {
             return DAL.Weibo.GetGroups(cookie);
         }
+        /// <summary>
+        /// 获取群聊天成员信息
+        /// </summary>
+        /// <param name="cookie"></param>
+        /// <param name="uid">uid</param>
+        /// <param name="gid">群id</param>
+        /// <param name="groupName">群名</param>
+        /// <returns></returns>
+        public static List<Model.GroupFriend> GetGroupFriendsList(CookieContainer cookie,string uid, string gid,string groupName )
+        {
+            List<Model.GroupFriend> friends = DAL.Weibo.EnterGroup(cookie, gid, groupName);
+
+            //如在进入群聊后获取到当前登录用户信息，说明在此期间聊天不活跃，不再继续获取前页
+            if (friends.Find(t => t.Fan.Uid.Equals(uid)) == null)
+            {
+                friends.AddRange(DAL.Weibo.GetGroupBeforePageFriends(cookie, gid, groupName, friends[0].Mid));
+            }
+            else
+            {
+                friends.Clear();
+            }
+            return friends;
+        }
         #endregion
     }
 }

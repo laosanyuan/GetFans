@@ -248,9 +248,110 @@ namespace DAL
             }
             return Groups;
         }
+        /// <summary>
+        /// 获取特定mid以上的二十条信息的群成员信息
+        /// </summary>
+        /// <param name="cookie"></param>
+        /// <param name="gid">群id</param>
+        /// <param name="groupName">群名</param>
+        /// <param name="mid">定位聊天信息</param>
+        /// <returns></returns>
+        public static List<Model.GroupFriend> GetGroupBeforePageFriends(CookieContainer cookie,string gid,string groupName,string mid)
+        {
+            string url = String.Format(@"https://weibo.com/aj/groupchat/getdialog?_wv=5&ajwvr=6&mid={0}&count=20&gid={1}&_t=0&__rnd=", mid, gid) + GetTimeStamp();
+
+            string s = HttpHelper.Get(url, cookie, false);
+
+            return AnalysisGroupFriend(s, gid, groupName);
+        }
+        /// <summary>
+        /// 进入群聊并获取当前聊天好友信息
+        /// </summary>
+        /// <param name="cookie"></param>
+        /// <param name="gid">群id</param>
+        /// <param name="groupName">群名</param>
+        /// <returns>初始正在聊天好友</returns>
+        public static List<Model.GroupFriend> EnterGroup(CookieContainer cookie,string gid,string groupName)
+        {
+            string url = String.Format(@"https://weibo.com/message/history?gid={0}&name={1}&type=2&ajaxpagelet=1&ajaxpagelet_v6=1&__ref=%2Fmessages&_t=FM_{2}", gid, groupName, GetTimeStamp());
+
+            string s = HttpHelper.Get(url, cookie, false);
+
+            return AnalysisGroupFriend(s, gid,groupName);
+        }
         #endregion
 
         #region 私有方法
+        /// <summary>
+        /// 根据网页信息获得群聊天好友信息
+        /// </summary>
+        /// <param name="str">网页字符串</param>
+        /// <param name="gid">群id</param>
+        /// <param name="groupName">群名</param>
+        /// <returns></returns>
+        private static List<Model.GroupFriend> AnalysisGroupFriend(string str,string gid,string groupName)
+        {
+            List<Model.GroupFriend> friends = new List<Model.GroupFriend>();
+
+            string regexString = @"msg_bubble(.)*?bubble_arrow";
+            MatchCollection matches = Regex.Matches(str, regexString);
+
+            foreach (Match match in matches)
+            {
+                Model.GroupFriend friend = new Model.GroupFriend();
+
+                Match forMatch;
+                //获取uid
+                regexString = @"id=(\d){1,}";
+                if (Regex.IsMatch(match.Value, regexString))
+                {
+                    forMatch = Regex.Match(match.Value, regexString);
+                }
+                else
+                {
+                    continue;
+                }
+                string uid = forMatch.Value.Replace("id=", "");
+                if (friends.Find(t => t.Fan.Uid.Equals(uid)) != null)
+                {
+                    continue;
+                }
+                //获取nickName
+                regexString = "bubble_name(.)*?<";
+                if (Regex.IsMatch(match.Value, regexString))
+                {
+                    forMatch = Regex.Match(match.Value, regexString);
+                }
+                else
+                {
+                    continue;
+                }
+                string nickName = forMatch.Value.Replace("bubble_name\\\">", "").Replace("<", "");
+                //需要解码
+                //byte[] bytes = Encoding.ASCII.GetBytes(nickName);
+                //nickName = Encoding.UTF8.GetString(bytes);
+
+                //获取mid
+                regexString = "mid=(.)*?>";
+                if (Regex.IsMatch(match.Value, regexString))
+                {
+                    forMatch = Regex.Match(match.Value, regexString);
+                }
+                else
+                {
+                    continue;
+                }
+                string mid = forMatch.Value.Replace("mid=\\\"", "").Replace("\\\">", "");
+
+                friend.Fan = new Model.Fan() { Uid = uid ,NickName = nickName};   
+                friend.Gid = gid;
+                friend.GroupName = groupName;
+                friend.Mid = mid;
+                friends.Add(friend);
+            }
+
+            return friends;
+        }
         /// <summary>
         /// 获取加密后的密码
         /// </summary>
