@@ -327,9 +327,21 @@ namespace DAL
                     continue;
                 }
                 string nickName = forMatch.Value.Replace("bubble_name\\\">", "").Replace("<", "");
-                //需要解码
-                //byte[] bytes = Encoding.ASCII.GetBytes(nickName);
-                //nickName = Encoding.UTF8.GetString(bytes);
+                //解码unicode昵称
+                if (Regex.IsMatch(nickName, "(\\\\u[0-9a-fA-F]{4})+"))
+                {
+                    matches = Regex.Matches(nickName, "(\\\\u[0-9a-fA-F]{4})+");
+                    foreach (Match m in matches)
+                    {
+                        string[] unicodes = m.Value.Replace("\\", "").Split('u');
+                        char[] chars = new char[unicodes.Length - 1];
+                        for (int i = 1; i < unicodes.Length; i++)
+                        {
+                            chars[i - 1] = (char)Convert.ToInt32(unicodes[i], 16);
+                        }
+                        nickName = nickName.Replace(m.Value, new string(chars));
+                    }
+                }
 
                 //获取mid
                 regexString = "mid=(.)*?>";
