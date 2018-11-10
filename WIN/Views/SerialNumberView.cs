@@ -39,7 +39,7 @@ namespace WIN.Views
             //{
             //    MessageBox.Show("序列号错误，请输入正确的序列号", "提示");
             //    return;
-            //}
+            //}iuuuuuuuuuuuuuuuuuuuuuuuuu·1见面呢
             //else
             //{
             //    this.IsValid = true;

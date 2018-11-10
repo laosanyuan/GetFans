@@ -33,16 +33,16 @@ namespace WIN
 
                 LayoutControl(user);
 
-                this.WriteOutputMessages(new string[] { String.Format("账号【{0}】登陆成功！",user.NickName),
+            this.WriteOutputMessages(new string[] { String.Format("账号【{0}】登陆成功！",user.NickName),
                     String.Format("当前关注数：{0}",user.FollowCount),
                 String.Format("当前粉丝数：{0}",user.FansCount)});
-            }
+        }
             else
             {
                 this.WriteOutputMessage("取消登录");
                 return;
             }
-        }
+}
         #endregion
 
         #region [页面布局]
@@ -90,7 +90,34 @@ namespace WIN
             userLogin.OptionEvent += UserLogin_OptionEvent;
             this.panelWeibo.Controls.Add(userLogin);
 
-            List<Model.GroupFriend> friends = BLL.Weibo.GetGroupFriendsList(user.Cookies,userLogin.User.Uid, "4300602894782087", "沧海互粉 粉评赞");
+            //List<Model.GroupFriend> friends = BLL.Weibo.GetGroupFriendsList(user.Cookies,userLogin.User.Uid, "4300602894782087", "沧海互粉 粉评赞");
+        }
+        //界面大小变化时重新布局控件
+        private void MainPage_SizeChanged(object sender, EventArgs e)
+        {
+            //重新定位滚动条
+            this.panelWeibo.VerticalScroll.Value = 0;
+
+            int columnCount = (this.panelWeibo.Width - 20) / 533;//求列数
+            int controlCount = this.panelWeibo.Controls.Count;//求已存在微博控件数
+
+            //int height = 147; //控件默认长宽
+            //int width = 400;
+            int height = this.panelWeibo.Controls[0].Height;
+            int width = this.panelWeibo.Controls[0].Width;
+
+            int row = 0;
+            for (int i = 0; i < this.panelWeibo.Controls.Count; i++)
+            {
+                int column = i  % columnCount;
+
+                this.panelWeibo.Controls[i].Location = new Point(4 + (4 + width) * column, 4 + (4 + height) * row);
+
+                if (column == columnCount - 1)
+                {
+                    row++;
+                }
+            }
         }
         #endregion
 

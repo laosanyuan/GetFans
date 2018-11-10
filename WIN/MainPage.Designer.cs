@@ -137,7 +137,7 @@
             this.skinTabPageSerial.Dock = System.Windows.Forms.DockStyle.Fill;
             this.skinTabPageSerial.Location = new System.Drawing.Point(0, 36);
             this.skinTabPageSerial.Name = "skinTabPageSerial";
-            this.skinTabPageSerial.Size = new System.Drawing.Size(800, 378);
+            this.skinTabPageSerial.Size = new System.Drawing.Size(811, 378);
             this.skinTabPageSerial.TabIndex = 1;
             this.skinTabPageSerial.TabItemImage = null;
             this.skinTabPageSerial.Text = "序列号信息";
@@ -148,7 +148,7 @@
             this.skinTabPageHelp.Dock = System.Windows.Forms.DockStyle.Fill;
             this.skinTabPageHelp.Location = new System.Drawing.Point(0, 36);
             this.skinTabPageHelp.Name = "skinTabPageHelp";
-            this.skinTabPageHelp.Size = new System.Drawing.Size(800, 378);
+            this.skinTabPageHelp.Size = new System.Drawing.Size(811, 378);
             this.skinTabPageHelp.TabIndex = 2;
             this.skinTabPageHelp.TabItemImage = null;
             this.skinTabPageHelp.Text = "帮助";
@@ -161,6 +161,7 @@
             this.Controls.Add(this.skinTabControl1);
             this.Name = "MainPage";
             this.Text = "MainPage";
+            this.SizeChanged += new System.EventHandler(this.MainPage_SizeChanged);
             this.skinTabControl1.ResumeLayout(false);
             this.skinTabPageFans.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
