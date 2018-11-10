@@ -15,4 +15,12 @@ namespace Model
         FollowEachOther, //互相关注
         UnFollowEachOther //互相都未关注
     }
+
+    //序列号种类
+    public enum SerialType
+    {
+        Unknown, //未知
+        FreeSerial, //试用号
+        NormalSerial //普通号
+    }
 }

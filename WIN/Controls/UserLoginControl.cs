@@ -45,6 +45,7 @@ namespace WIN.Controls
         /// </summary>
         private void FirstDisplay()
         {
+            this.skinGroupBox1.Text = User.NickName;
             this.labelLoginFansCount.Text = User.FansCount;
             this.labelNowFansCount.Text = User.FansCount;
             this.pictureBox1.Image = this.User.HeaderPicture;

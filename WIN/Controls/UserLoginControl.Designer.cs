@@ -32,12 +32,12 @@
             System.Windows.Forms.Label label2;
             System.Windows.Forms.Label label3;
             System.Windows.Forms.Label label4;
-            System.Windows.Forms.Label label5;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserLoginControl));
+            System.Windows.Forms.Label label5;
             this.skinGroupBox1 = new CCWin.SkinControl.SkinGroupBox();
             this.buttonExit = new System.Windows.Forms.Button();
             this.buttonStart = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
+            this.labelGrouCount = new System.Windows.Forms.Label();
             this.labelBeginTime = new System.Windows.Forms.Label();
             this.labelSuccessCount = new System.Windows.Forms.Label();
             this.labelNowFansCount = new System.Windows.Forms.Label();
@@ -88,22 +88,13 @@
             label4.TabIndex = 4;
             label4.Text = "开始互粉时间：";
             // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new System.Drawing.Point(102, 112);
-            label5.Name = "label5";
-            label5.Size = new System.Drawing.Size(65, 12);
-            label5.TabIndex = 5;
-            label5.Text = "互粉耗时：";
-            // 
             // skinGroupBox1
             // 
             this.skinGroupBox1.BackColor = System.Drawing.SystemColors.Control;
             this.skinGroupBox1.BorderColor = System.Drawing.Color.DarkGray;
             this.skinGroupBox1.Controls.Add(this.buttonExit);
             this.skinGroupBox1.Controls.Add(this.buttonStart);
-            this.skinGroupBox1.Controls.Add(this.label7);
+            this.skinGroupBox1.Controls.Add(this.labelGrouCount);
             this.skinGroupBox1.Controls.Add(this.labelBeginTime);
             this.skinGroupBox1.Controls.Add(this.labelSuccessCount);
             this.skinGroupBox1.Controls.Add(this.labelNowFansCount);
@@ -147,23 +138,22 @@
             this.buttonStart.UseVisualStyleBackColor = true;
             this.buttonStart.Click += new System.EventHandler(this.buttonStart_Click);
             // 
-            // label7
+            // labelGrouCount
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(217, 112);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(35, 12);
-            this.label7.TabIndex = 10;
-            this.label7.Text = "10:22";
+            this.labelGrouCount.AutoSize = true;
+            this.labelGrouCount.Location = new System.Drawing.Point(217, 112);
+            this.labelGrouCount.Name = "labelGrouCount";
+            this.labelGrouCount.Size = new System.Drawing.Size(11, 12);
+            this.labelGrouCount.TabIndex = 10;
+            this.labelGrouCount.Text = "0";
             // 
             // labelBeginTime
             // 
             this.labelBeginTime.AutoSize = true;
             this.labelBeginTime.Location = new System.Drawing.Point(217, 90);
             this.labelBeginTime.Name = "labelBeginTime";
-            this.labelBeginTime.Size = new System.Drawing.Size(35, 12);
+            this.labelBeginTime.Size = new System.Drawing.Size(0, 12);
             this.labelBeginTime.TabIndex = 9;
-            this.labelBeginTime.Text = "19:22";
             // 
             // labelSuccessCount
             // 
@@ -202,6 +192,15 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new System.Drawing.Point(102, 112);
+            label5.Name = "label5";
+            label5.Size = new System.Drawing.Size(77, 12);
+            label5.TabIndex = 5;
+            label5.Text = "当前群聊数：";
+            // 
             // UserLoginControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -225,7 +224,7 @@
 
         private CCWin.SkinControl.SkinGroupBox skinGroupBox1;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label labelGrouCount;
         private System.Windows.Forms.Label labelBeginTime;
         private System.Windows.Forms.Label labelSuccessCount;
         private System.Windows.Forms.Label labelNowFansCount;

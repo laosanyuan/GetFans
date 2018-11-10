@@ -35,17 +35,17 @@ namespace WIN.Views
         //确定按钮
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            if (this.skinTextBox1.Text.Equals("") || !BLL.Serial.IsValidSerial(this.skinTextBox1.Text))
-            {
-                MessageBox.Show("序列号错误，请输入正确的序列号", "提示");
-                return;
-            }
-            else
-            {
-                this.IsValid = true;
-                //存入本地文件
+            //if (this.skinTextBox1.Text.Equals("") || !BLL.Serial.IsValidSerial(this.skinTextBox1.Text))
+            //{
+            //    MessageBox.Show("序列号错误，请输入正确的序列号", "提示");
+            //    return;
+            //}
+            //else
+            //{
+            //    this.IsValid = true;
+            //    //存入本地文件
 
-            }
+            //}
         }
     }
 }
