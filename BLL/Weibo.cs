@@ -138,6 +138,26 @@ namespace BLL
             }
             return friends;
         }
+        /// <summary>
+        /// 获取特定好友的关注状态
+        /// </summary>
+        /// <param name="cookie"></param>
+        /// <param name="uid">对方uid</param>
+        /// <returns></returns>
+        public Model.FriendStatus GetFriendFollowStatus(CookieContainer cookie, string uid)
+        {
+            return DAL.Weibo.GetFriendFollowStatus(cookie, uid);
+        }
+        /// <summary>
+        /// 判断是否已加入过此群
+        /// </summary>
+        /// <param name="cookie"></param>
+        /// <param name="gid">群id</param>
+        /// <returns></returns>
+        public static bool IsAddedThisGroup(CookieContainer cookie,string gid)
+        {
+            return DAL.Weibo.IsAddedThisGroup(cookie, gid);
+        }
         #endregion
     }
 }

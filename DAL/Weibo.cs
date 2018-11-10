@@ -181,6 +181,42 @@ namespace DAL
             user.FansCount = fansCount;
             user.FollowCount = followCount;
         }
+        /// <summary>
+        /// 获取特定用户的关注状态
+        /// </summary>
+        /// <param name="cookie"></param>
+        /// <param name="uid">对方uid</param>
+        /// <returns>关注状态</returns>
+        public static Model.FriendStatus GetFriendFollowStatus(CookieContainer cookie, string uid)
+        {
+            string url = String.Format(@"https://weibo.com/aj/v6/user/newcard?ajwvr=6&id={0}&refer_flag=1005050005_&type=1&callback=STK_{1}", uid, GetTimeStamp());
+            string s = HttpHelper.Get(url, cookie, false);
+
+            //判断是否互相关注
+            if (Regex.IsMatch(s, @"\\u4e92\\u76f8\\u5173\\u6ce8") || Regex.IsMatch(s,"互相关注"))
+            {
+                return Model.FriendStatus.FollowEachOther;
+            }
+            //判断是否已关注但是未回粉
+            if (Regex.IsMatch(s, @"\\u5df2\\u5173\\u6ce8") || Regex.IsMatch(s,"已关注"))
+            {
+                return Model.FriendStatus.OnlyFollowHe;
+            }
+            //判断是否未关注对方
+            if (Regex.IsMatch(s, @"\\u5173\\u6ce8") || Regex.IsMatch(s,"关注"))
+            {
+                //判断对方是否已关注我
+                if (Regex.IsMatch(s, ">Y<"))
+                {
+                    return Model.FriendStatus.OnlyFollowMe;
+                }
+                else
+                {
+                    return Model.FriendStatus.UnFollowEachOther;
+                }
+            }
+            return Model.FriendStatus.Unknown;
+        }
         #endregion
 
         #region 群聊相关
@@ -278,6 +314,23 @@ namespace DAL
             string s = HttpHelper.Get(url, cookie, false);
 
             return AnalysisGroupFriend(s, gid,groupName);
+        }
+        /// <summary>
+        /// 判断是否已经加过此群
+        /// </summary>
+        /// <param name="cookie"></param>
+        /// <param name="gid">群id</param>
+        /// <returns></returns>
+        public static bool IsAddedThisGroup(CookieContainer cookie,string gid)
+        {
+            bool isAdded = false;
+            string url = String.Format(@"https://weibo.comp/230491{0}?source=webim", gid);
+            string s = HttpHelper.Get(url, cookie, false);
+            if (Regex.IsMatch(s, "已加入"))
+            {
+                isAdded = true;
+            }
+            return isAdded;
         }
         #endregion
 
