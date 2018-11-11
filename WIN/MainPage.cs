@@ -33,16 +33,16 @@ namespace WIN
 
                 LayoutControl(user);
 
-            this.WriteOutputMessages(new string[] { String.Format("账号【{0}】登陆成功！",user.NickName),
+                this.WriteOutputMessages(new string[] { String.Format("账号【{0}】登陆成功！",user.NickName),
                     String.Format("当前关注数：{0}",user.FollowCount),
                 String.Format("当前粉丝数：{0}",user.FansCount)});
-        }
+            }
             else
             {
                 this.WriteOutputMessage("取消登录");
                 return;
             }
-}
+        }
         #endregion
 
         #region [页面布局]
@@ -95,6 +95,11 @@ namespace WIN
         //界面大小变化时重新布局控件
         private void MainPage_SizeChanged(object sender, EventArgs e)
         {
+
+        }
+        //切换选项卡后刷新
+        private void panelWeibo_SizeChanged(object sender, EventArgs e)
+        {
             //重新定位滚动条
             this.panelWeibo.VerticalScroll.Value = 0;
 
@@ -109,7 +114,7 @@ namespace WIN
             int row = 0;
             for (int i = 0; i < this.panelWeibo.Controls.Count; i++)
             {
-                int column = i  % columnCount;
+                int column = i % columnCount;
 
                 this.panelWeibo.Controls[i].Location = new Point(4 + (4 + width) * column, 4 + (4 + height) * row);
 

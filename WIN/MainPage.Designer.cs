@@ -110,6 +110,7 @@
             this.panelWeibo.Name = "panelWeibo";
             this.panelWeibo.Size = new System.Drawing.Size(565, 374);
             this.panelWeibo.TabIndex = 3;
+            this.panelWeibo.SizeChanged += new System.EventHandler(this.panelWeibo_SizeChanged);
             // 
             // panel1
             // 
@@ -161,7 +162,6 @@
             this.Controls.Add(this.skinTabControl1);
             this.Name = "MainPage";
             this.Text = "MainPage";
-            this.SizeChanged += new System.EventHandler(this.MainPage_SizeChanged);
             this.skinTabControl1.ResumeLayout(false);
             this.skinTabPageFans.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
