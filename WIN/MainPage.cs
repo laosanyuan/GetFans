@@ -1,4 +1,5 @@
 ﻿using CCWin;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -157,6 +158,20 @@ namespace WIN
         private void UserLogin_OptionEvent(string message)
         {
             this.WriteOutputMessage(message);
+        }
+        #endregion
+
+        #region [序列号]
+        //购买序列号
+        private void buttonBuySeria_Click(object sender, EventArgs e)
+        {
+            //使用系统默认浏览器打开购买页面
+            System.Diagnostics.Process.Start("http://baidu.com");
+        }
+        //更新本机序列号
+        private void buttonUpdateSeria_Click(object sender, EventArgs e)
+        {
+
         }
         #endregion
     }
