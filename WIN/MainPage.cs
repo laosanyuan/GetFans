@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WIN.Controls;
+using System.Configuration;
 
 namespace WIN
 {
@@ -163,15 +164,16 @@ namespace WIN
 
         #region [序列号]
         //购买序列号
-        private void buttonBuySeria_Click(object sender, EventArgs e)
+        private void buttonBuySerial_Click(object sender, EventArgs e)
         {
             //使用系统默认浏览器打开购买页面
-            System.Diagnostics.Process.Start("http://baidu.com");
+            System.Diagnostics.Process.Start(ConfigurationSettings.AppSettings["BuySerial"]);
         }
         //更新本机序列号
-        private void buttonUpdateSeria_Click(object sender, EventArgs e)
+        private void buttonUpdateSerial_Click(object sender, EventArgs e)
         {
-
+            Views.SerialNumberView serialNumberView = new Views.SerialNumberView();
+            serialNumberView.ShowDialog();
         }
         #endregion
     }

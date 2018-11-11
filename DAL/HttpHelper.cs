@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace DAL
@@ -143,6 +144,31 @@ namespace DAL
             request.Method = "GET";
             WebResponse response = request.GetResponse();
             return Image.FromStream(response.GetResponseStream());
+        }
+
+        /// <summary>
+        /// 获取本机ip地址
+        /// </summary>
+        /// <returns></returns>
+        public static string GetMachineIP()
+        {
+            using (var webClient = new WebClient())
+            {
+                try
+                {
+                    webClient.Credentials = CredentialCache.DefaultCredentials;
+                    byte[] pageDate = webClient.DownloadData("http://pv.sohu.com/cityjson?ie=utf-8");
+                    String ip = Encoding.UTF8.GetString(pageDate);
+                    webClient.Dispose();
+
+                    Match rebool = Regex.Match(ip, @"\d{2,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}");
+                    return rebool.Value;
+                }
+                catch (Exception e)
+                {
+                    return "";
+                }
+            }
         }
     }
 }
