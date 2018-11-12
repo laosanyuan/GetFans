@@ -232,6 +232,7 @@
             this.Controls.Add(this.skinTabControl1);
             this.Name = "MainPage";
             this.Text = "MainPage";
+            this.Load += new System.EventHandler(this.MainPage_Load);
             this.skinTabControl1.ResumeLayout(false);
             this.skinTabPageFans.ResumeLayout(false);
             this.panel1.ResumeLayout(false);

@@ -21,6 +21,22 @@ namespace WIN
             InitializeComponent();
         }
 
+        #region [界面加载]
+        Timer timerSerial = new Timer() { Interval = 10 };
+        private void MainPage_Load(object sender, EventArgs e)
+        {
+            this.timerSerial.Tick += TimerSerial_Tick;
+            this.timerSerial.Enabled = true;
+        }
+        //判断序列号有效性
+        private void TimerSerial_Tick(object sender, EventArgs e)
+        {
+            this.timerSerial.Enabled = false;
+            this.CheckSerial();
+        }
+
+        #endregion
+
         #region [登录账号]
         private void buttonLogin_Click(object sender, EventArgs e)
         {
@@ -94,11 +110,6 @@ namespace WIN
 
             //List<Model.GroupFriend> friends = BLL.Weibo.GetGroupFriendsList(user.Cookies,userLogin.User.Uid, "4300602894782087", "沧海互粉 粉评赞");
         }
-        //界面大小变化时重新布局控件
-        private void MainPage_SizeChanged(object sender, EventArgs e)
-        {
-
-        }
         //切换选项卡后刷新
         private void panelWeibo_SizeChanged(object sender, EventArgs e)
         {
@@ -167,13 +178,32 @@ namespace WIN
         private void buttonBuySerial_Click(object sender, EventArgs e)
         {
             //使用系统默认浏览器打开购买页面
-            System.Diagnostics.Process.Start(ConfigurationSettings.AppSettings["BuySerial"]);
+            System.Diagnostics.Process.Start(ConfigurationManager.AppSettings["BuySerial"]);
         }
         //更新本机序列号
         private void buttonUpdateSerial_Click(object sender, EventArgs e)
         {
             Views.SerialNumberView serialNumberView = new Views.SerialNumberView();
             serialNumberView.ShowDialog();
+        }
+        //验证序列号
+        private void CheckSerial()
+        {
+            string machineName = System.Environment.MachineName;
+            string IPAddress = BLL.LocalMachineHelper.GetIP();
+            string serial = ConfigurationManager.AppSettings["Serial"];
+            if (!BLL.Serial.IsValidSerial(serial, IPAddress, machineName))
+            {
+                this.buttonLogin.Enabled = false;
+                this.skinTabControl1.SelectedTab = this.skinTabPageSerial;
+                //弹出购买页面
+                Views.SerialNumberView serialNumberView = new Views.SerialNumberView();
+                serialNumberView.ShowDialog();
+            }
+            else
+            {
+                this.skinTabControl1.SelectedTab = this.skinTabPageFans;
+            }
         }
         #endregion
     }

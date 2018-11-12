@@ -24,7 +24,7 @@ namespace WIN.Views
         //获取序列号
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start(ConfigurationSettings.AppSettings["BuySerial"]);
+            System.Diagnostics.Process.Start(ConfigurationManager.AppSettings["BuySerial"]);
         }
         //确定按钮
         private void buttonOK_Click(object sender, EventArgs e)
@@ -42,8 +42,11 @@ namespace WIN.Views
             {
                 this.IsValid = true;
                 //存入本地文件
-
-
+                Configuration cfa = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                cfa.AppSettings.Settings["Serial"].Value = this.skinTextBox1.Text;
+                cfa.Save();
+                ConfigurationManager.RefreshSection("appSettings");
+                string s = ConfigurationManager.AppSettings["Serial"];
                 this.Close();
             }
         }
