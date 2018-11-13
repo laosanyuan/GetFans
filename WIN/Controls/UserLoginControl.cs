@@ -116,7 +116,16 @@ namespace WIN.Controls
         #region [委托]
         //向主界面发送显示消息
         public delegate void OptionMessageHandler(string message);
-        public event OptionMessageHandler OptionEvent;        
+        public event OptionMessageHandler OptionEvent;
+        //退出登录事件
+        public delegate void ExitWeiboHandler(UserLoginControl name);
+        public event ExitWeiboHandler ExitWeiboEvent;
         #endregion
+
+        private void buttonExit_Click(object sender, EventArgs e)
+        {
+            //退出登录事件
+            this.ExitWeiboEvent(this);
+        }
     }
 }

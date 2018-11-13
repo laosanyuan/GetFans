@@ -105,10 +105,18 @@ namespace WIN
 
             }
 
-            userLogin.OptionEvent += UserLogin_OptionEvent;
+            userLogin.OptionEvent += UserLogin_OptionEvent;//输出信息事件
+            userLogin.ExitWeiboEvent += UserLogin_ExitWeiboEvent;//退出微博事件
             this.panelWeibo.Controls.Add(userLogin);
 
             //List<Model.GroupFriend> friends = BLL.Weibo.GetGroupFriendsList(user.Cookies,userLogin.User.Uid, "4300602894782087", "沧海互粉 粉评赞");
+        }
+        //退出账号登录状态
+        private void UserLogin_ExitWeiboEvent(UserLoginControl name)
+        {
+            this.panelWeibo.Controls.Remove(name);
+
+            this.panelWeibo_SizeChanged(new object(), new EventArgs());//重新布局
         }
         //切换选项卡后刷新
         private void panelWeibo_SizeChanged(object sender, EventArgs e)
@@ -121,6 +129,11 @@ namespace WIN
 
             //int height = 147; //控件默认长宽
             //int width = 400;
+            if (this.panelWeibo.Controls.Count == 0)
+            {
+                return;
+            }
+
             int height = this.panelWeibo.Controls[0].Height;
             int width = this.panelWeibo.Controls[0].Width;
 
@@ -163,6 +176,9 @@ namespace WIN
         {
             this.WriteOutputMessages(new string[] { message });
         }
+        #endregion
+
+        #region [控件事件]
         /// <summary>
         /// 账号消息
         /// </summary>

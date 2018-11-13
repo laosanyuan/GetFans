@@ -32,8 +32,8 @@
             System.Windows.Forms.Label label2;
             System.Windows.Forms.Label label3;
             System.Windows.Forms.Label label4;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserLoginControl));
             System.Windows.Forms.Label label5;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserLoginControl));
             this.skinGroupBox1 = new CCWin.SkinControl.SkinGroupBox();
             this.buttonExit = new System.Windows.Forms.Button();
             this.buttonStart = new System.Windows.Forms.Button();
@@ -88,6 +88,15 @@
             label4.TabIndex = 4;
             label4.Text = "开始互粉时间：";
             // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new System.Drawing.Point(102, 112);
+            label5.Name = "label5";
+            label5.Size = new System.Drawing.Size(77, 12);
+            label5.TabIndex = 5;
+            label5.Text = "当前群聊数：";
+            // 
             // skinGroupBox1
             // 
             this.skinGroupBox1.BackColor = System.Drawing.SystemColors.Control;
@@ -127,6 +136,7 @@
             this.buttonExit.TabIndex = 12;
             this.buttonExit.Text = "退出";
             this.buttonExit.UseVisualStyleBackColor = true;
+            this.buttonExit.Click += new System.EventHandler(this.buttonExit_Click);
             // 
             // buttonStart
             // 
@@ -191,15 +201,6 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new System.Drawing.Point(102, 112);
-            label5.Name = "label5";
-            label5.Size = new System.Drawing.Size(77, 12);
-            label5.TabIndex = 5;
-            label5.Text = "当前群聊数：";
             // 
             // UserLoginControl
             // 

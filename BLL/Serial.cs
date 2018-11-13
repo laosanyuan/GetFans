@@ -19,7 +19,7 @@ namespace BLL
         {
             //判断序列号是否有效
 
-            return false;
+            return true;
         }
         /// <summary>
         /// 获取序列号有效期
