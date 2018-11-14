@@ -18,6 +18,8 @@ namespace WIN.Controls
 
         Timer GroupTimer = new Timer() { Interval = 120000 };//群聊定时，2分钟
 
+        Timer UpdateGropuTimer = new Timer() { Interval = 10 };//更新群定时器
+
         public UserLoginControl(Model.User user)
         {
             InitializeComponent();
@@ -28,15 +30,12 @@ namespace WIN.Controls
         #region [界面加载]
         private void UserLoginControl_Load(object sender, EventArgs e)
         {
-            //加群
-
-            //获取已有群
-            Groups = BLL.Weibo.GetGroups(this.User.Cookies);
-
+            //聊天定时器
             GroupTimer.Tick += GroupTimer_Tick;
+            //更新群定时器
+            UpdateGropuTimer.Tick += UpdateGropuTimer_Tick;
+            this.UpdateGropuTimer.Enabled = true;
         }
-
-
         #endregion
 
         #region [显示内容]
@@ -56,10 +55,49 @@ namespace WIN.Controls
             BLL.Weibo.UpdateUsersFansCount(this.User);
             this.labelNowFansCount.Text = this.User.FansCount;
             this.labelSuccessCount.Text = (Convert.ToInt32(this.User.FansCount) - Convert.ToInt32(this.labelLoginFansCount.Text)).ToString();
+            this.labelGrouCount.Text = this.Groups.Count.ToString();
+        }
+        #endregion
+
+        #region [群列表更新]
+        //更新群列表定时器
+        private void UpdateGropuTimer_Tick(object sender, EventArgs e)
+        {
+            this.UpdateGropuTimer.Interval = 600000;//定时十分钟
+            this.AddGroups();
+            this.UpdateGroupList();
+        }
+        //加群
+        private void AddGroups()
+        {
+            List<Model.Group> groups = BLL.ServerData.GetGroups(Tools.ConfigTool.Serial);
+            foreach (Model.Group group in groups)
+            {
+                //判断是否已加入
+                if (!BLL.Weibo.IsAddedThisGroup(this.User.Cookies, group.Gid))
+                {
+                    BLL.Weibo.AddGroup(this.User.Cookies, group.Gid, group.Name);
+                }
+            }
+        }
+        //更新群列表
+        private void UpdateGroupList()
+        {
+            List<Model.Group> groups = BLL.Weibo.GetGroups(this.User.Cookies);
+            //假如总列表
+            foreach (Model.Group group in groups)
+            {
+                if(this.Groups.FindIndex(t => t.Gid.Equals(group.Gid)) >= 0)
+                {
+                    continue;
+                }
+                this.Groups.Add(group);
+            }
         }
         #endregion
 
         #region [互粉]
+        //开始互粉
         private void buttonStart_Click(object sender, EventArgs e)
         {
             if (this.buttonStart.Text.Equals("开始"))
@@ -74,6 +112,7 @@ namespace WIN.Controls
             {
                 this.buttonStart.Text = "开始";
                 this.GroupTimer.Enabled = false;
+                this.UpdateGropuTimer.Enabled = false;
 
                 this.OptionEvent(String.Format("互粉结束，本次共互粉【{0}】个好友", this.labelSuccessCount.Text));
             }
@@ -122,10 +161,12 @@ namespace WIN.Controls
         public event ExitWeiboHandler ExitWeiboEvent;
         #endregion
 
+        #region [退出登录操作]
         private void buttonExit_Click(object sender, EventArgs e)
         {
             //退出登录事件
             this.ExitWeiboEvent(this);
         }
+        #endregion
     }
 }

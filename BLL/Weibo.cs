@@ -153,20 +153,10 @@ namespace BLL
         /// </summary>
         /// <param name="cookie"></param>
         /// <param name="gid">群id</param>
-        /// <returns></returns>
+        /// <returns>true:已加入</returns>
         public static bool IsAddedThisGroup(CookieContainer cookie,string gid)
         {
             return DAL.Weibo.IsAddedThisGroup(cookie, gid);
-        }
-        /// <summary>
-        /// 从服务器获取一组群
-        /// </summary>
-        /// <param name="serial">序列号</param>
-        /// <returns></returns>
-        public static List<Model.Group> GetGroupsFromCloud(string serial)
-        {
-            List<Model.Group> groups = new List<Model.Group>();
-            return groups;
         }
         /// <summary>
         /// 保存群信息到服务器

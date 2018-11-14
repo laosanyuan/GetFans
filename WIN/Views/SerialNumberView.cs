@@ -46,7 +46,6 @@ namespace WIN.Views
                 cfa.AppSettings.Settings["Serial"].Value = this.skinTextBox1.Text;
                 cfa.Save();
                 ConfigurationManager.RefreshSection("appSettings");
-                string s = ConfigurationManager.AppSettings["Serial"];
                 this.Close();
             }
         }

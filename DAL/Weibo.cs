@@ -266,12 +266,11 @@ namespace DAL
             foreach (Match match in matches)
             {
                 //剔除非互粉群
-                //if (match.Value.IndexOf("互粉") == -1 &&
-                //    match.Value.IndexOf("互赞") == -1 &&
-                //    match.Value.IndexOf("互评") == -1)
-                //{
-                //    continue;
-                //}
+                if (match.Value.IndexOf("互") == -1 &&
+                    (match.Value.IndexOf("粉") == -1 || match.Value.IndexOf("评") == -1 || match.Value.IndexOf("赞") == -1))
+                {
+                    continue;
+                }
 
                 string data = match.Value.Replace("gid=", "").Replace("&type=2", "").Replace("name=","");
                 string[] values = data.Split('&');
