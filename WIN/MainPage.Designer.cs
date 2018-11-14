@@ -232,6 +232,7 @@
             this.Controls.Add(this.skinTabControl1);
             this.Name = "MainPage";
             this.Text = "MainPage";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainPage_FormClosing);
             this.Load += new System.EventHandler(this.MainPage_Load);
             this.skinTabControl1.ResumeLayout(false);
             this.skinTabPageFans.ResumeLayout(false);

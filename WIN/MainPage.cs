@@ -222,5 +222,16 @@ namespace WIN
             }
         }
         #endregion
+
+        #region [頁面關閉]
+        private void MainPage_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //如果存在未退出的賬號，則分別上傳群信息
+            foreach (UserLoginControl control in this.panelWeibo.Controls)
+            {
+                control.SendGroupToServer();
+            }
+        }
+        #endregion
     }
 }

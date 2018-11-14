@@ -17,5 +17,13 @@ namespace BLL
         {
             return new List<Model.Group>();
         }
+        /// <summary>
+        /// 向服務器傳送一組群信息
+        /// </summary>
+        /// <param name="groups">群列表</param>
+        public static void SendGroupToServer(List<Model.Group> groups)
+        {
+            //解析群列表
+        }
     }
 }

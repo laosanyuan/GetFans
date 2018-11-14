@@ -164,8 +164,16 @@ namespace WIN.Controls
         #region [退出登录操作]
         private void buttonExit_Click(object sender, EventArgs e)
         {
+            this.SendGroupToServer();
             //退出登录事件
             this.ExitWeiboEvent(this);
+        }
+        /// <summary>
+        /// 向服務器存儲一組群信息
+        /// </summary>
+        public void SendGroupToServer()
+        {
+            BLL.ServerData.SendGroupToServer(this.Groups);
         }
         #endregion
     }
