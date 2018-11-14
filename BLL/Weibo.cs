@@ -158,14 +158,6 @@ namespace BLL
         {
             return DAL.Weibo.IsAddedThisGroup(cookie, gid);
         }
-        /// <summary>
-        /// 保存群信息到服务器
-        /// </summary>
-        /// <param name="groups"></param>
-        public static void SaveGroupsToCloud(List<Model.Group> groups)
-        {
-
-        }
         #endregion
     }
 }

@@ -51,7 +51,7 @@ namespace WIN
 
                 LayoutControl(user);
 
-                this.WriteOutputMessages(new string[] { String.Format("账号【{0}】登陆成功！",user.NickName),
+                this.WriteOutputMessages(new string[] { String.Format("账号【{0}】登录成功！",user.NickName),
                     String.Format("当前关注数：{0}",user.FollowCount),
                 String.Format("当前粉丝数：{0}",user.FansCount)});
             }
