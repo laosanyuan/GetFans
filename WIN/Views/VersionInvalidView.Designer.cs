@@ -36,13 +36,13 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(63, 60);
+            this.label1.Location = new System.Drawing.Point(17, 69);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(408, 16);
+            this.label1.Size = new System.Drawing.Size(483, 14);
             this.label1.TabIndex = 0;
-            this.label1.Text = "系统检测到你的版本已过期，请及时更新以便继续使用！";
+            this.label1.Text = "系统检测到您的软件版本已过期，请及时更新，否则可能无法使用后续功能！";
             // 
             // linkLabel1
             // 

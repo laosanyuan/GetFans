@@ -14,11 +14,11 @@ namespace WIN.Views
 {
     public partial class VersionInvalidView : Skin_Mac
     {
-        private string DowloadPath = "";
+        private string DownloadPath = "";
         public VersionInvalidView(string downloadPath)
         {
             InitializeComponent();
-            this.DowloadPath = downloadPath;
+            this.DownloadPath = downloadPath;
         }
 
         #region 关闭进程
@@ -37,7 +37,7 @@ namespace WIN.Views
         #region [打开下载]
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start(this.DowloadPath);
+            System.Diagnostics.Process.Start(this.DownloadPath);
         }
         #endregion
     }

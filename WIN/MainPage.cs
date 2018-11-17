@@ -19,6 +19,8 @@ namespace WIN
         public MainPage()
         {
             InitializeComponent();
+            //主页面打开之前判断更新版本
+            this.UpdateVersion();
         }
 
         #region [界面加载]
@@ -227,6 +229,15 @@ namespace WIN
         #endregion
 
         #region [版本]
+        //版本更新提醒
+        private void UpdateVersion()
+        {
+            if (!BLL.Version.CheckThisVersionIsNewest())
+            {
+                Views.VersionUpdateView updateView = new Views.VersionUpdateView(BLL.Version.ClientVersion);
+                updateView.ShowDialog();
+            }
+        }
         //验证版本有效性
         private void CheckVersion()
         {
