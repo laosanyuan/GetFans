@@ -13,8 +13,9 @@ namespace BLL
         /// </summary>
         /// <param name="serial"></param>
         /// <returns></returns>
-        public static List<Model.Group> GetGroups(string serial)
+        public static List<Model.Group> GetGroups()
         {
+            string serial = DAL.ConfigRW.Serial;
             return new List<Model.Group>();
         }
         /// <summary>

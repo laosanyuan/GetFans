@@ -9,6 +9,7 @@ namespace DAL
 {
     public class JsonHelper
     {
+        private static JavaScriptSerializer serializer = new JavaScriptSerializer();
         #region [反序列化]
         /// <summary>
         /// 反序列化微博操作返回信息
@@ -21,7 +22,6 @@ namespace DAL
 
             try
             {
-                JavaScriptSerializer serializer = new JavaScriptSerializer();
                 backJson = serializer.Deserialize<Model.BackJson>(jsonStr);
             }
             catch { }

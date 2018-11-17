@@ -14,16 +14,17 @@ namespace BLL
         /// <returns></returns>
         public static Model.ClientVersion GetNewestClientVersion()
         {
-            return new Model.ClientVersion() { Version = "1.0.0", VersionDirection = "测试版本", DownloadPath = "下载地址" };
+            return new Model.ClientVersion() { Version = "1.0.0", VersionDirection = "测试版本", DownloadPath = "www.baidu.com" };
         }
         /// <summary>
         /// 判断当前版本是否已停用
         /// </summary>
         /// <param name="version"></param>
         /// <returns></returns>
-        public static bool IsCurrentClientValid(string version)
+        public static bool IsCurrentClientValid()
         {
-            return true;
+            string version = DAL.ConfigRW.Version;
+            return DAL.WebAPI.IsCurrentClientValid(version);
         }
     }
 }

@@ -17,9 +17,7 @@ namespace BLL
         /// <returns></returns>
         public static bool IsValidSerial(string serial,string IPAdress,string machineName)
         {
-            //判断序列号是否有效
-
-            return true;
+            return DAL.WebAPI.IsValidSerial(serial, IPAdress, machineName);
         }
         /// <summary>
         /// 获取序列号有效期

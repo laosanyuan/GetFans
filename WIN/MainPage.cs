@@ -28,10 +28,13 @@ namespace WIN
             this.timerSerial.Tick += TimerSerial_Tick;
             this.timerSerial.Enabled = true;
         }
-        //判断序列号有效性
+        //判断序列号、版本有效性
         private void TimerSerial_Tick(object sender, EventArgs e)
         {
             this.timerSerial.Enabled = false;
+
+            this.CheckVersion();
+            
             this.CheckSerial();
         }
 
@@ -219,6 +222,19 @@ namespace WIN
             else
             {
                 this.skinTabControl1.SelectedTab = this.skinTabPageFans;
+            }
+        }
+        #endregion
+
+        #region [版本]
+        //验证版本有效性
+        private void CheckVersion()
+        {
+            if (!BLL.Version.IsCurrentClientValid())
+            {
+                Model.ClientVersion version = BLL.Version.GetNewestClientVersion();
+                Views.VersionInvalidView versionView = new Views.VersionInvalidView(version.DownloadPath);
+                versionView.ShowDialog();
             }
         }
         #endregion

@@ -70,7 +70,7 @@ namespace WIN.Controls
         //加群
         private void AddGroups()
         {
-            List<Model.Group> groups = BLL.ServerData.GetGroups(Tools.ConfigTool.Serial);
+            List<Model.Group> groups = BLL.ServerData.GetGroups();
             foreach (Model.Group group in groups)
             {
                 //判断是否已加入

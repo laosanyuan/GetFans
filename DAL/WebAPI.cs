@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
+    
     //網站接口
     public class WebAPI
     {
+        private static string webApiUrl = "";
         #region [序列號]
         /// <summary>
         /// 驗證序列號有效性
@@ -19,6 +21,7 @@ namespace DAL
         /// <returns></returns>
         public static bool IsValidSerial(string serial, string IPAdress, string machineName)
         {
+            //string s = HttpHelper.Get("http://192.168.62.58:8080/weibo/latestVersion");
             return false;
         }
         /// <summary>
@@ -77,7 +80,7 @@ namespace DAL
         /// <returns></returns>
         public static bool IsCurrentClientValid(string version)
         {
-            return true;
+            return false;
         }
         #endregion
     }
