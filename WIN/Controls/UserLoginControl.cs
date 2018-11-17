@@ -16,9 +16,9 @@ namespace WIN.Controls
 
         List<Model.Group> Groups = new List<Model.Group>();//互粉群列表
 
-        Timer GroupTimer = new Timer() { Interval = 120000 };//群聊定时，2分钟
-
-        Timer UpdateGropuTimer = new Timer() { Interval = 10 };//更新群定时器
+        Timer FollowTimer = new Timer() { Interval = 120000 };//群聊定时(被动互粉)，2分钟
+        Timer DrivingFollowTimer = new Timer() { Interval = 600000 }; //主动互粉定时器
+        Timer UpdateGroupTimer = new Timer() { Interval = 10 };//更新群 定时器
 
         public UserLoginControl(Model.User user)
         {
@@ -30,11 +30,13 @@ namespace WIN.Controls
         #region [界面加载]
         private void UserLoginControl_Load(object sender, EventArgs e)
         {
-            //聊天定时器
-            GroupTimer.Tick += GroupTimer_Tick;
+            //被动互粉定时器
+            FollowTimer.Tick += GroupTimer_Tick;
             //更新群定时器
-            UpdateGropuTimer.Tick += UpdateGropuTimer_Tick;
-            this.UpdateGropuTimer.Enabled = true;
+            UpdateGroupTimer.Tick += UpdateGropuTimer_Tick;
+            this.UpdateGroupTimer.Enabled = true;
+            //主动互粉定时器
+            DrivingFollowTimer.Tick += DrivingFollowTimer_Tick;
         }
         #endregion
 
@@ -63,7 +65,7 @@ namespace WIN.Controls
         //更新群列表定时器
         private void UpdateGropuTimer_Tick(object sender, EventArgs e)
         {
-            this.UpdateGropuTimer.Interval = 600000;//定时十分钟
+            this.UpdateGroupTimer.Interval = 600000;//定时十分钟
             this.AddGroups();
             this.UpdateGroupList();
         }
@@ -105,21 +107,99 @@ namespace WIN.Controls
                 this.buttonStart.Text = "停止";
                 this.labelBeginTime.Text = DateTime.Now.ToShortTimeString();
 
-                this.GroupTimer.Enabled = true;
+                this.FollowTimer.Enabled = true;
+                this.DrivingFollowTimer.Enabled = true;
 
             }
             else
             {
                 this.buttonStart.Text = "开始";
-                this.GroupTimer.Enabled = false;
-                this.UpdateGropuTimer.Enabled = false;
+                this.FollowTimer.Enabled = false;
+                this.DrivingFollowTimer.Enabled = false;
+                this.UpdateGroupTimer.Enabled = false;
 
                 this.OptionEvent(String.Format("互粉结束，本次共互粉【{0}】个好友", this.labelSuccessCount.Text));
             }
         }
         #endregion
 
-        #region [群聊]
+        #region [主动互粉]
+        private List<Model.GroupFriend> WaitFriendFollowMeList = new List<Model.GroupFriend>();//等待对方回粉列表
+        private int GroupStartFollowIndex = 0;//下次开始主动关注群索引
+        private void DrivingFollowTimer_Tick(object sender, EventArgs e)
+        {
+            //修改定时时长,与群数量相关
+            if (this.GroupCount <= 10)
+            {
+                this.DrivingFollowTimer.Interval = 600000;//十分钟
+            }
+            else
+            {
+                this.DrivingFollowTimer.Interval = 60000 * this.GroupCount;
+            }
+            //获取聊天群信息
+            List<Model.Group> groups20 = this.Get20Groups();
+            List<Model.GroupFriend> allFriendsList = new List<Model.GroupFriend>();//20个群获得的所有好友
+            foreach (Model.Group group in groups20)
+            {
+                List<Model.GroupFriend> groupFriends = BLL.Weibo.GetGroupFriendsList(this.User.Cookies, this.User.Uid, group.Gid, group.Name);
+                allFriendsList.AddRange(groupFriends);
+            }
+            //清洗已关注好友
+            foreach (Model.GroupFriend friend in allFriendsList)
+            {
+                if (BLL.Weibo.GetFriendFollowStatus(this.User.Cookies, friend.Fan.Uid) == Model.FriendStatus.FollowEachOther ||
+                    BLL.Weibo.GetFriendFollowStatus(this.User.Cookies, friend.Fan.Uid) == Model.FriendStatus.OnlyFollowHe)
+                {
+                    //已关注对方，移出列表
+                    allFriendsList.Remove(friend);
+                }
+                else
+                {
+                    //开始关注
+                    if (BLL.Weibo.Follow(friend.Fan.Uid, friend.Fan.NickName, this.User.Cookies))
+                    {
+                        friend.FollowTime = DateTime.Now;
+                    }
+                    else
+                    {
+                        //关注失败。则认为到达关注上限
+                        this.StopFollowString();
+                        this.buttonExit_Click(sender, e);
+                    }
+                }
+            }
+            this.WaitFriendFollowMeList.AddRange(allFriendsList);
+        }
+        //获取最多20个聊天群信息
+        private List<Model.Group> Get20Groups()
+        {
+            //如果当前群聊数大于20，则只取最后20个群活跃成员
+            List<Model.Group> groups20;
+            if (this.Groups.Count >= 20)
+            {
+                if (this.GroupStartFollowIndex + 20 > this.Groups.Count)
+                {
+                    groups20 = this.Groups.GetRange(this.GroupStartFollowIndex, this.Groups.Count - this.GroupStartFollowIndex);
+                    this.GroupStartFollowIndex += 20;
+                    this.GroupStartFollowIndex -= this.Groups.Count;
+                    groups20.AddRange(this.Groups.GetRange(0, this.GroupStartFollowIndex - 1));
+                }
+                else
+                {
+                    groups20 = this.Groups.GetRange(this.GroupStartFollowIndex, 20);
+                    this.GroupStartFollowIndex += 20;
+                }
+            }
+            else
+            {
+                groups20 = this.Groups;
+            }
+            return groups20;
+        }
+        #endregion
+
+        #region [群聊/被动互粉]
         int GroupCount = 0;
         private void GroupTimer_Tick(object sender, EventArgs e)
         {
@@ -129,7 +209,7 @@ namespace WIN.Controls
             {
                 GroupCount = 0;
             }
-
+            //发送求粉消息 10分钟
             if (GroupCount == 1)
             {
                 foreach (Model.Group group in this.Groups)
@@ -137,13 +217,27 @@ namespace WIN.Controls
                     BLL.Weibo.SendMessage2Group(this.User.Cookies, group.Gid, "互粉秒回！永不取消！");
                 }
             }
-
+            else if (GroupCount == 2 && this.WaitFriendFollowMeList.Count != 0) //提醒对方好友
+            {
+                //如果对方超过三分钟未回粉，发送提醒消息
+                foreach (Model.GroupFriend friend in this.WaitFriendFollowMeList)
+                {
+                    TimeSpan timeSpan = DateTime.Now - friend.FollowTime;
+                    if (timeSpan.Minutes > 3)
+                    {
+                        string message = String.Format("@{0} 请记得回粉哟！<br><br> 此消息由@{1} 免费发布", friend.Fan.NickName, "小火箭互粉精灵");
+                        BLL.Weibo.SendMessage2Group(this.User.Cookies, friend.Gid, message);
+                    }
+                }
+            }
+            //回粉好友
             List<Model.Fan> UnfollowFans = BLL.Weibo.GetUnfollowFansList(this.User.Cookies, this.User.Uid);
             foreach (Model.Fan fan in UnfollowFans)
             {
                 if (!BLL.Weibo.Follow(fan.Uid, fan.NickName, this.User.Cookies))
                 {
                     //关注不成功则停止
+                    this.StopFollowString();
                     this.buttonStart_Click(sender, e);
                 }
             }
@@ -174,6 +268,13 @@ namespace WIN.Controls
         public void SendGroupToServer()
         {
             BLL.ServerData.SendGroupToServer(this.Groups);
+        }
+        /// <summary>
+        /// 向主窗口发送停止互粉消息
+        /// </summary>
+        private void StopFollowString()
+        {
+            this.OptionEvent("今日互粉已达上限，请明天继续加油！");
         }
         #endregion
     }

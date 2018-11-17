@@ -144,7 +144,7 @@ namespace BLL
         /// <param name="cookie"></param>
         /// <param name="uid">对方uid</param>
         /// <returns></returns>
-        public Model.FriendStatus GetFriendFollowStatus(CookieContainer cookie, string uid)
+        public static Model.FriendStatus GetFriendFollowStatus(CookieContainer cookie, string uid)
         {
             return DAL.Weibo.GetFriendFollowStatus(cookie, uid);
         }
