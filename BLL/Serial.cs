@@ -37,5 +37,21 @@ namespace BLL
         {
             return Model.SerialType.FreeSerial;
         }
+        /// <summary>
+        /// 获取当前版本号
+        /// </summary>
+        /// <returns></returns>
+        public static string GetSerial()
+        {
+            return DAL.ConfigRW.Serial;
+        }
+        /// <summary>
+        /// 获取购买序列号路径
+        /// </summary>
+        /// <returns></returns>
+        public static string GetBuySerialPath()
+        {
+            return DAL.ConfigRW.BuySerialPath;
+        }
     }
 }

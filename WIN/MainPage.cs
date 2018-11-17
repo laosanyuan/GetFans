@@ -199,7 +199,7 @@ namespace WIN
         private void buttonBuySerial_Click(object sender, EventArgs e)
         {
             //使用系统默认浏览器打开购买页面
-            System.Diagnostics.Process.Start(ConfigurationManager.AppSettings["BuySerial"]);
+            System.Diagnostics.Process.Start(BLL.Serial.GetBuySerialPath());
         }
         //更新本机序列号
         private void buttonUpdateSerial_Click(object sender, EventArgs e)
@@ -212,7 +212,7 @@ namespace WIN
         {
             string machineName = System.Environment.MachineName;
             string IPAddress = BLL.LocalMachineHelper.GetIP();
-            string serial = ConfigurationManager.AppSettings["Serial"];
+            string serial = BLL.Serial.GetSerial();
             if (!BLL.Serial.IsValidSerial(serial, IPAddress, machineName))
             {
                 this.buttonLogin.Enabled = false;

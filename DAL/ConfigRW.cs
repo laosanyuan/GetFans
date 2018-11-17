@@ -9,6 +9,7 @@ namespace DAL
 {
     public class ConfigRW
     {
+        #region [序列号]
         public static string Serial //序列号
         {
             get
@@ -17,6 +18,15 @@ namespace DAL
             }
         }
 
+        public static string BuySerialPath //购买序列号路径
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["BuySerialPath"];
+            }
+        }
+        #endregion
+
         public static string Version //版本号
         {
             get
@@ -24,5 +34,6 @@ namespace DAL
                 return ConfigurationManager.AppSettings["Version"];
             }
         }
+
     }
 }

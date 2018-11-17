@@ -80,7 +80,7 @@ namespace DAL
         /// <returns></returns>
         public static bool IsCurrentClientValid(string version)
         {
-            return false;
+            return true;
         }
         #endregion
     }

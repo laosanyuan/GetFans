@@ -16,7 +16,7 @@ namespace BLL
         /// <returns></returns>
         public static Model.ClientVersion GetNewestClientVersion()
         {
-            return new Model.ClientVersion() { Version = "1.0.1", VersionDirection = "测试版本", DownloadPath = "www.baidu.com" };
+            return new Model.ClientVersion() { Version = "1.0.0", VersionDirection = "测试版本", DownloadPath = "www.baidu.com" };
         }
         /// <summary>
         /// 判断当前版本是否已停用
