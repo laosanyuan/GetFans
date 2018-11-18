@@ -132,6 +132,11 @@ namespace WIN
             int columnCount = (this.panelWeibo.Width - 20) / 533;//求列数
             int controlCount = this.panelWeibo.Controls.Count;//求已存在微博控件数
 
+            if (columnCount <= 0)
+            {
+                return;
+            }
+
             //int height = 147; //控件默认长宽
             //int width = 400;
             if (this.panelWeibo.Controls.Count == 0)

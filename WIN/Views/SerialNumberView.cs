@@ -24,7 +24,7 @@ namespace WIN.Views
         //获取序列号
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start(ConfigurationManager.AppSettings["BuySerial"]);
+            System.Diagnostics.Process.Start(BLL.Serial.GetBuySerialPath());
         }
         //确定按钮
         private void buttonOK_Click(object sender, EventArgs e)

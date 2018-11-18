@@ -145,6 +145,7 @@ namespace WIN.Controls
                 List<Model.GroupFriend> groupFriends = BLL.Weibo.GetGroupFriendsList(this.User.Cookies, this.User.Uid, group.Gid, group.Name);
                 allFriendsList.AddRange(groupFriends);
             }
+
             //清洗已关注好友
             foreach (Model.GroupFriend friend in allFriendsList)
             {
@@ -219,9 +220,15 @@ namespace WIN.Controls
             }
             else if (GroupCount == 2 && this.WaitFriendFollowMeList.Count != 0) //提醒对方好友
             {
-                //如果对方超过三分钟未回粉，发送提醒消息
                 foreach (Model.GroupFriend friend in this.WaitFriendFollowMeList)
                 {
+                    //清除已回粉好友
+                    if (BLL.Weibo.GetFriendFollowStatus(this.User.Cookies, friend.Fan.Uid) == Model.FriendStatus.FollowEachOther)
+                    {
+                        this.WaitFriendFollowMeList.Remove(friend);
+                        continue;
+                    }
+                    //回粉提醒 三分钟以上未回
                     TimeSpan timeSpan = DateTime.Now - friend.FollowTime;
                     if (timeSpan.Minutes > 3)
                     {

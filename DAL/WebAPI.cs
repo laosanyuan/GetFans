@@ -22,7 +22,7 @@ namespace DAL
         public static bool IsValidSerial(string serial, string IPAdress, string machineName)
         {
             //string s = HttpHelper.Get("http://192.168.62.58:8080/weibo/latestVersion");
-            return false;
+            return true;
         }
         /// <summary>
         /// 获取序列号有效期
