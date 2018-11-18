@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace DAL
 {
@@ -31,7 +35,8 @@ namespace DAL
         {
             get
             {
-                return ConfigurationManager.AppSettings["Version"];
+                var versionInfo = FileVersionInfo.GetVersionInfo("小火箭互粉精灵.exe");
+                return versionInfo.ProductVersion;
             }
         }
 

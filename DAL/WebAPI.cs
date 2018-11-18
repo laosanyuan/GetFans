@@ -50,6 +50,7 @@ namespace DAL
             //string str = "ip=192.168.34.42&serialNum=fasdfasdfasdfasds&hostName=222";
             //string s = HttpHelper.Post(webApiUrl + "weibo/checkVersionType", str);
 
+
             return true;
         }
         /// <summary>
