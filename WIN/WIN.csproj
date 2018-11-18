@@ -7,7 +7,7 @@
     <ProjectGuid>{1AE9796E-FFE1-442F-BC50-E9A4EA64F5EA}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>WIN</RootNamespace>
-    <AssemblyName>WIN</AssemblyName>
+    <AssemblyName>小火箭互粉精灵</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -30,6 +30,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Rocket_128.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CSkin">
@@ -146,6 +149,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Tools\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Rocket_128.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

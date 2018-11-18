@@ -71,13 +71,13 @@ namespace DAL
 
             request.CookieContainer = cookie;
 
-            request.ContentLength = postDataStr.Length;
+            //request.ContentLength = postDataStr.Length;
             StreamWriter writer = new StreamWriter(request.GetRequestStream());
             writer.Write(postDataStr);
             writer.Flush();
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             string encoding = response.ContentEncoding;
-            StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("GBK"));
+            StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("UTF-8"));
             string retStr = sr.ReadToEnd();
             sr.Close();
             return retStr;

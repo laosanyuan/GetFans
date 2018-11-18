@@ -230,8 +230,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(811, 450);
             this.Controls.Add(this.skinTabControl1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainPage";
-            this.Text = "MainPage";
+            this.Text = "小火箭互粉精灵";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainPage_FormClosing);
             this.Load += new System.EventHandler(this.MainPage_Load);
             this.skinTabControl1.ResumeLayout(false);

@@ -30,6 +30,7 @@
         {
             CCWin.SkinControl.SkinLabel skinLabel1;
             CCWin.SkinControl.SkinLabel skinLabel2;
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SerialNumberView));
             this.skinTextBox1 = new CCWin.SkinControl.SkinTextBox();
             this.buttonOK = new System.Windows.Forms.Button();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
@@ -145,6 +146,7 @@
             this.Controls.Add(skinLabel1);
             this.Controls.Add(this.skinTextBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SerialNumberView";

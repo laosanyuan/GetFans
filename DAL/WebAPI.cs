@@ -10,7 +10,9 @@ namespace DAL
     //網站接口
     public class WebAPI
     {
+        //private static string webApiUrl = "http://192.168.62.58:8080/";
         private static string webApiUrl = "http://47.100.249.244:8080/";
+
         #region [序列號]
         /// <summary>
         /// 驗證序列號有效性
@@ -21,7 +23,33 @@ namespace DAL
         /// <returns></returns>
         public static bool IsValidSerial(string serial, string IPAdress, string machineName)
         {
-            string s = HttpHelper.Get( webApiUrl + "weibo/latestVersion");
+            //获取最新版本
+            //string s = HttpHelper.Get( webApiUrl + "weibo/latestVersion");
+
+            //上传群号
+            //string str = "groupId=1234&groupName=we3张3";
+            //string s = HttpHelper.Post(webApiUrl + "weibo/uploadGroup", str);
+
+            //获取群号
+            //string str = "serialNum=fasdfasdfasdfasd";
+            //string s = HttpHelper.Post(webApiUrl + "weibo/getGroupList", str);
+
+            //校验可用性
+            //string str = "ip=192.168.34.42&serialNum=fasdfasdfasdfasd&hostName=互粉";
+            //string s = HttpHelper.Post(webApiUrl + "weibo/check", str);
+
+            //检验版本可用性
+            //string str = "version=1.0";
+            //string s = HttpHelper.Post(webApiUrl + "weibo/checkVersion", str);
+
+            //获取序列号有效期
+            //string str = "serialNum=fasdfasdfasdfasd";
+            //string s = HttpHelper.Post(webApiUrl + "weibo/expire", str);
+
+            //序列号种类
+            //string str = "ip=192.168.34.42&serialNum=fasdfasdfasdfasds&hostName=222";
+            //string s = HttpHelper.Post(webApiUrl + "weibo/checkVersionType", str);
+
             return true;
         }
         /// <summary>
