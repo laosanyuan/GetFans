@@ -11,7 +11,7 @@ namespace DAL
     public class WebAPI
     {
         //private static string webApiUrl = "http://192.168.62.58:8080/";
-        private static string webApiUrl = "http://47.100.249.244:8080/";
+        private static string webApiUrl = "http://47.100.249.244:8080/weibo/";
 
         #region [序列號]
         /// <summary>
@@ -21,55 +21,37 @@ namespace DAL
         /// <param name="IPAdress"></param>
         /// <param name="machineName"></param>
         /// <returns></returns>
-        public static bool IsValidSerial(string serial, string IPAdress, string machineName)
+        public static Model.WebMessage IsValidSerial(string serial, string IPAdress, string machineName)
         {
-            //获取最新版本
-            //string s = HttpHelper.Get( webApiUrl + "weibo/latestVersion");
-
-            //上传群号
-            //string str = "groupId=1234&groupName=we3张3";
-            //string s = HttpHelper.Post(webApiUrl + "weibo/uploadGroup", str);
-
-            //获取群号
-            //string str = "serialNum=fasdfasdfasdfasd";
-            //string s = HttpHelper.Post(webApiUrl + "weibo/getGroupList", str);
-
-            //校验可用性
-            //string str = "ip=192.168.34.42&serialNum=fasdfasdfasdfasd&hostName=互粉";
-            //string s = HttpHelper.Post(webApiUrl + "weibo/check", str);
-
-            //检验版本可用性
-            //string str = "version=1.0";
-            //string s = HttpHelper.Post(webApiUrl + "weibo/checkVersion", str);
-
-            //获取序列号有效期
-            //string str = "serialNum=fasdfasdfasdfasd";
-            //string s = HttpHelper.Post(webApiUrl + "weibo/expire", str);
-
-            //序列号种类
-            //string str = "ip=192.168.34.42&serialNum=fasdfasdfasdfasds&hostName=222";
-            //string s = HttpHelper.Post(webApiUrl + "weibo/checkVersionType", str);
-
-
-            return true;
+            //校验序列号可用性
+            string str = String.Format("ip={0}&serialNum={1}&hostName={2}", IPAdress, serial, machineName);
+            string s = HttpHelper.Post(webApiUrl + "check", str);
+            return JsonHelper.WebMessage(s);
         }
         /// <summary>
         /// 获取序列号有效期
         /// </summary>
         /// <param name="serial">序列号</param>
-        /// <returns></returns>
-        public static string GetSerialInvalidDate(string serial)
+        /// <returns><returns>
+        public static Model.WebMessage GetSerialInvalidDate(string serial)
         {
-            return "";
+            //获取序列号有效期
+            //string str = "serialNum=fasdfasdfasdfasd";
+            string str = "serialNum=" + serial;
+            string s = HttpHelper.Post(webApiUrl + "expire", str);
+            return JsonHelper.WebMessage(s);
         }
         /// <summary>
         /// 獲取序列號種類
         /// </summary>
         /// <param name="serial"></param>
         /// <returns></returns>
-        public static Model.SerialType GetSerialType(string serial)
+        public static Model.WebMessage GetSerialType(string serial,string ipStr ,string machineName)
         {
-            return Model.SerialType.FreeSerial;
+            //string str = "ip=192.168.34.42&serialNum=fasdfasdfasdfasds&hostName=222";
+            string str = String.Format("ip={0}&serialNum={1}&hostName={2}", ipStr, serial, machineName);
+            string s = HttpHelper.Post(webApiUrl + "checkVersionType", str);
+            return JsonHelper.WebMessage(s);
         }
         #endregion
 
@@ -79,9 +61,11 @@ namespace DAL
         /// </summary>
         /// <param name="serial"></param>
         /// <returns></returns>
-        public static List<Model.Group> GetGroups(string serial)
+        public static Model.WebMessage GetGroups(string serial)
         {
-            return new List<Model.Group>();
+            string str = String.Format("serialNum={0}", serial);
+            string s = HttpHelper.Post(webApiUrl + "getGroupList", str);
+            return JsonHelper.WebMessage(s);
         }
         /// <summary>
         /// 向服務器保存一組群信息
@@ -89,7 +73,11 @@ namespace DAL
         /// <param name="groups">群列表</param>
         public static void SendGroupToServer(List<Model.Group> groups)
         {
-            //解析群列表
+            foreach (Model.Group group in groups)
+            {
+                string str = String.Format("groupId={0}&groupName={1}", group.Gid, group.Name);
+                string s = HttpHelper.Post(webApiUrl + "uploadGroup", str);
+            }
         }
         #endregion
 
@@ -98,18 +86,23 @@ namespace DAL
         /// 获取最新版版本信息
         /// </summary>
         /// <returns></returns>
-        public static Model.ClientVersion GetNewestClientVersion()
+        public static Model.WebMessage GetNewestClientVersion()
         {
-            return new Model.ClientVersion() { Version = "1.0.0", VersionDirection = "测试版本", DownloadPath = "下载地址" };
+            //获取最新版本
+            string s = HttpHelper.Get(webApiUrl + "latestVersion");
+            return JsonHelper.WebMessage(s);
         }
         /// <summary>
-        /// 判断当前版本是否已停用
+        /// 获取版本可用信息
         /// </summary>
         /// <param name="version"></param>
         /// <returns></returns>
-        public static bool IsCurrentClientValid(string version)
+        public static Model.WebMessage CurrentClientValid(string version)
         {
-            return true;
+            //检验版本可用性
+            string str = "version="+version;
+            string s = HttpHelper.Post(webApiUrl + "weibo/checkVersion", str);
+            return JsonHelper.WebMessage(s);
         }
         #endregion
     }

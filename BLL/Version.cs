@@ -26,7 +26,7 @@ namespace BLL
         public static bool IsCurrentClientValid()
         {
             string version = DAL.ConfigRW.Version;
-            return DAL.WebAPI.IsCurrentClientValid(version);
+            return true;
         }
         /// <summary>
         /// 判断当前版本是否为最新版本

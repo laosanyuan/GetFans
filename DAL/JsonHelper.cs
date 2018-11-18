@@ -28,6 +28,18 @@ namespace DAL
 
             return backJson;
         }
+
+        //反序列化web api 信息
+        public static Model.WebMessage WebMessage(string jsonStr)
+        {
+            Model.WebMessage webMessage = new Model.WebMessage();
+            try
+            {
+                webMessage = serializer.Deserialize<Model.WebMessage>(jsonStr);
+            }
+            catch { }
+            return webMessage;
+        }
         #endregion
     }
 }
