@@ -147,20 +147,21 @@ namespace WIN.Controls
             }
 
             //清洗已关注好友
-            foreach (Model.GroupFriend friend in allFriendsList)
+            for (int i = 0; i < allFriendsList.Count; i++)
             {
-                if (BLL.Weibo.GetFriendFollowStatus(this.User.Cookies, friend.Fan.Uid) == Model.FriendStatus.FollowEachOther ||
-                    BLL.Weibo.GetFriendFollowStatus(this.User.Cookies, friend.Fan.Uid) == Model.FriendStatus.OnlyFollowHe)
+                if (BLL.Weibo.GetFriendFollowStatus(this.User.Cookies, allFriendsList[i].Fan.Uid) == Model.FriendStatus.FollowEachOther ||
+                    BLL.Weibo.GetFriendFollowStatus(this.User.Cookies, allFriendsList[i].Fan.Uid) == Model.FriendStatus.OnlyFollowHe)
                 {
                     //已关注对方，移出列表
-                    allFriendsList.Remove(friend);
+                    allFriendsList.Remove(allFriendsList[i]);
+                    i--;
                 }
                 else
                 {
                     //开始关注
-                    if (BLL.Weibo.Follow(friend.Fan.Uid, friend.Fan.NickName, this.User.Cookies))
+                    if (BLL.Weibo.Follow(allFriendsList[i].Fan.Uid, allFriendsList[i].Fan.NickName, this.User.Cookies))
                     {
-                        friend.FollowTime = DateTime.Now;
+                        allFriendsList[i].FollowTime = DateTime.Now;
                     }
                     else
                     {
@@ -220,20 +221,21 @@ namespace WIN.Controls
             }
             else if (GroupCount == 2 && this.WaitFriendFollowMeList.Count != 0) //提醒对方好友
             {
-                foreach (Model.GroupFriend friend in this.WaitFriendFollowMeList)
+                for(int i =0;i<this.WaitFriendFollowMeList.Count;i++)
                 {
                     //清除已回粉好友
-                    if (BLL.Weibo.GetFriendFollowStatus(this.User.Cookies, friend.Fan.Uid) == Model.FriendStatus.FollowEachOther)
+                    if (BLL.Weibo.GetFriendFollowStatus(this.User.Cookies, this.WaitFriendFollowMeList[i].Fan.Uid) == Model.FriendStatus.FollowEachOther)
                     {
-                        this.WaitFriendFollowMeList.Remove(friend);
+                        this.WaitFriendFollowMeList.Remove(this.WaitFriendFollowMeList[i]);
+                        i--;
                         continue;
                     }
                     //回粉提醒 三分钟以上未回
-                    TimeSpan timeSpan = DateTime.Now - friend.FollowTime;
+                    TimeSpan timeSpan = DateTime.Now - this.WaitFriendFollowMeList[i].FollowTime;
                     if (timeSpan.Minutes > 3)
                     {
-                        string message = String.Format("@{0} 请记得回粉哟！<br><br> 此消息由@{1} 免费发布", friend.Fan.NickName, "小火箭互粉精灵");
-                        BLL.Weibo.SendMessage2Group(this.User.Cookies, friend.Gid, message);
+                        string message = String.Format("@{0} 请记得回粉哟！<br><br> 此消息由@{1} 免费发布", this.WaitFriendFollowMeList[i].Fan.NickName, "小火箭互粉精灵");
+                        BLL.Weibo.SendMessage2Group(this.User.Cookies, this.WaitFriendFollowMeList[i].Gid, message);
                     }
                 }
             }

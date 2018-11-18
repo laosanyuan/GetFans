@@ -10,7 +10,7 @@ namespace DAL
     //網站接口
     public class WebAPI
     {
-        private static string webApiUrl = "";
+        private static string webApiUrl = "http://47.100.249.244:8080/";
         #region [序列號]
         /// <summary>
         /// 驗證序列號有效性
@@ -21,7 +21,7 @@ namespace DAL
         /// <returns></returns>
         public static bool IsValidSerial(string serial, string IPAdress, string machineName)
         {
-            //string s = HttpHelper.Get("http://192.168.62.58:8080/weibo/latestVersion");
+            string s = HttpHelper.Get( webApiUrl + "weibo/latestVersion");
             return true;
         }
         /// <summary>
