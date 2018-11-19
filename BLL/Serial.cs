@@ -11,31 +11,93 @@ namespace BLL
         /// <summary>
         /// 验证序列号有效性
         /// </summary>
-        /// <param name="serial"></param>
-        /// <param name="IPAdress"></param>
-        /// <param name="machineName"></param>
         /// <returns></returns>
-        public static bool IsValidSerial(string serial,string IPAdress,string machineName)
+        public static bool IsValidSerial()
         {
-            return false;
+            string serial = BLL.Serial.GetSerial();
+            return IsValidSerial(serial);
         }
+        /// <summary>
+        /// 序列号是否有效
+        /// </summary>
+        /// <param name="serial">序列号</param>
+        /// <returns></returns>
+        public static bool IsValidSerial(string serial)
+        {
+            if (serial.Equals(""))
+            {
+                return false;
+            }
+
+            string machineName = System.Environment.MachineName;
+            string IPAddress = BLL.LocalMachineHelper.GetIP();
+            Model.WebMessage webMessage = DAL.WebAPI.IsValidSerial(serial, IPAddress, machineName);
+
+            if (webMessage.c.Equals("200"))
+            {
+                if (webMessage.d.ToString().Equals("1"))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         /// 获取序列号有效期
         /// </summary>
         /// <param name="serial">序列号</param>
         /// <returns></returns>
-        public static string GetSerialInvalidDate(string serial)
+        public static string GetSerialInvalidDate()
         {
-            return "2018-12-30";
+            Model.WebMessage webMessage = DAL.WebAPI.GetSerialInvalidDate(DAL.ConfigRW.Serial);
+            if (webMessage.c.Equals("200")&& !webMessage.d.ToString().Equals("0"))
+            {
+                System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
+                DateTime dt = startTime.AddSeconds(Convert.ToInt64(webMessage.d));
+                return dt.ToString("yyyy/MM/dd HH:mm:ss");
+            }
+            else if(webMessage.c.Equals("200") && webMessage.d.ToString().Equals("0"))
+            {
+                return "序列号已过期";
+            }
+            return "有效期获取失败";
         }
         /// <summary>
         /// 获取序列号种类
         /// </summary>
         /// <param name="serial">序列号</param>
         /// <returns></returns>
-        public static Model.SerialType GetSerialType(string serial)
+        public static string GetSerialType()
         {
-            return Model.SerialType.FreeSerial;
+            string serial = DAL.ConfigRW.Serial;
+            string machineName = System.Environment.MachineName;
+            string IPAddress = BLL.LocalMachineHelper.GetIP();
+            Model.WebMessage webMessage = DAL.WebAPI.GetSerialType(serial, IPAddress, machineName);
+
+            if (webMessage.c.Equals("200"))
+            {
+                if (webMessage.d.ToString().Equals("1"))
+                {
+                    return "试用号";
+                }
+                else if (webMessage.d.ToString().Equals("2"))
+                {
+                    return "普通号";
+                }
+                else if (webMessage.d.ToString().Equals("3"))
+                {
+                    return "VIP账号";
+                }
+            }
+            return "未知种类";
         }
         /// <summary>
         /// 获取当前版本号

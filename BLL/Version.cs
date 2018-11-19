@@ -16,7 +16,15 @@ namespace BLL
         /// <returns></returns>
         public static Model.ClientVersion GetNewestClientVersion()
         {
-            return new Model.ClientVersion() { Version = "1.0.0", VersionDirection = "测试版本", DownloadPath = "www.baidu.com" };
+            Model.WebMessage webMessage = DAL.WebAPI.GetNewestClientVersion();
+            Model.ClientVersion version = new Model.ClientVersion();
+            if (webMessage.c.Equals("200"))
+            {
+                version.DownloadPath = ((Dictionary<string, object>)webMessage.d)["link"].ToString();
+                version.Version = ((Dictionary<string, object>)webMessage.d)["version"].ToString();
+                version.VersionDirection = ((Dictionary<string, object>)webMessage.d)["des"].ToString();
+            }
+            return version;
         }
         /// <summary>
         /// 判断当前版本是否已停用
@@ -26,6 +34,14 @@ namespace BLL
         public static bool IsCurrentClientValid()
         {
             string version = DAL.ConfigRW.Version;
+            Model.WebMessage webMessage = DAL.WebAPI.CurrentClientValid(version);
+            if (webMessage.c.Equals("200"))
+            {
+                if (webMessage.d.ToString().Equals("0"))
+                {
+                    return false;
+                }
+            }
             return true;
         }
         /// <summary>

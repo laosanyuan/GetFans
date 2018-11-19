@@ -19,6 +19,7 @@ namespace WIN
         public MainPage()
         {
             InitializeComponent();
+            BLL.Serial.GetSerialType();
             //主页面打开之前判断更新版本
             this.UpdateVersion();
         }
@@ -215,10 +216,7 @@ namespace WIN
         //验证序列号
         private void CheckSerial()
         {
-            string machineName = System.Environment.MachineName;
-            string IPAddress = BLL.LocalMachineHelper.GetIP();
-            string serial = BLL.Serial.GetSerial();
-            if (!BLL.Serial.IsValidSerial(serial, IPAddress, machineName))
+            if (!BLL.Serial.IsValidSerial())
             {
                 this.buttonLogin.Enabled = false;
                 this.skinTabControl1.SelectedTab = this.skinTabPageSerial;

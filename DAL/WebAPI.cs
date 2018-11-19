@@ -101,7 +101,7 @@ namespace DAL
         {
             //检验版本可用性
             string str = "version="+version;
-            string s = HttpHelper.Post(webApiUrl + "weibo/checkVersion", str);
+            string s = HttpHelper.Post(webApiUrl + "checkVersion", str);
             return JsonHelper.WebMessage(s);
         }
         #endregion

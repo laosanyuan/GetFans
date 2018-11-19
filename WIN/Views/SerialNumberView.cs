@@ -29,11 +29,8 @@ namespace WIN.Views
         //确定按钮
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            string machineName = System.Environment.MachineName;
-            string IPAddress = BLL.LocalMachineHelper.GetIP();
-
             //判断序列号是否有效
-            if (this.skinTextBox1.Text.Equals("") || !BLL.Serial.IsValidSerial(this.skinTextBox1.Text,IPAddress,machineName))
+            if (this.skinTextBox1.Text.Equals("") || !BLL.Serial.IsValidSerial(this.skinTextBox1.Text))
             {
                 MessageBox.Show("序列号错误，请输入正确的序列号", "提示");
                 return;

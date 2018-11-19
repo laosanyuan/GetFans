@@ -16,7 +16,19 @@ namespace BLL
         public static List<Model.Group> GetGroups()
         {
             string serial = DAL.ConfigRW.Serial;
-            return new List<Model.Group>();
+            Model.WebMessage webMessage = DAL.WebAPI.GetGroups(serial);
+            List<Model.Group> groups = new List<Model.Group>();
+            if (webMessage.c.Equals("200"))
+            {
+                foreach (object g in (object[])webMessage.d)
+                {
+                    Model.Group group = new Model.Group();
+                    group.Name = ((Dictionary<string, object>)g)["groupName"].ToString();
+                    group.Gid = ((Dictionary<string, object>)g)["groupId"].ToString();
+                    groups.Add(group);
+                }
+            }
+            return groups;
         }
         /// <summary>
         /// 向服務器傳送一組群信息
@@ -24,7 +36,7 @@ namespace BLL
         /// <param name="groups">群列表</param>
         public static void SendGroupToServer(List<Model.Group> groups)
         {
-            //解析群列表
+            DAL.WebAPI.SendGroupToServer(groups);
         }
     }
 }
