@@ -30,6 +30,9 @@ namespace WIN
         {
             this.timerSerial.Tick += TimerSerial_Tick;
             this.timerSerial.Enabled = true;
+
+            this.labelSerialTime.Text = "序列号有效期：" + BLL.Serial.GetSerialInvalidDate();
+            this.labelSerialType.Text = "序列号种类：" + BLL.Serial.GetSerialType();
         }
         //判断序列号、版本有效性
         private void TimerSerial_Tick(object sender, EventArgs e)
@@ -218,6 +221,9 @@ namespace WIN
         {
             if (!BLL.Serial.IsValidSerial())
             {
+                this.labelSeriaPoint.Visible = true;
+                this.labelSeriaPoint.Refresh();
+                this.skinTabControl1.SelectedTab = this.skinTabPageSerial;
                 this.buttonLogin.Enabled = false;
                 this.skinTabControl1.SelectedTab = this.skinTabPageSerial;
                 //弹出购买页面

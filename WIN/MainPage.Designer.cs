@@ -34,14 +34,15 @@
             this.richTextBoxOutput = new System.Windows.Forms.RichTextBox();
             this.panelWeibo = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelSerialTime = new System.Windows.Forms.Label();
             this.buttonLogin = new System.Windows.Forms.Button();
             this.skinTabPageSerial = new CCWin.SkinControl.SkinTabPage();
             this.panelSeria = new System.Windows.Forms.Panel();
-            this.labelSeria = new System.Windows.Forms.Label();
+            this.labelSeriaPoint = new System.Windows.Forms.Label();
             this.buttonUpdateSerial = new System.Windows.Forms.Button();
             this.buttonBuySerial = new System.Windows.Forms.Button();
             this.skinTabPageHelp = new CCWin.SkinControl.SkinTabPage();
+            this.labelSerialType = new System.Windows.Forms.Label();
             this.skinTabControl1.SuspendLayout();
             this.skinTabPageFans.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -122,26 +123,27 @@
             // panel1
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.BackColor = System.Drawing.Color.DimGray;
-            this.panel1.Controls.Add(this.label1);
+            this.panel1.BackColor = System.Drawing.Color.Honeydew;
+            this.panel1.Controls.Add(this.labelSerialType);
+            this.panel1.Controls.Add(this.labelSerialTime);
             this.panel1.Controls.Add(this.buttonLogin);
             this.panel1.Location = new System.Drawing.Point(575, 3);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(229, 98);
             this.panel1.TabIndex = 0;
             // 
-            // label1
+            // labelSerialTime
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 13);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(142, 14);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "未检测到有效序列号";
+            this.labelSerialTime.AutoSize = true;
+            this.labelSerialTime.Location = new System.Drawing.Point(16, 13);
+            this.labelSerialTime.Name = "labelSerialTime";
+            this.labelSerialTime.Size = new System.Drawing.Size(142, 14);
+            this.labelSerialTime.TabIndex = 1;
+            this.labelSerialTime.Text = "未检测到有效序列号";
             // 
             // buttonLogin
             // 
-            this.buttonLogin.Location = new System.Drawing.Point(64, 44);
+            this.buttonLogin.Location = new System.Drawing.Point(64, 59);
             this.buttonLogin.Name = "buttonLogin";
             this.buttonLogin.Size = new System.Drawing.Size(105, 32);
             this.buttonLogin.TabIndex = 0;
@@ -167,7 +169,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelSeria.BackColor = System.Drawing.Color.Honeydew;
-            this.panelSeria.Controls.Add(this.labelSeria);
+            this.panelSeria.Controls.Add(this.labelSeriaPoint);
             this.panelSeria.Controls.Add(this.buttonUpdateSerial);
             this.panelSeria.Controls.Add(this.buttonBuySerial);
             this.panelSeria.Location = new System.Drawing.Point(4, 4);
@@ -175,15 +177,17 @@
             this.panelSeria.Size = new System.Drawing.Size(800, 374);
             this.panelSeria.TabIndex = 0;
             // 
-            // labelSeria
+            // labelSeriaPoint
             // 
-            this.labelSeria.AutoSize = true;
-            this.labelSeria.Font = new System.Drawing.Font("楷体", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.labelSeria.Location = new System.Drawing.Point(122, 66);
-            this.labelSeria.Name = "labelSeria";
-            this.labelSeria.Size = new System.Drawing.Size(576, 19);
-            this.labelSeria.TabIndex = 2;
-            this.labelSeria.Text = "未检测到有效序列号，请重新获取新的序列号或更新序列号！";
+            this.labelSeriaPoint.AutoSize = true;
+            this.labelSeriaPoint.Font = new System.Drawing.Font("楷体", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.labelSeriaPoint.ForeColor = System.Drawing.Color.Red;
+            this.labelSeriaPoint.Location = new System.Drawing.Point(122, 66);
+            this.labelSeriaPoint.Name = "labelSeriaPoint";
+            this.labelSeriaPoint.Size = new System.Drawing.Size(576, 19);
+            this.labelSeriaPoint.TabIndex = 2;
+            this.labelSeriaPoint.Text = "未检测到有效序列号，请重新获取新的序列号或更新序列号！";
+            this.labelSeriaPoint.Visible = false;
             // 
             // buttonUpdateSerial
             // 
@@ -224,6 +228,15 @@
             this.skinTabPageHelp.TabItemImage = null;
             this.skinTabPageHelp.Text = "帮助";
             // 
+            // labelSerialType
+            // 
+            this.labelSerialType.AutoSize = true;
+            this.labelSerialType.Location = new System.Drawing.Point(16, 36);
+            this.labelSerialType.Name = "labelSerialType";
+            this.labelSerialType.Size = new System.Drawing.Size(142, 14);
+            this.labelSerialType.TabIndex = 2;
+            this.labelSerialType.Text = "未检测到有效序列号";
+            // 
             // MainPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -256,10 +269,11 @@
         private System.Windows.Forms.Panel panelWeibo;
         private System.Windows.Forms.Button buttonLogin;
         private System.Windows.Forms.RichTextBox richTextBoxOutput;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelSerialTime;
         private System.Windows.Forms.Panel panelSeria;
         private System.Windows.Forms.Button buttonUpdateSerial;
         private System.Windows.Forms.Button buttonBuySerial;
-        private System.Windows.Forms.Label labelSeria;
+        private System.Windows.Forms.Label labelSeriaPoint;
+        private System.Windows.Forms.Label labelSerialType;
     }
 }

@@ -10,7 +10,6 @@ namespace DAL
     //網站接口
     public class WebAPI
     {
-        //private static string webApiUrl = "http://192.168.62.58:8080/";
         private static string webApiUrl = "http://47.100.249.244:8080/weibo/";
 
         #region [序列號]

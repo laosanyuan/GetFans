@@ -66,7 +66,7 @@ namespace BLL
             }
             else if(webMessage.c.Equals("200") && webMessage.d.ToString().Equals("0"))
             {
-                return "序列号已过期";
+                return "无效序列号";
             }
             return "有效期获取失败";
         }
