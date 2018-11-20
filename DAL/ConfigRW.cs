@@ -31,6 +31,15 @@ namespace DAL
         }
         #endregion
 
+        //获取帮助页面
+        public static string HelpPath //序列号
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["HelpPath"];
+            }
+        }
+
         public static string Version //版本号
         {
             get

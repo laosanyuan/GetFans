@@ -46,6 +46,7 @@
     <Compile Include="Serial.cs" />
     <Compile Include="ServerData.cs" />
     <Compile Include="Version.cs" />
+    <Compile Include="Web.cs" />
     <Compile Include="Weibo.cs" />
   </ItemGroup>
   <ItemGroup>

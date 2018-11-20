@@ -31,8 +31,10 @@ namespace WIN
             this.timerSerial.Tick += TimerSerial_Tick;
             this.timerSerial.Enabled = true;
 
-            this.labelSerialTime.Text = "序列号有效期：" + BLL.Serial.GetSerialInvalidDate();
+            this.labelSerialTime.Text = "有效期：" + BLL.Serial.GetSerialInvalidDate();
             this.labelSerialType.Text = "序列号种类：" + BLL.Serial.GetSerialType();
+
+            this.webBrowser1.Url = new Uri(BLL.Web.HelpPath());
         }
         //判断序列号、版本有效性
         private void TimerSerial_Tick(object sender, EventArgs e)
@@ -215,6 +217,10 @@ namespace WIN
         {
             Views.SerialNumberView serialNumberView = new Views.SerialNumberView();
             serialNumberView.ShowDialog();
+            if (serialNumberView.IsValid)
+            {
+                this.RefreshWindowAfterGetSerial();
+            }
         }
         //验证序列号
         private void CheckSerial()
@@ -229,11 +235,26 @@ namespace WIN
                 //弹出购买页面
                 Views.SerialNumberView serialNumberView = new Views.SerialNumberView();
                 serialNumberView.ShowDialog();
+                //检验序列号有效恢复可用
+                if (serialNumberView.IsValid)
+                {
+                    this.RefreshWindowAfterGetSerial();
+                }
             }
             else
             {
                 this.skinTabControl1.SelectedTab = this.skinTabPageFans;
             }
+        }
+        //恢复序列号使用权限
+        private void RefreshWindowAfterGetSerial()
+        {
+            this.labelSerialTime.Text = "有效期：" + BLL.Serial.GetSerialInvalidDate();
+            this.labelSerialType.Text = "序列号种类：" + BLL.Serial.GetSerialType();
+
+            this.labelSeriaPoint.Visible = false;
+
+            this.buttonLogin.Enabled = true;
         }
         #endregion
 

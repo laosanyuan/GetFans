@@ -34,6 +34,7 @@
             this.richTextBoxOutput = new System.Windows.Forms.RichTextBox();
             this.panelWeibo = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.labelSerialType = new System.Windows.Forms.Label();
             this.labelSerialTime = new System.Windows.Forms.Label();
             this.buttonLogin = new System.Windows.Forms.Button();
             this.skinTabPageSerial = new CCWin.SkinControl.SkinTabPage();
@@ -42,12 +43,13 @@
             this.buttonUpdateSerial = new System.Windows.Forms.Button();
             this.buttonBuySerial = new System.Windows.Forms.Button();
             this.skinTabPageHelp = new CCWin.SkinControl.SkinTabPage();
-            this.labelSerialType = new System.Windows.Forms.Label();
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.skinTabControl1.SuspendLayout();
             this.skinTabPageFans.SuspendLayout();
             this.panel1.SuspendLayout();
             this.skinTabPageSerial.SuspendLayout();
             this.panelSeria.SuspendLayout();
+            this.skinTabPageHelp.SuspendLayout();
             this.SuspendLayout();
             // 
             // skinTabControl1
@@ -78,7 +80,7 @@
             this.skinTabControl1.PageHover = ((System.Drawing.Image)(resources.GetObject("skinTabControl1.PageHover")));
             this.skinTabControl1.PageImagePosition = CCWin.SkinControl.SkinTabControl.ePageImagePosition.Left;
             this.skinTabControl1.PageNorml = null;
-            this.skinTabControl1.SelectedIndex = 1;
+            this.skinTabControl1.SelectedIndex = 2;
             this.skinTabControl1.Size = new System.Drawing.Size(811, 414);
             this.skinTabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.skinTabControl1.TabIndex = 0;
@@ -132,10 +134,19 @@
             this.panel1.Size = new System.Drawing.Size(229, 98);
             this.panel1.TabIndex = 0;
             // 
+            // labelSerialType
+            // 
+            this.labelSerialType.AutoSize = true;
+            this.labelSerialType.Location = new System.Drawing.Point(3, 10);
+            this.labelSerialType.Name = "labelSerialType";
+            this.labelSerialType.Size = new System.Drawing.Size(142, 14);
+            this.labelSerialType.TabIndex = 2;
+            this.labelSerialType.Text = "未检测到有效序列号";
+            // 
             // labelSerialTime
             // 
             this.labelSerialTime.AutoSize = true;
-            this.labelSerialTime.Location = new System.Drawing.Point(16, 13);
+            this.labelSerialTime.Location = new System.Drawing.Point(3, 32);
             this.labelSerialTime.Name = "labelSerialTime";
             this.labelSerialTime.Size = new System.Drawing.Size(142, 14);
             this.labelSerialTime.TabIndex = 1;
@@ -143,7 +154,7 @@
             // 
             // buttonLogin
             // 
-            this.buttonLogin.Location = new System.Drawing.Point(64, 59);
+            this.buttonLogin.Location = new System.Drawing.Point(64, 56);
             this.buttonLogin.Name = "buttonLogin";
             this.buttonLogin.Size = new System.Drawing.Size(105, 32);
             this.buttonLogin.TabIndex = 0;
@@ -220,6 +231,7 @@
             // skinTabPageHelp
             // 
             this.skinTabPageHelp.BackColor = System.Drawing.Color.White;
+            this.skinTabPageHelp.Controls.Add(this.webBrowser1);
             this.skinTabPageHelp.Dock = System.Windows.Forms.DockStyle.Fill;
             this.skinTabPageHelp.Location = new System.Drawing.Point(0, 36);
             this.skinTabPageHelp.Name = "skinTabPageHelp";
@@ -228,14 +240,17 @@
             this.skinTabPageHelp.TabItemImage = null;
             this.skinTabPageHelp.Text = "帮助";
             // 
-            // labelSerialType
+            // webBrowser1
             // 
-            this.labelSerialType.AutoSize = true;
-            this.labelSerialType.Location = new System.Drawing.Point(16, 36);
-            this.labelSerialType.Name = "labelSerialType";
-            this.labelSerialType.Size = new System.Drawing.Size(142, 14);
-            this.labelSerialType.TabIndex = 2;
-            this.labelSerialType.Text = "未检测到有效序列号";
+            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowser1.Location = new System.Drawing.Point(0, 0);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.ScriptErrorsSuppressed = true;
+            this.webBrowser1.Size = new System.Drawing.Size(811, 378);
+            this.webBrowser1.TabIndex = 0;
+            this.webBrowser1.Url = new System.Uri("", System.UriKind.Relative);
+            this.webBrowser1.WebBrowserShortcutsEnabled = false;
             // 
             // MainPage
             // 
@@ -255,6 +270,7 @@
             this.skinTabPageSerial.ResumeLayout(false);
             this.panelSeria.ResumeLayout(false);
             this.panelSeria.PerformLayout();
+            this.skinTabPageHelp.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -275,5 +291,6 @@
         private System.Windows.Forms.Button buttonBuySerial;
         private System.Windows.Forms.Label labelSeriaPoint;
         private System.Windows.Forms.Label labelSerialType;
+        private System.Windows.Forms.WebBrowser webBrowser1;
     }
 }
