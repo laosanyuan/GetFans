@@ -122,7 +122,7 @@ namespace WIN.Views
                     this.Close();
                 }
             }
-            else if (result.Equals("2070") || result.Equals("4096"))
+            else if (result.Equals("2070") || result.Equals("4096") || result.Equals("4049"))
             {
                 //验证码错误或者为空
                 if (this.pictureBoxCode.Visible)
@@ -135,7 +135,7 @@ namespace WIN.Views
                 }
                 this.pictureBoxCode.Image = BLL.Weibo.GetCodeImage(this.User);
             }
-            else if (result.Equals("101&") || result.Equals("4049"))
+            else if (result.Equals("101&"))
             {
                 //密码错误
                 this.pictureBoxErrorUserName.Visible = true;

@@ -159,5 +159,28 @@ namespace BLL
             return DAL.Weibo.IsAddedThisGroup(cookie, gid);
         }
         #endregion
+
+
+        #region [聊天内容]
+        //聊天内容
+        public static List<string> GroupInviteFollowMe = new List<string>()
+        {
+            "互粉！",
+            "求互粉，永不取消！",
+            "互粉秒回，欢迎互动！",
+            "求互粉，老铁们！绝对不取关！",
+            "互粉，有诚意的来，绝不取关！",
+            "互粉！互赞！互评！",
+            "互粉，稳定的来！",
+            "互粉，如果今天到上限了，明天一早绝对回粉！",
+            "求互粉，朋友们！有群的拉我一下！",
+
+            "朋友们求互粉，在线秒回！",
+            "在线互粉[doge]!",
+            "互粉，秒回[心]",
+            "在线秒回，求互粉，有群的记得拉我！永不取消[笑cry]",
+            "求互粉，诚信的来！"
+        };
+        #endregion
     }
 }

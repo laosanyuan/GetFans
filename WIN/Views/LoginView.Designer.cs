@@ -151,9 +151,9 @@
             // 
             // pictureBoxCode
             // 
-            this.pictureBoxCode.Location = new System.Drawing.Point(76, 145);
+            this.pictureBoxCode.Location = new System.Drawing.Point(58, 144);
             this.pictureBoxCode.Name = "pictureBoxCode";
-            this.pictureBoxCode.Size = new System.Drawing.Size(74, 30);
+            this.pictureBoxCode.Size = new System.Drawing.Size(102, 36);
             this.pictureBoxCode.TabIndex = 4;
             this.pictureBoxCode.TabStop = false;
             this.pictureBoxCode.Click += new System.EventHandler(this.pictureBoxCode_Click);

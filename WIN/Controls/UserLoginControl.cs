@@ -167,7 +167,8 @@ namespace WIN.Controls
                     {
                         //关注失败。则认为到达关注上限
                         this.StopFollowString();
-                        this.buttonExit_Click(sender, e);
+                        this.buttonStart_Click(sender, e);
+                        break;
                     }
                 }
             }
@@ -203,6 +204,7 @@ namespace WIN.Controls
 
         #region [群聊/被动互粉]
         int GroupCount = 0;
+        Random random = new Random();
         private void GroupTimer_Tick(object sender, EventArgs e)
         {
             GroupCount++;
@@ -216,11 +218,14 @@ namespace WIN.Controls
             {
                 foreach (Model.Group group in this.Groups)
                 {
-                    BLL.Weibo.SendMessage2Group(this.User.Cookies, group.Gid, "互粉秒回！永不取消！");
+                    string message = BLL.Weibo.GroupInviteFollowMe[random.Next(BLL.Weibo.GroupInviteFollowMe.Count - 1)];
+                    BLL.Weibo.SendMessage2Group(this.User.Cookies, group.Gid, message);
                 }
             }
             else if (GroupCount == 2 && this.WaitFriendFollowMeList.Count != 0) //提醒对方好友
             {
+                string atFriend = "";
+                string gid = "";
                 for(int i =0;i<this.WaitFriendFollowMeList.Count;i++)
                 {
                     //清除已回粉好友
@@ -230,13 +235,34 @@ namespace WIN.Controls
                         i--;
                         continue;
                     }
-                    //回粉提醒 三分钟以上未回
-                    TimeSpan timeSpan = DateTime.Now - this.WaitFriendFollowMeList[i].FollowTime;
-                    if (timeSpan.Minutes > 3)
+
+                    if (gid.Equals(""))
                     {
-                        string message = String.Format("@{0} 请记得回粉哟！<br><br> 此消息由@{1} 免费发布", this.WaitFriendFollowMeList[i].Fan.NickName, "小火箭互粉精灵");
-                        BLL.Weibo.SendMessage2Group(this.User.Cookies, this.WaitFriendFollowMeList[i].Gid, message);
+                        gid = this.WaitFriendFollowMeList[i].Gid;
                     }
+                    else
+                    {
+                        //回粉提醒 三分钟以上未回
+                        TimeSpan timeSpan = DateTime.Now - this.WaitFriendFollowMeList[i].FollowTime;
+                        if (timeSpan.Minutes > 3 && gid.Equals(this.WaitFriendFollowMeList[i].Gid))
+                        {
+                            atFriend += String.Format("@{0} ", this.WaitFriendFollowMeList[i].Fan.NickName);
+                        }
+                        else
+                        {
+                            string message = String.Format("@{0} 请记得回粉哟！             --此消息由@{1} 免费发布", atFriend, "小火箭互粉精灵");
+                            BLL.Weibo.SendMessage2Group(this.User.Cookies, gid, message);
+
+                            gid = this.WaitFriendFollowMeList[i].Gid;
+                            atFriend = "@" + this.WaitFriendFollowMeList[i].Fan.NickName + " ";
+                        }
+                    }
+
+                }
+                if (!atFriend.Equals(""))
+                {
+                    string message = String.Format("@{0} 请记得回粉哟！             --此消息由@{1} 免费发布", atFriend, "小火箭互粉精灵");
+                    BLL.Weibo.SendMessage2Group(this.User.Cookies, gid, message);
                 }
             }
             //回粉好友
@@ -248,6 +274,7 @@ namespace WIN.Controls
                     //关注不成功则停止
                     this.StopFollowString();
                     this.buttonStart_Click(sender, e);
+                    break;
                 }
             }
 
