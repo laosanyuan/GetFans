@@ -262,9 +262,12 @@ namespace WIN
         {
             if (!BLL.Version.CheckThisVersionIsNewest())
             {
-                Views.VersionUpdateView updateView = new Views.VersionUpdateView(BLL.Version.ClientVersion);
+                Views.VersionUpdateView updateView = new Views.VersionUpdateView(BLL.Version.NewClientVersion);
                 updateView.ShowDialog();
             }
+
+            //标题栏 显示版本号
+            this.Text = "小火箭互粉精灵 V" + BLL.Version.CurrentClientVersion();
         }
         //验证版本有效性
         private void CheckVersion()

@@ -8,7 +8,7 @@ namespace BLL
 {
     public class Version
     {
-        public static Model.ClientVersion ClientVersion; //最新版本信息
+        public static Model.ClientVersion NewClientVersion; //最新版本信息
 
         /// <summary>
         /// 获取最新版版本信息
@@ -57,9 +57,17 @@ namespace BLL
             }
             else
             {
-                ClientVersion = version;
+                NewClientVersion = version;
                 return false;
             }
+        }
+        /// <summary>
+        /// 获取当前版本版本号
+        /// </summary>
+        /// <returns></returns>
+        public static string CurrentClientVersion()
+        {
+            return DAL.ConfigRW.Version;
         }
     }
 }

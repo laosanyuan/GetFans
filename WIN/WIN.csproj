@@ -166,9 +166,7 @@
   <ItemGroup>
     <None Include="Resources\erreur.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Tools\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Rocket_128.ico" />
   </ItemGroup>

@@ -50,10 +50,17 @@ namespace WIN.Controls
 
         private void UpdateDisplay()
         {
-            BLL.Weibo.UpdateUsersFansCount(this.User);
-            this.labelNowFansCount.Text = this.User.FansCount;
-            this.labelSuccessCount.Text = (Convert.ToInt32(this.User.FansCount) - Convert.ToInt32(this.labelLoginFansCount.Text)).ToString();
-            this.labelGrouCount.Text = this.Groups.Count.ToString();
+            try
+            {
+                BLL.Weibo.UpdateUsersFansCount(this.User);
+                this.labelNowFansCount.Text = this.User.FansCount;
+                this.labelSuccessCount.Text = (Convert.ToInt32(this.User.FansCount) - Convert.ToInt32(this.labelLoginFansCount.Text)).ToString();
+                this.labelGrouCount.Text = this.Groups.Count.ToString();
+            }
+            catch
+            {
+
+            }
         }
         #endregion
 
