@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WIN.Controls
@@ -73,6 +71,7 @@ namespace WIN.Controls
             List<Model.Group> groups = BLL.ServerData.GetGroups();
             foreach (Model.Group group in groups)
             {
+                Application.DoEvents();
                 //判断是否已加入
                 if (!BLL.Weibo.IsAddedThisGroup(this.User.Cookies, group.Gid))
                 {
