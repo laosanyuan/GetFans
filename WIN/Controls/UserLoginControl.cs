@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace WIN.Controls
 {
@@ -13,10 +14,6 @@ namespace WIN.Controls
         public Model.User User { get; private set; }
 
         List<Model.Group> Groups = new List<Model.Group>();//互粉群列表
-
-        Timer FollowTimer = new Timer() { Interval = 120000 };//群聊定时(被动互粉)，2分钟
-
-        Timer UpdateGroupTimer = new Timer() { Interval = 10 };//更新群 定时器
 
         public UserLoginControl(Model.User user)
         {
@@ -28,11 +25,7 @@ namespace WIN.Controls
         #region [界面加载]
         private void UserLoginControl_Load(object sender, EventArgs e)
         {
-            //被动互粉定时器
-            FollowTimer.Tick += GroupTimer_Tick;
-            //更新群定时器
-            UpdateGroupTimer.Tick += UpdateGropuTimer_Tick;
-            this.UpdateGroupTimer.Enabled = true;
+
         }
         #endregion
 
@@ -47,7 +40,7 @@ namespace WIN.Controls
             this.labelNowFansCount.Text = User.FansCount;
             this.pictureBox1.Image = this.User.HeaderPicture;
         }
-
+        //更新界面显示
         private void UpdateDisplay()
         {
             try
@@ -64,40 +57,53 @@ namespace WIN.Controls
         }
         #endregion
 
-        #region [群列表更新]
-        //更新群列表定时器
-        private void UpdateGropuTimer_Tick(object sender, EventArgs e)
+        #region [群处理]
+        //更新群线程
+        private Thread UpdateListThread;
+        private delegate void UpdateGroupListDelegate(List<Model.Group> list);
+        private void UpdateGroupListFunction(object obj)
         {
-            this.UpdateGroupTimer.Interval = 600000;//定时十分钟
-            this.AddGroups();
-            this.UpdateGroupList();
-        }
-        //加群
-        private void AddGroups()
-        {
-            List<Model.Group> groups = BLL.ServerData.GetGroups();
-            foreach (Model.Group group in groups)
+            Model.User updateGroupUser = (Model.User)obj;
+
+            while (true)
             {
-                Application.DoEvents();
-                //判断是否已加入
-                if (!BLL.Weibo.IsAddedThisGroup(this.User.Cookies, group.Gid))
-                {
-                    BLL.Weibo.AddGroup(this.User.Cookies, group.Gid, group.Name);
-                }
+                //获取当前群列表顺序第一页群聊
+                List<Model.Group> groups = BLL.Weibo.GetGroups(updateGroupUser.Cookies);
+                //加入总列表
+                this.BeginInvoke(new UpdateGroupListDelegate(AddGroupToList) , groups);
+                Thread.Sleep(180); //三分钟更新一次
             }
         }
-        //更新群列表
-        private void UpdateGroupList()
+        private void AddGroupToList(List<Model.Group> groups)
         {
-            List<Model.Group> groups = BLL.Weibo.GetGroups(this.User.Cookies);
-            //假如总列表
             foreach (Model.Group group in groups)
             {
-                if(this.Groups.FindIndex(t => t.Gid.Equals(group.Gid)) >= 0)
+                if (this.Groups.FindIndex(t => t.Gid.Equals(group.Gid)) >= 0)
                 {
                     continue;
                 }
                 this.Groups.Add(group);
+            }
+        }
+
+        //加群线程
+        private Thread AddGroupThread;
+        private void AddGroupFunction(object obj)
+        {
+            Model.User addGroupUser = (Model.User)obj;
+
+            while (true)
+            {
+                List<Model.Group> groups = BLL.ServerData.GetGroups();
+                foreach (Model.Group group in groups)
+                {
+                    if (!BLL.Weibo.IsAddedThisGroup(addGroupUser.Cookies, group.Gid))
+                    {
+                        BLL.Weibo.AddGroup(addGroupUser.Cookies, group.Gid, group.Name);
+                    }
+                    Thread.Sleep(10000);
+                }
+                Thread.Sleep(600000); //一轮间隔10分钟
             }
         }
         #endregion
@@ -111,55 +117,104 @@ namespace WIN.Controls
                 this.buttonStart.Text = "停止";
                 this.labelBeginTime.Text = DateTime.Now.ToShortTimeString();
 
-                this.FollowTimer.Enabled = true;
-
+                this.PrepareFollow();
             }
             else
             {
                 this.buttonStart.Text = "开始";
-                this.FollowTimer.Enabled = false;
-                this.UpdateGroupTimer.Enabled = false;
+
+                this.EndFollow();
 
                 this.OptionEvent(String.Format("互粉结束，本次共互粉【{0}】个好友", this.labelSuccessCount.Text));
             }
         }
+        //开始互粉设置
+        private void PrepareFollow()
+        {
+            //开启加群线程
+            this.AddGroupThread = new Thread(new ParameterizedThreadStart(AddGroupFunction));
+            this.AddGroupThread.Start(this.User);
+            //开启更新群列表线程
+            this.UpdateListThread = new Thread(new ParameterizedThreadStart(UpdateGroupListFunction));
+            this.UpdateListThread.Start(this.User);
+            //开始群聊
+            this.GroupChatThread = new Thread(new ParameterizedThreadStart(GroupChatFunction));
+            this.GroupChatThread.Start(this.User);
+            //回粉线程
+            this.FollowFriendThread = new Thread(new ParameterizedThreadStart(FollowFriendFunction));
+            this.FollowFriendThread.Start(this.User);
+        }
+        //停止互粉设置
+        private void EndFollow()
+        {
+            //关闭加群线程
+            this.AddGroupThread.Abort();
+            //关闭更新群线程
+            this.UpdateListThread.Abort();
+            //关闭群聊线程
+            this.GroupChatThread.Abort();
+            //关闭回粉线程
+            this.FollowFriendThread.Abort();
+        }
         #endregion
 
-        #region [群聊/被动互粉]
-        int GroupCount = 0;
-        Random random = new Random();
-        private void GroupTimer_Tick(object sender, EventArgs e)
+        #region [群聊线程]
+        //群聊线程
+        private delegate List<Model.Group> GetAllGroupListDelegate();
+        private Thread GroupChatThread;
+        private Random random = new Random();
+        private void GroupChatFunction(object user)
         {
-            GroupCount++;
+            Model.User followUser = (Model.User)user;
+            while (true)
+            {
+                List<Model.Group> groupList = (List<Model.Group>)Invoke(new GetAllGroupListDelegate(GetAllGroupList));
+                int intervalTime =60000;//一分钟
 
-            if (GroupCount == 5)
-            {
-                GroupCount = 0;
-            }
-            //发送求粉消息 10分钟
-            if (GroupCount == 1)
-            {
-                foreach (Model.Group group in this.Groups)
+                for (int i = 0; i < groupList.Count; i++)
                 {
                     string message = BLL.Weibo.GroupInviteFollowMe[random.Next(BLL.Weibo.GroupInviteFollowMe.Count - 1)];
-                    BLL.Weibo.SendMessage2Group(this.User.Cookies, group.Gid, message);
+                    BLL.Weibo.SendMessage2Group(followUser.Cookies, groupList[i].Gid, message);
+                    Thread.Sleep(intervalTime);
                 }
+                Thread.Sleep(300000); //等待五分钟，开始下一轮消息
             }
-
-            //回粉好友
-            List<Model.Fan> UnfollowFans = BLL.Weibo.GetUnfollowFansList(this.User.Cookies, this.User.Uid);
-            foreach (Model.Fan fan in UnfollowFans)
+        }
+        private List<Model.Group> GetAllGroupList()
+        {
+            return this.Groups;
+        }
+        //回粉线程
+        private delegate void StopFollowDelegate();
+        private delegate void UpdateDisplayDelegate();
+        private Thread FollowFriendThread;
+        private void FollowFriendFunction(object user)
+        {
+            Model.User followUser = (Model.User)user;
+            bool isCanFollow = true;
+            while (isCanFollow)
             {
-                if (!BLL.Weibo.Follow(fan.Uid, fan.NickName, this.User.Cookies))
+                //回粉好友
+                List<Model.Fan> UnfollowFans = BLL.Weibo.GetUnfollowFansList(followUser.Cookies, followUser.Uid);
+                foreach (Model.Fan fan in UnfollowFans)
                 {
-                    //关注不成功则停止
-                    this.StopFollowString();
-                    this.buttonStart_Click(sender, e);
-                    break;
+                    if (!BLL.Weibo.Follow(fan.Uid, fan.NickName, followUser.Cookies))
+                    {
+                        //关注不成功则停止
+                        this.BeginInvoke(new StopFollowDelegate(StopFollowFunction));
+                        isCanFollow = false;
+                        break;
+                    }
+                    Thread.Sleep(10000);
                 }
+                this.Invoke(new UpdateDisplayDelegate(UpdateDisplay)); //更新显示
+                Thread.Sleep(120000);//间隔2分钟
             }
-
-            this.UpdateDisplay();
+        }
+        private void StopFollowFunction()
+        {
+            this.StopFollowString();
+            this.buttonStart_Click(new object(), new EventArgs());
         }
         #endregion
 
