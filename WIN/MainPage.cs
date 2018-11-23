@@ -287,6 +287,7 @@ namespace WIN
             //如果存在未退出的賬號，則分別上傳群信息
             foreach (UserLoginControl control in this.panelWeibo.Controls)
             {
+                control.EndFollow();
                 control.SendGroupToServer();
             }
         }

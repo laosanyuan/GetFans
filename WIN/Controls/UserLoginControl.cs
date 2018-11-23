@@ -145,7 +145,7 @@ namespace WIN.Controls
             this.FollowFriendThread.Start(this.User);
         }
         //停止互粉设置
-        private void EndFollow()
+        public void EndFollow()
         {
             //关闭加群线程
             this.AddGroupThread.Abort();
@@ -231,6 +231,8 @@ namespace WIN.Controls
         private void buttonExit_Click(object sender, EventArgs e)
         {
             this.SendGroupToServer();
+
+            this.EndFollow();
             //退出登录事件
             this.ExitWeiboEvent(this);
         }
