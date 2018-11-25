@@ -214,6 +214,8 @@ namespace WIN.Controls
         private void StopFollowFunction()
         {
             this.StopFollowString();
+            //系统提示音
+            System.Media.SystemSounds.Hand.Play();
             this.buttonStart_Click(new object(), new EventArgs());
         }
         #endregion
