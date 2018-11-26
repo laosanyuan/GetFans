@@ -78,9 +78,9 @@
             this.skinTextBox1.IsPasswordChat = '\0';
             this.skinTextBox1.IsSystemPasswordChar = false;
             this.skinTextBox1.Lines = new string[0];
-            this.skinTextBox1.Location = new System.Drawing.Point(95, 117);
+            this.skinTextBox1.Location = new System.Drawing.Point(95, 126);
             this.skinTextBox1.Margin = new System.Windows.Forms.Padding(0);
-            this.skinTextBox1.MaxLength = 30;
+            this.skinTextBox1.MaxLength = 40;
             this.skinTextBox1.MinimumSize = new System.Drawing.Size(28, 28);
             this.skinTextBox1.MouseBack = null;
             this.skinTextBox1.MouseState = CCWin.SkinClass.ControlState.Normal;
@@ -90,27 +90,28 @@
             this.skinTextBox1.Padding = new System.Windows.Forms.Padding(5);
             this.skinTextBox1.ReadOnly = false;
             this.skinTextBox1.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.skinTextBox1.Size = new System.Drawing.Size(310, 39);
+            this.skinTextBox1.Size = new System.Drawing.Size(310, 30);
             // 
             // 
             // 
             this.skinTextBox1.SkinTxt.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.skinTextBox1.SkinTxt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.skinTextBox1.SkinTxt.Font = new System.Drawing.Font("楷体", 18F);
+            this.skinTextBox1.SkinTxt.Font = new System.Drawing.Font("楷体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(1)), true);
             this.skinTextBox1.SkinTxt.Location = new System.Drawing.Point(5, 5);
-            this.skinTextBox1.SkinTxt.MaxLength = 30;
+            this.skinTextBox1.SkinTxt.MaxLength = 40;
             this.skinTextBox1.SkinTxt.Multiline = true;
             this.skinTextBox1.SkinTxt.Name = "BaseText";
-            this.skinTextBox1.SkinTxt.Size = new System.Drawing.Size(300, 29);
+            this.skinTextBox1.SkinTxt.Size = new System.Drawing.Size(300, 20);
             this.skinTextBox1.SkinTxt.TabIndex = 0;
             this.skinTextBox1.SkinTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.skinTextBox1.SkinTxt.WaterColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(127)))), ((int)(((byte)(127)))));
             this.skinTextBox1.SkinTxt.WaterText = "";
+            this.skinTextBox1.SkinTxt.WordWrap = false;
             this.skinTextBox1.TabIndex = 0;
             this.skinTextBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.skinTextBox1.WaterColor = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(127)))), ((int)(((byte)(127)))));
             this.skinTextBox1.WaterText = "";
-            this.skinTextBox1.WordWrap = true;
+            this.skinTextBox1.WordWrap = false;
             // 
             // buttonOK
             // 
