@@ -169,7 +169,7 @@ namespace WIN.Controls
             while (true)
             {
                 List<Model.Group> groupList = (List<Model.Group>)Invoke(new GetAllGroupListDelegate(GetAllGroupList));
-                int intervalTime =60000;//一分钟
+                int intervalTime =3000;//三秒
 
                 for (int i = 0; i < groupList.Count; i++)
                 {
@@ -177,7 +177,7 @@ namespace WIN.Controls
                     BLL.Weibo.SendMessage2Group(followUser.Cookies, groupList[i].Gid, message);
                     Thread.Sleep(intervalTime);
                 }
-                Thread.Sleep(300000); //等待五分钟，开始下一轮消息
+                Thread.Sleep(120000); //等待2分钟，开始下一轮消息
             }
         }
         private List<Model.Group> GetAllGroupList()
