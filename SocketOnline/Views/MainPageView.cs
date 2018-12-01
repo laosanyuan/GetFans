@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SocketOnline
+namespace SocketOnline.Views
 {
-    public partial class Form1 : Form
+    public partial class MainPageView : Form
     {
-        public Form1()
+        public MainPageView()
         {
             InitializeComponent();
         }
