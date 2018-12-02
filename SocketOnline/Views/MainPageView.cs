@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Model;
 
 namespace SocketOnline.Views
 {
@@ -21,6 +22,7 @@ namespace SocketOnline.Views
         #region [界面加载]
         private void MainPageView_Load(object sender, EventArgs e)
         {
+            //账号登录线程
             Thread getUsersthread = new Thread(new ThreadStart(UpdateUserList));
             getUsersthread.Start();
         }
@@ -67,6 +69,9 @@ namespace SocketOnline.Views
                                     }
 
                                     Program.OnlineUsers.Add(user);
+
+                                    //更新显示列表
+                                    this.BeginInvoke(new UpdateListDelegate(UpdateListFunction));
                                 }
                                 //登陆成功
                                 break;
@@ -104,6 +109,10 @@ namespace SocketOnline.Views
                                         }
 
                                         Program.OnlineUsers.Add(user);
+
+                                        //更新显示列表
+                                        this.BeginInvoke(new UpdateListDelegate(UpdateListFunction));
+
                                         break;
                                     }
                                     else
@@ -131,11 +140,28 @@ namespace SocketOnline.Views
             }
         }
 
+
         //处理登录失败问题
         static void ResolveLoginErr(string message)
         {
 
         }
+        #endregion
+        private delegate void UpdateListDelegate();
+        private void UpdateListFunction()
+        {
+            foreach (OnlineUser user in Program.OnlineUsers)
+            {
+                this.dataGridView1.Rows.Add(user.Number.ToString(),
+                    user.UserName,
+                    user.NickName,
+                    user.StartTime.ToString(),
+                    user.EndTime.ToString(),
+                    user.Email);
+            }
+        }
+        #region [更新界面显示]
+
         #endregion
     }
 }
