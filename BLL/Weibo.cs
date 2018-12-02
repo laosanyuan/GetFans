@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
@@ -160,6 +161,51 @@ namespace BLL
         }
         #endregion
 
+        #region [更新cookies]
+        public static CookieContainer UpdateCookies()
+        {
+            return null;
+        }
+
+        //云打码参数 暂用
+        private static int YunDaMaAppId = 5826;
+        private static string YunDaMaAppKey = "0025c106cd2868a094253c9fb40a8982";
+        private static int YunDaMaCodeType = 1005;
+        private static int YunDaMaTimeOut = 60;
+        private static string YunDaMaUserName = "18842634483";
+        private static string YunDaMaPassword = "yuan123456_";
+
+        /// <summary>
+        /// 解码验证码
+        /// </summary>
+        /// <param name="img">验证码图</param>
+        /// <param name="resultId">返回码</param>
+        /// <returns>解码结果</returns>
+        public static string DecodeCheckCode(Image img, out int resultId)
+        {
+            StringBuilder pCodeResult = new StringBuilder(new string(' ', 30));
+
+            //保存文件到本地
+            string jpgPath = System.Environment.CurrentDirectory + "\\CheckImage\\code.jpg";
+            if (!Directory.Exists(System.Environment.CurrentDirectory + "\\CheckImage"))//若文件夹不存在则新建文件夹   
+            {
+                Directory.CreateDirectory(System.Environment.CurrentDirectory + "\\CheckImage"); //新建文件夹   
+            }
+            img.Save(jpgPath, img.RawFormat);
+
+            //解码
+            resultId = DAL.YunDaMaHelper.YDM_EasyDecodeByPath(YunDaMaUserName, YunDaMaPassword, YunDaMaAppId, YunDaMaAppKey, jpgPath, YunDaMaCodeType, YunDaMaTimeOut, pCodeResult);
+
+            if (resultId > 0)
+            {
+                return pCodeResult.ToString();
+            }
+            else
+            {
+                return "";
+            }
+        }
+        #endregion
 
         #region [聊天内容]
         //聊天内容

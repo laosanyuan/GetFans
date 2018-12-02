@@ -56,6 +56,7 @@
     <Compile Include="ScriptEngine.cs" />
     <Compile Include="WebAPI.cs" />
     <Compile Include="Weibo.cs" />
+    <Compile Include="YunDaMaHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">

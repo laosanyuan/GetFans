@@ -48,6 +48,7 @@
     <Compile Include="Group.cs" />
     <Compile Include="GroupFriend.cs" />
     <Compile Include="LoginParameter.cs" />
+    <Compile Include="OnlineUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="User.cs" />
     <Compile Include="WebMessage.cs" />
