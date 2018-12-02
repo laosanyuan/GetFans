@@ -147,6 +147,7 @@ namespace SocketOnline.Views
 
         }
         #endregion
+        #region [更新界面显示]
         private delegate void UpdateListDelegate();
         private void UpdateListFunction()
         {
@@ -158,9 +159,26 @@ namespace SocketOnline.Views
                     user.StartTime.ToString(),
                     user.EndTime.ToString(),
                     user.Email);
+
+                this.UpdateOutputMessage(String.Format("账号[{0}]登陆成功！", user.NickName));
             }
         }
-        #region [更新界面显示]
+
+        //更新输出提示
+        private void UpdateOutputMessage(string message)
+        {
+            this.UpdateOutputMessage(new string[] { message });
+        }
+        private void UpdateOutputMessage(string[] messages)
+        {
+            string timeStr = DateTime.Now.ToString();
+            this.richTextBox1.Text += timeStr + ":" + System.Environment.NewLine;
+
+            foreach (string str in messages)
+            {
+                this.richTextBox1.Text += str + Environment.NewLine;
+            }
+        }
 
         #endregion
     }
