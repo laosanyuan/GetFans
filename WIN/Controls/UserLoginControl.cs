@@ -174,7 +174,14 @@ namespace WIN.Controls
                 for (int i = 0; i < groupList.Count; i++)
                 {
                     string message = BLL.Weibo.GroupInviteFollowMe[random.Next(BLL.Weibo.GroupInviteFollowMe.Count - 1)];
-                    BLL.Weibo.SendMessage2Group(followUser.Cookies, groupList[i].Gid, message);
+                    try
+                    {
+                        BLL.Weibo.SendMessage2Group(followUser.Cookies, groupList[i].Gid, message);
+                    }
+                    catch
+                    {
+                        //
+                    }
                     Thread.Sleep(intervalTime);
                 }
                 Thread.Sleep(120000); //等待2分钟，开始下一轮消息
