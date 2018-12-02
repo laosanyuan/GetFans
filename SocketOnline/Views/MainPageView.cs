@@ -28,7 +28,6 @@ namespace SocketOnline.Views
         }
         #endregion
 
-
         #region [登录账号]
         //获取登陆用户线程
         private void UpdateUserList()

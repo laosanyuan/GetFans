@@ -17,6 +17,8 @@ namespace SocketOnline
         static void Main()
         {
             OnlineUsers = new List<Model.OnlineUser>();
+            //初始化数据库
+            BLL.DataBase.InitDataBase();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
