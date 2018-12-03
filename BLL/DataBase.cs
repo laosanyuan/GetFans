@@ -18,5 +18,14 @@ namespace BLL
             //创建user表
             DAL.OnlineSQLiteHelper.CreateUsersTable();
         }
+
+        /// <summary>
+        /// 向数据库中插入一条用户信息
+        /// </summary>
+        /// <param name="user"></param>
+        public static void InsertUser(Model.OnlineUser user)
+        {
+            DAL.OnlineSQLiteHelper.InsertUser(user);
+        }
     }
 }

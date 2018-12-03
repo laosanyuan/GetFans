@@ -52,6 +52,7 @@ namespace SocketOnline.Views
                                 }
                                 else
                                 {
+                                    //登陆成功
                                     user.NickName = loginUser.NickName;
                                     user.Uid = loginUser.Uid;
                                     user.Cookies = loginUser.Cookies;
@@ -68,11 +69,12 @@ namespace SocketOnline.Views
                                     }
 
                                     Program.OnlineUsers.Add(user);
+                                    //插入数据库
+                                    BLL.DataBase.InsertUser(user);
 
                                     //更新显示列表
                                     this.BeginInvoke(new UpdateListDelegate(UpdateListFunction));
                                 }
-                                //登陆成功
                                 break;
                             case "2070":
                             case "4096":
@@ -108,7 +110,8 @@ namespace SocketOnline.Views
                                         }
 
                                         Program.OnlineUsers.Add(user);
-
+                                        //插入数据库
+                                        BLL.DataBase.InsertUser(user);
                                         //更新显示列表
                                         this.BeginInvoke(new UpdateListDelegate(UpdateListFunction));
 
@@ -138,7 +141,6 @@ namespace SocketOnline.Views
                 Thread.Sleep(600000); //十分钟间隔
             }
         }
-
 
         //处理登录失败问题
         static void ResolveLoginErr(string message)

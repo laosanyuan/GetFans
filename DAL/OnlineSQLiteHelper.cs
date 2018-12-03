@@ -61,7 +61,47 @@ namespace DAL
                     command.CommandText = "Create Table users (number varchar(200),username varchar(200),password varchar(200),nickname varchar(200),uid varchar(200),starttime varchar(200),endtime varchar(200),email varchar(200))";
                     command.ExecuteNonQuery();
                 }
+            }
+            connection.Close();
+        }
 
+        /// <summary>
+        /// 向数据库中插入一条用户数据
+        /// </summary>
+        /// <param name="user"></param>
+        public static void InsertUser(Model.OnlineUser user)
+        {
+            SQLiteConnection connection = DataBaseConnection();
+
+            if (connection.State != System.Data.ConnectionState.Open)
+            {
+                connection.Open();
+                SQLiteCommand command = new SQLiteCommand();
+                command.Connection = connection;
+
+                //确认是否已存在
+                command.CommandText = String.Format( "SELECT COUNT(*) From users WHERE username = '{0}'",user.UserName) ;
+                command.ExecuteNonQuery();
+                SQLiteDataReader reader = command.ExecuteReader();
+                reader.Read();
+                int count = reader.GetInt32(0);
+                reader.Close();
+
+                if (count == 0)
+                {
+                    //添加
+                    command.CommandText = String.Format("INSERT INTO users VALUES('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}')",
+                        user.Number, user.UserName, user.Password, user.NickName, user.Uid, user.StartTime, user.EndTime, user.Email);
+                    command.ExecuteNonQuery();
+                }
+                else
+                {
+                    //更新
+                    command.CommandText = String.Format("UPDTAE users SET number = '{0}',password = '{1}',nickname = '{2}',starttime = '{3}',endtime = '{4}',email = '{5}' WHERE username = '{6}'",
+                        user.Number, user.Password, user.NickName, user.StartTime, user.EndTime, user.Email, user.UserName);
+                    command.ExecuteNonQuery();
+
+                }
             }
             connection.Close();
         }
