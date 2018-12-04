@@ -106,7 +106,7 @@
             this.buttonLogin.Name = "buttonLogin";
             this.buttonLogin.Size = new System.Drawing.Size(75, 30);
             this.buttonLogin.TabIndex = 6;
-            this.buttonLogin.Text = "确定";
+            this.buttonLogin.Text = "忽略";
             this.buttonLogin.UseVisualStyleBackColor = true;
             this.buttonLogin.Click += new System.EventHandler(this.buttonLogin_Click);
             // 
