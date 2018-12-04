@@ -22,19 +22,39 @@ namespace SocketOnline.Views
         #region [界面加载]
         private void MainPageView_Load(object sender, EventArgs e)
         {
-            //账号登录线程
+            //数据库账号登录线程
+            Thread getDBUser = new Thread(new ThreadStart(GetStartUserList));
+            getDBUser.Start();
+            //账号在线获取、登录线程
             Thread getUsersthread = new Thread(new ThreadStart(UpdateUserList));
             getUsersthread.Start();
         }
         #endregion
 
         #region [登录账号]
-        //获取登陆用户线程
+        //从网页获取登陆用户线程
         private void UpdateUserList()
         {
             while (true)
             {
                 List<Model.OnlineUser> users = BLL.OnlineUserHelper.GetOnlineUserList();
+                //登录
+                LoginUser(users);
+                Thread.Sleep(600000); //十分钟间隔
+            }
+        }
+        //从数据库获取登录用户线程
+        private void GetStartUserList()
+        {
+            List<Model.OnlineUser> onlineUsers = BLL.DataBase.GetLoginUsers();
+            LoginUser(onlineUsers);
+        }
+        //登录账号
+        object lockObject = new object();
+        private void LoginUser(List<Model.OnlineUser> users)
+        {
+            lock (lockObject)
+            {
                 if (users.Count != 0)
                 {
                     //登陆并更新cookie
@@ -91,7 +111,7 @@ namespace SocketOnline.Views
                                     }
 
                                     //验证码登录
-                                    result = BLL.Weibo.StartLogin(loginUser,checkStr);
+                                    result = BLL.Weibo.StartLogin(loginUser, checkStr);
                                     if (result.Equals("0"))
                                     {
                                         user.NickName = loginUser.NickName;
@@ -124,7 +144,7 @@ namespace SocketOnline.Views
                                 }
                                 if (String.IsNullOrEmpty(user.NickName))
                                 {
-                                    ResolveLoginErr(user.UserName +" 五次解码全部失败,登录失败！");
+                                    ResolveLoginErr(user.UserName + " 五次解码全部失败,登录失败！");
                                 }
                                 break;
                             case "101&":
@@ -138,20 +158,21 @@ namespace SocketOnline.Views
                         }
                     }
                 }
-                Thread.Sleep(600000); //十分钟间隔
             }
         }
-
         //处理登录失败问题
         static void ResolveLoginErr(string message)
         {
 
         }
         #endregion
+
         #region [更新界面显示]
         private delegate void UpdateListDelegate();
         private void UpdateListFunction()
         {
+            this.dataGridView1.Rows.Clear();
+
             foreach (OnlineUser user in Program.OnlineUsers)
             {
                 this.dataGridView1.Rows.Add(user.Number.ToString(),

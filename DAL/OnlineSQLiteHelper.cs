@@ -97,13 +97,46 @@ namespace DAL
                 else
                 {
                     //更新
-                    command.CommandText = String.Format("UPDTAE users SET number = '{0}',password = '{1}',nickname = '{2}',starttime = '{3}',endtime = '{4}',email = '{5}' WHERE username = '{6}'",
+                    command.CommandText = String.Format("UPDATE users SET number = '{0}',password = '{1}',nickname = '{2}',starttime = '{3}',endtime = '{4}',email = '{5}' WHERE username = '{6}'",
                         user.Number, user.Password, user.NickName, user.StartTime, user.EndTime, user.Email, user.UserName);
                     command.ExecuteNonQuery();
 
                 }
             }
             connection.Close();
+        }
+
+        public static List<Model.OnlineUser> GetLoginUsers()
+        {
+            List<Model.OnlineUser> users = new List<Model.OnlineUser>();
+            SQLiteConnection connection = DataBaseConnection();
+
+            if (connection.State != System.Data.ConnectionState.Open)
+            {
+                connection.Open();
+                SQLiteCommand command = new SQLiteCommand();
+                command.Connection = connection;
+
+                //获取end日期在现在之后的内容 , 现在是全部
+                command.CommandText =String.Format("SELECT * FROM users");
+                command.ExecuteNonQuery();
+                SQLiteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Model.OnlineUser user = new Model.OnlineUser();
+                    user.Number = Convert.ToInt32(reader.GetString(0));
+                    user.UserName = reader.GetString(1);
+                    user.Password = reader.GetString(2);
+                    user.NickName = reader.GetString(3);
+                    user.Uid = reader.GetString(4);
+                    user.StartTime = Convert.ToDateTime(reader.GetString(5));
+                    user.EndTime = Convert.ToDateTime(reader.GetString(6));
+                    user.Email = reader.GetString(7);
+                    users.Add(user);
+                }
+            }
+            connection.Close();
+            return users;
         }
     }
 }

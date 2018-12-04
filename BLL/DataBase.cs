@@ -27,5 +27,10 @@ namespace BLL
         {
             DAL.OnlineSQLiteHelper.InsertUser(user);
         }
+
+        public static List<Model.OnlineUser> GetLoginUsers()
+        {
+            return DAL.OnlineSQLiteHelper.GetLoginUsers();
+        }
     }
 }
