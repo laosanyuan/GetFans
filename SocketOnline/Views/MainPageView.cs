@@ -24,9 +24,11 @@ namespace SocketOnline.Views
         {
             //数据库账号登录线程
             Thread getDBUser = new Thread(new ThreadStart(GetStartUserList));
+            getDBUser.IsBackground = true;
             getDBUser.Start();
             //账号在线获取、登录线程
             Thread getUsersthread = new Thread(new ThreadStart(UpdateUserList));
+            getUsersthread.IsBackground = true;
             getUsersthread.Start();
         }
         #endregion
