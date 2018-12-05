@@ -81,16 +81,16 @@ namespace SocketOnline.Views
 
                                     user.LoginTime = DateTime.Now;
 
-                                    if (Program.OnlineUsers.Count == 0)
+                                    if (Program.Users.Count == 0)
                                     {
                                         user.Number = 1;
                                     }
                                     else
                                     {
-                                        user.Number = Program.OnlineUsers.Last().Number + 1;
+                                        user.Number = Program.Users.Last().User.Number + 1;
                                     }
 
-                                    Program.OnlineUsers.Add(user);
+                                    Program.Users.Add(new Entity.UserEntity(user));
                                     //插入数据库
                                     BLL.DataBase.InsertUser(user);
 
@@ -122,16 +122,16 @@ namespace SocketOnline.Views
 
                                         user.LoginTime = DateTime.Now;
 
-                                        if (Program.OnlineUsers.Count == 0)
+                                        if (Program.Users.Count == 0)
                                         {
                                             user.Number = 1;
                                         }
                                         else
                                         {
-                                            user.Number = Program.OnlineUsers.Last().Number + 1;
+                                            user.Number = Program.Users.Last().User.Number + 1;
                                         }
 
-                                        Program.OnlineUsers.Add(user);
+                                        Program.Users.Add(new Entity.UserEntity(user));
                                         //插入数据库
                                         BLL.DataBase.InsertUser(user);
                                         //更新显示列表
