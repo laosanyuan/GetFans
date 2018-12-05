@@ -95,7 +95,7 @@ namespace SocketOnline.Views
                                     BLL.DataBase.InsertUser(user);
 
                                     //更新显示列表
-                                    this.BeginInvoke(new UpdateListDelegate(UpdateListFunction));
+                                    this.BeginInvoke(new UpdateListDelegate(UpdateListFunction),user);
                                 }
                                 break;
                             case "2070":
@@ -135,7 +135,7 @@ namespace SocketOnline.Views
                                         //插入数据库
                                         BLL.DataBase.InsertUser(user);
                                         //更新显示列表
-                                        this.BeginInvoke(new UpdateListDelegate(UpdateListFunction));
+                                        this.BeginInvoke(new UpdateListDelegate(UpdateListFunction),user);
 
                                         break;
                                     }
@@ -170,22 +170,17 @@ namespace SocketOnline.Views
         #endregion
 
         #region [更新界面显示]
-        private delegate void UpdateListDelegate();
-        private void UpdateListFunction()
+        private delegate void UpdateListDelegate(Model.OnlineUser user);
+        private void UpdateListFunction(Model.OnlineUser user)
         {
-            this.dataGridView1.Rows.Clear();
+            this.dataGridView1.Rows.Add(user.Number.ToString(),
+                user.UserName,
+                user.NickName,
+                user.StartTime.ToString(),
+                user.EndTime.ToString(),
+                user.Email);
 
-            foreach (OnlineUser user in Program.OnlineUsers)
-            {
-                this.dataGridView1.Rows.Add(user.Number.ToString(),
-                    user.UserName,
-                    user.NickName,
-                    user.StartTime.ToString(),
-                    user.EndTime.ToString(),
-                    user.Email);
-
-                this.UpdateOutputMessage(String.Format("账号[{0}]登陆成功！", user.NickName));
-            }
+            this.UpdateOutputMessage(String.Format("账号[{0}]登陆成功！", user.NickName));
         }
 
         //更新输出提示
