@@ -24,6 +24,11 @@ namespace SocketOnline.Entity
         private void TimerCallBackFunction(object state)
         {
             HourCount++;
+            //晚上23：00-早8：00不启动
+            if (DateTime.Now.Hour > 23 || DateTime.Now.Hour < 8)
+            {
+                return;
+            }
             if (HourCount >= 24)
             {
                 //开启互粉线程
@@ -38,6 +43,8 @@ namespace SocketOnline.Entity
                 //加群线程开启
                 this.AddGroupThread = new Thread(new ParameterizedThreadStart(AddGroupThreadFuntion));
                 this.AddGroupThread.Start(this.User);
+
+                HourCount = 0;
             }
         }
         //关闭所有线程
