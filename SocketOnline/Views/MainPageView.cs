@@ -24,9 +24,11 @@ namespace SocketOnline.Views
         {
             //数据库账号登录线程
             Thread getDBUser = new Thread(new ThreadStart(GetStartUserList));
+            getDBUser.IsBackground = true;
             getDBUser.Start();
             //账号在线获取、登录线程
             Thread getUsersthread = new Thread(new ThreadStart(UpdateUserList));
+            getUsersthread.IsBackground = true;
             getUsersthread.Start();
         }
         #endregion
@@ -79,21 +81,21 @@ namespace SocketOnline.Views
 
                                     user.LoginTime = DateTime.Now;
 
-                                    if (Program.OnlineUsers.Count == 0)
+                                    if (Program.Users.Count == 0)
                                     {
                                         user.Number = 1;
                                     }
                                     else
                                     {
-                                        user.Number = Program.OnlineUsers.Last().Number + 1;
+                                        user.Number = Program.Users.Last().User.Number + 1;
                                     }
 
-                                    Program.OnlineUsers.Add(user);
+                                    Program.Users.Add(new Entity.UserEntity(user));
                                     //插入数据库
                                     BLL.DataBase.InsertUser(user);
 
                                     //更新显示列表
-                                    this.BeginInvoke(new UpdateListDelegate(UpdateListFunction));
+                                    this.BeginInvoke(new UpdateListDelegate(UpdateListFunction),user);
                                 }
                                 break;
                             case "2070":
@@ -120,20 +122,20 @@ namespace SocketOnline.Views
 
                                         user.LoginTime = DateTime.Now;
 
-                                        if (Program.OnlineUsers.Count == 0)
+                                        if (Program.Users.Count == 0)
                                         {
                                             user.Number = 1;
                                         }
                                         else
                                         {
-                                            user.Number = Program.OnlineUsers.Last().Number + 1;
+                                            user.Number = Program.Users.Last().User.Number + 1;
                                         }
 
-                                        Program.OnlineUsers.Add(user);
+                                        Program.Users.Add(new Entity.UserEntity(user));
                                         //插入数据库
                                         BLL.DataBase.InsertUser(user);
                                         //更新显示列表
-                                        this.BeginInvoke(new UpdateListDelegate(UpdateListFunction));
+                                        this.BeginInvoke(new UpdateListDelegate(UpdateListFunction),user);
 
                                         break;
                                     }
@@ -168,22 +170,17 @@ namespace SocketOnline.Views
         #endregion
 
         #region [更新界面显示]
-        private delegate void UpdateListDelegate();
-        private void UpdateListFunction()
+        private delegate void UpdateListDelegate(Model.OnlineUser user);
+        private void UpdateListFunction(Model.OnlineUser user)
         {
-            this.dataGridView1.Rows.Clear();
+            this.dataGridView1.Rows.Add(user.Number.ToString(),
+                user.UserName,
+                user.NickName,
+                user.StartTime.ToString(),
+                user.EndTime.ToString(),
+                user.Email);
 
-            foreach (OnlineUser user in Program.OnlineUsers)
-            {
-                this.dataGridView1.Rows.Add(user.Number.ToString(),
-                    user.UserName,
-                    user.NickName,
-                    user.StartTime.ToString(),
-                    user.EndTime.ToString(),
-                    user.Email);
-
-                this.UpdateOutputMessage(String.Format("账号[{0}]登陆成功！", user.NickName));
-            }
+            this.UpdateOutputMessage(String.Format("账号[{0}]登陆成功！", user.NickName));
         }
 
         //更新输出提示

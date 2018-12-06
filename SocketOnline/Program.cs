@@ -8,7 +8,7 @@ namespace SocketOnline
 {
     static class Program
     {
-        public static List<Model.OnlineUser> OnlineUsers { get; set; } //所有登陆用户
+        public static List<Entity.UserEntity> Users { get; set; } //所有登陆用户
 
         /// <summary>
         /// 应用程序的主入口点。
@@ -16,7 +16,7 @@ namespace SocketOnline
         [STAThread]
         static void Main()
         {
-            OnlineUsers = new List<Model.OnlineUser>();
+            Users = new List<Entity.UserEntity>();
             //初始化数据库
             BLL.DataBase.InitDataBase();
 
