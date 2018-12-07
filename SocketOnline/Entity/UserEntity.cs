@@ -27,6 +27,13 @@ namespace SocketOnline.Entity
         private void TimerCallBackFunction(object state)
         {
             HourCount++;
+
+            //每隔20小时更新cookie
+            if (HourCount == 20)
+            {
+                User.Cookies = BLL.Weibo.UpdateCookies(User.UserName, User.Password);
+            }
+
             //晚上23：00-早8：00不启动
             if (DateTime.Now.Hour > 23 || DateTime.Now.Hour < 8)
             {

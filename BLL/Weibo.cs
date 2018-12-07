@@ -162,8 +162,20 @@ namespace BLL
         #endregion
 
         #region [更新cookies]
-        public static CookieContainer UpdateCookies()
+        public static CookieContainer UpdateCookies(string userName ,string password)
         {
+            Model.User user = PrepareLogin(userName, password);
+            if (StartLogin(user).Equals("0"))
+            {
+                return user.Cookies;
+            }
+            else
+            {
+                Image image = GetCodeImage(user);
+                //解码
+
+
+            }
             return null;
         }
 
@@ -172,8 +184,8 @@ namespace BLL
         private static string YunDaMaAppKey = "0025c106cd2868a094253c9fb40a8982";
         private static int YunDaMaCodeType = 1005;
         private static int YunDaMaTimeOut = 60;
-        private static string YunDaMaUserName = "18842634483";
-        private static string YunDaMaPassword = "yuan123456_";
+        private static string YunDaMaUserName = DAL.ConfigRW.YunDaMaUserName;
+        private static string YunDaMaPassword = DAL.ConfigRW.YunDaMaPassword;
 
         /// <summary>
         /// 解码验证码

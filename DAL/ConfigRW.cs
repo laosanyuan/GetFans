@@ -31,8 +31,24 @@ namespace DAL
         }
         #endregion
 
-        //获取帮助页面
-        public static string HelpPath //序列号
+        #region [云打码]
+        public static string YunDaMaUserName
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["YunDaMaUserName"];
+            }
+        }
+        public static string YunDaMaPassword
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["YunDaMaPassword"];
+            }
+        }
+        #endregion
+
+        public static string HelpPath //帮助页面路径
         {
             get
             {
@@ -48,6 +64,8 @@ namespace DAL
                 return versionInfo.ProductVersion;
             }
         }
+
+
 
     }
 }
