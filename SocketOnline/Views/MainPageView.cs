@@ -30,7 +30,11 @@ namespace SocketOnline.Views
             Thread getUsersthread = new Thread(new ThreadStart(UpdateUserList));
             getUsersthread.IsBackground = true;
             getUsersthread.Start();
+            //开启邮件定时器
+            this.EmailTimer.Tick += EmailTimer_Tick;
+            this.EmailTimer.Enabled = true;
         }
+
         #endregion
 
         #region [登录账号]
@@ -198,6 +202,25 @@ namespace SocketOnline.Views
                 this.richTextBox1.Text += str + Environment.NewLine;
             }
         }
+
+        #endregion
+
+        #region [邮件报告]
+        System.Windows.Forms.Timer EmailTimer = new System.Windows.Forms.Timer() { Interval = 3600000 };//定时一小时
+        private void EmailTimer_Tick(object sender, EventArgs e)
+        {
+            //20:00发送邮件
+            if (DateTime.Now.Hour == 20)
+            {
+                //发送用户邮件
+                foreach (Entity.UserEntity user in Program.Users)
+                {
+
+                }
+                //发送日报邮件
+            }
+        }
+
 
         #endregion
     }
