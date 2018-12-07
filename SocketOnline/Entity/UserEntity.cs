@@ -34,6 +34,8 @@ namespace SocketOnline.Entity
             }
             if (HourCount >= 24)
             {
+                //关闭线程
+                this.StopThread();
                 //开启互粉线程
                 this.FollowThread = new Thread(new ParameterizedThreadStart(FollowThreadFunction));
                 this.FollowThread.Start(this.User);
@@ -84,6 +86,12 @@ namespace SocketOnline.Entity
                 }
                 //this.Invoke(new UpdateDisplayDelegate(UpdateDisplay)); //更新显示
                 Thread.Sleep(120000);//间隔2分钟
+
+                //停止互粉时间段
+                if (DateTime.Now.Hour >= 23 || DateTime.Now.Hour < 8)
+                {
+                    this.StopThread();
+                }
             }
         }
         #endregion
