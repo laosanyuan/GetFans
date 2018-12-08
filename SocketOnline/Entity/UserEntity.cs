@@ -45,15 +45,19 @@ namespace SocketOnline.Entity
                 this.StopThread();
                 //开启互粉线程
                 this.FollowThread = new Thread(new ParameterizedThreadStart(FollowThreadFunction));
+                this.FollowThread.IsBackground = true;
                 this.FollowThread.Start(this.User);
                 //群聊线程
                 this.GroupChatThread = new Thread(new ParameterizedThreadStart(GroupChatThreadFunction));
+                this.GroupChatThread.IsBackground = true;
                 this.GroupChatThread.Start(this.User);
                 //群列表更新线程
                 this.UpdateGroupListThread = new Thread(new ParameterizedThreadStart(UpdateGroupListThreadFuntion));
+                this.UpdateGroupListThread.IsBackground = true;
                 this.UpdateGroupListThread.Start(this.User);
                 //加群线程开启
                 this.AddGroupThread = new Thread(new ParameterizedThreadStart(AddGroupThreadFuntion));
+                this.AddGroupThread.IsBackground = true;
                 this.AddGroupThread.Start(this.User);
 
                 HourCount = 0;
@@ -62,10 +66,17 @@ namespace SocketOnline.Entity
         //关闭所有线程
         private void StopThread()
         {
-            this.FollowThread.Abort();
-            this.GroupChatThread.Abort();
-            this.UpdateGroupListThread.Abort();
-            this.AddGroupThread.Abort();
+            try
+            {
+                this.FollowThread.Abort();
+                this.GroupChatThread.Abort();
+                this.UpdateGroupListThread.Abort();
+                this.AddGroupThread.Abort();
+            }
+            catch
+            {
+                //关闭线程失败
+            }
         }
         #endregion
 

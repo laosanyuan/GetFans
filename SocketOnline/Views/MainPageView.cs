@@ -109,7 +109,7 @@ namespace SocketOnline.Views
                                 for (int i = 0; i < 5; i++)
                                 {
                                     Image checkCodeImage = BLL.Weibo.GetCodeImage(loginUser);
-                                    string checkStr = BLL.Weibo.DecodeCheckCode(checkCodeImage, out int resultId);
+                                    string checkStr = BLL.CheckCode.DecodeCheckCode(checkCodeImage, out int resultId);
 
                                     if (checkStr.Equals("")) //解码失败
                                     {

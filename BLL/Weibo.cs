@@ -42,6 +42,54 @@ namespace BLL
         {
             return DAL.Weibo.StartLogin(user, door);
         }
+        /// <summary>
+        /// 更新cookies
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public static CookieContainer UpdateCookies(string userName ,string password)
+        {
+            Model.User user = PrepareLogin(userName, password);
+            if (StartLogin(user).Equals("0"))
+            {
+                return user.Cookies;
+            }
+            else
+            {
+                bool isSuccess = false;
+                //解码
+                for (int i = 0; i < 5; i++)
+                {
+                    Image image = GetCodeImage(user);
+                    string code = BLL.CheckCode.DecodeCheckCode(image, out int resultId);
+                    if (code.Equals(""))
+                    {
+                        continue;
+                    }
+                    string result = BLL.Weibo.StartLogin(user, code);
+                    if (result.Equals("0"))
+                    {
+                        //登录成功
+                        isSuccess = true;
+                        break;
+                    }
+                    else
+                    {
+                        //解码失败
+                    }
+                }
+                //判断是否登录成功
+                if (isSuccess)
+                {
+                    return user.Cookies;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
         #endregion
 
         #region 关注
@@ -158,64 +206,6 @@ namespace BLL
         public static bool IsAddedThisGroup(CookieContainer cookie,string gid)
         {
             return DAL.Weibo.IsAddedThisGroup(cookie, gid);
-        }
-        #endregion
-
-        #region [更新cookies]
-        public static CookieContainer UpdateCookies(string userName ,string password)
-        {
-            Model.User user = PrepareLogin(userName, password);
-            if (StartLogin(user).Equals("0"))
-            {
-                return user.Cookies;
-            }
-            else
-            {
-                Image image = GetCodeImage(user);
-                //解码
-
-
-            }
-            return null;
-        }
-
-        //云打码参数 暂用
-        private static int YunDaMaAppId = 5826;
-        private static string YunDaMaAppKey = "0025c106cd2868a094253c9fb40a8982";
-        private static int YunDaMaCodeType = 1005;
-        private static int YunDaMaTimeOut = 60;
-        private static string YunDaMaUserName = DAL.ConfigRW.YunDaMaUserName;
-        private static string YunDaMaPassword = DAL.ConfigRW.YunDaMaPassword;
-
-        /// <summary>
-        /// 解码验证码
-        /// </summary>
-        /// <param name="img">验证码图</param>
-        /// <param name="resultId">返回码</param>
-        /// <returns>解码结果</returns>
-        public static string DecodeCheckCode(Image img, out int resultId)
-        {
-            StringBuilder pCodeResult = new StringBuilder(new string(' ', 30));
-
-            //保存文件到本地
-            string jpgPath = System.Environment.CurrentDirectory + "\\CheckImage\\code.jpg";
-            if (!Directory.Exists(System.Environment.CurrentDirectory + "\\CheckImage"))//若文件夹不存在则新建文件夹   
-            {
-                Directory.CreateDirectory(System.Environment.CurrentDirectory + "\\CheckImage"); //新建文件夹   
-            }
-            img.Save(jpgPath, img.RawFormat);
-
-            //解码
-            resultId = DAL.YunDaMaHelper.YDM_EasyDecodeByPath(YunDaMaUserName, YunDaMaPassword, YunDaMaAppId, YunDaMaAppKey, jpgPath, YunDaMaCodeType, YunDaMaTimeOut, pCodeResult);
-
-            if (resultId > 0)
-            {
-                return pCodeResult.ToString();
-            }
-            else
-            {
-                return "";
-            }
         }
         #endregion
 
