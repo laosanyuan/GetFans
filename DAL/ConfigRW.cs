@@ -48,6 +48,44 @@ namespace DAL
         }
         #endregion
 
+        #region [邮件]
+        public static string EMailSendUserName
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["EMailSendUserName"];
+            }
+        }
+        public static string EMailSendPasswrd
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["EMailSendPassword"];
+            }
+        }
+        public static string EMailTitle
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["EMailTitle"];
+            }
+        }
+        public static string EMailReceiver1
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["EMailReceiver1"];
+            }
+        }
+        public static string EMailReceiver2
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["EMailReceiver2"];
+            }
+        }
+        #endregion
+
         public static string HelpPath //帮助页面路径
         {
             get
