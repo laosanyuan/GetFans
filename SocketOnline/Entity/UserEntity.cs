@@ -11,7 +11,6 @@ namespace SocketOnline.Entity
     public class UserEntity
     {
         public Model.OnlineUser User { get; }
-
         private List<Model.Group> Groups = new List<Model.Group>(); //群聊列表
 
         public UserEntity(Model.OnlineUser onlineUser)
@@ -27,6 +26,12 @@ namespace SocketOnline.Entity
         private void TimerCallBackFunction(object state)
         {
             HourCount++;
+
+            //晚8点发送邮件
+            if (DateTime.Now.Hour == 20)
+            {
+                this.SendEmail();
+            }
 
             //每隔20小时更新cookie
             if (HourCount == 20)
@@ -198,6 +203,20 @@ namespace SocketOnline.Entity
                 }
                 Thread.Sleep(600000); //一轮间隔10分钟
             }
+        }
+        #endregion
+
+        #region [发送邮件]
+        private void SendEmail()
+        {
+            if (User.Email.Equals(""))
+            {
+                return;
+            }
+
+            string message = String.Format("尊敬的用户您好，您的小火箭互粉精灵今日数据如下：<br/>账号：{0}<br/>当前群聊数：<br/>到期时间：",User.NickName,this.Groups.Count.ToString(),this.User.EndTime.ToString());
+
+            BLL.EMail.SendEMailToUser(User.Email, "小火箭日报告", message);
         }
         #endregion
     }

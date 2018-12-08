@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="CheckCode.cs" />
     <Compile Include="DataBase.cs" />
+    <Compile Include="EMail.cs" />
     <Compile Include="LocalMachineHelper.cs" />
     <Compile Include="OnlineUserHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

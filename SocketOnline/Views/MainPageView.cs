@@ -14,6 +14,7 @@ namespace SocketOnline.Views
 {
     public partial class MainPageView : Form
     {
+
         public MainPageView()
         {
             InitializeComponent();
@@ -213,11 +214,13 @@ namespace SocketOnline.Views
             if (DateTime.Now.Hour == 20)
             {
                 //发送用户邮件
+                string message = "当前登录用户数：" + Program.Users.Count.ToString() + "<br/>";
                 foreach (Entity.UserEntity user in Program.Users)
                 {
-
+                    message += String.Format("账号：{0}<br/>到期时间：{1}<br/><br/>",user.User.NickName,user.User.EndTime.ToString());
                 }
                 //发送日报邮件
+                BLL.EMail.SendEMailToHost("小火箭日报告", message);
             }
         }
 
