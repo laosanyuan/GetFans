@@ -97,8 +97,8 @@ namespace DAL
                 else
                 {
                     //更新
-                    command.CommandText = String.Format("UPDATE users SET number = '{0}',password = '{1}',nickname = '{2}',starttime = '{3}',endtime = '{4}',email = '{5}' WHERE username = '{6}'",
-                        user.Number, user.Password, user.NickName, user.StartTime, user.EndTime, user.Email, user.UserName);
+                    command.CommandText = String.Format("UPDATE users SET number = '{0}',password = '{1}',nickname = '{2}',starttime = '{3}',endtime = '{4}',email = '{5}',uid = '{6}' WHERE username = '{7}'",
+                        user.Number, user.Password, user.NickName, user.StartTime, user.EndTime, user.Email, user.Uid, user.UserName);
                     command.ExecuteNonQuery();
 
                 }
