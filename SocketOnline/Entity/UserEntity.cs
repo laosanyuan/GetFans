@@ -69,27 +69,25 @@ namespace SocketOnline.Entity
             }
         }
         //关闭所有线程
+        private bool IsFollowThreadValid;
+        private bool IsGroupChatThreadValid;
+        private bool IsUpdateGroupListThreadValid;
+        private bool IsAddGroupThreadValid;
         private void StopThread()
         {
-            if (this.FollowThread != null &&
-                this.GroupChatThread != null &&
-                this.UpdateGroupListThread != null &&
-                this.AddGroupThread != null)
-            {
-                this.FollowThread.Abort();
-                this.GroupChatThread.Abort();
-                this.UpdateGroupListThread.Abort();
-                this.AddGroupThread.Abort();
-            }
-        }
+            IsFollowThreadValid = false;
+            IsGroupChatThreadValid = false;
+            IsUpdateGroupListThreadValid = false;
+            IsAddGroupThreadValid = false;
+    }
         #endregion
 
         #region [回粉]
         private Thread FollowThread;
         private void FollowThreadFunction()
         {
-            bool isCanFollow = true;
-            while (isCanFollow)
+            this.IsFollowThreadValid = true;
+            while (this.IsFollowThreadValid)
             {
                 //回粉好友
                 List<Model.Fan> UnfollowFans = BLL.Weibo.GetUnfollowFansList(User.Cookies, User.Uid);
@@ -98,14 +96,12 @@ namespace SocketOnline.Entity
                     if (!BLL.Weibo.Follow(fan.Uid, fan.NickName, User.Cookies))
                     {
                         //关注不成功则停止
-                        //this.BeginInvoke(new StopFollowDelegate(StopFollowFunction));
                         this.StopThread();
-                        isCanFollow = false;
                         break;
                     }
                     else
                     {
-
+                        followCount++;
                     }
                     Thread.Sleep(10000);
                 }
@@ -126,7 +122,8 @@ namespace SocketOnline.Entity
         private Random random = new Random();
         private void GroupChatThreadFunction()
         {
-            while (true)
+            this.IsGroupChatThreadValid = true;
+            while (this.IsGroupChatThreadValid)
             {
                 List<Model.Group> groupList = this.Groups;
                 int intervalTime = 3000;//三秒
@@ -140,7 +137,7 @@ namespace SocketOnline.Entity
                     }
                     catch
                     {
-                        followCount++;
+                        //加群失败
                     }
                     Thread.Sleep(intervalTime);
                 }
@@ -153,7 +150,8 @@ namespace SocketOnline.Entity
         private Thread UpdateGroupListThread;
         private void UpdateGroupListThreadFuntion()
         {
-            while (true)
+            this.IsUpdateGroupListThreadValid = true;
+            while (this.IsUpdateGroupListThreadValid)
             {
                 //获取当前群列表顺序第一页群聊
                 List<Model.Group> groups = BLL.Weibo.GetGroups(User.Cookies);
@@ -181,7 +179,8 @@ namespace SocketOnline.Entity
         private Thread AddGroupThread;
         private void AddGroupThreadFuntion()
         {
-            while (true)
+            this.IsAddGroupThreadValid = true;
+            while (this.IsAddGroupThreadValid)
             {
                 List<Model.Group> groups = BLL.ServerData.GetGroups();
                 foreach (Model.Group group in groups)
