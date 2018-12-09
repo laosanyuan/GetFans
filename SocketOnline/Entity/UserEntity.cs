@@ -40,7 +40,7 @@ namespace SocketOnline.Entity
             }
 
             //晚上23：00-早8：00不启动
-            if (DateTime.Now.Hour > 23 || DateTime.Now.Hour < 8)
+            if (DateTime.Now.Hour >= 23 || DateTime.Now.Hour < 8)
             {
                 return;
             }
@@ -49,21 +49,21 @@ namespace SocketOnline.Entity
                 //关闭线程
                 this.StopThread();
                 //开启互粉线程
-                this.FollowThread = new Thread(new ParameterizedThreadStart(FollowThreadFunction));
+                this.FollowThread = new Thread(new ThreadStart(FollowThreadFunction));
                 this.FollowThread.IsBackground = true;
-                this.FollowThread.Start(this.User);
+                this.FollowThread.Start();
                 //群聊线程
-                this.GroupChatThread = new Thread(new ParameterizedThreadStart(GroupChatThreadFunction));
+                this.GroupChatThread = new Thread(new ThreadStart(GroupChatThreadFunction));
                 this.GroupChatThread.IsBackground = true;
-                this.GroupChatThread.Start(this.User);
+                this.GroupChatThread.Start();
                 //群列表更新线程
-                this.UpdateGroupListThread = new Thread(new ParameterizedThreadStart(UpdateGroupListThreadFuntion));
+                this.UpdateGroupListThread = new Thread(new ThreadStart(UpdateGroupListThreadFuntion));
                 this.UpdateGroupListThread.IsBackground = true;
-                this.UpdateGroupListThread.Start(this.User);
+                this.UpdateGroupListThread.Start();
                 //加群线程开启
-                this.AddGroupThread = new Thread(new ParameterizedThreadStart(AddGroupThreadFuntion));
+                this.AddGroupThread = new Thread(new ThreadStart(AddGroupThreadFuntion));
                 this.AddGroupThread.IsBackground = true;
-                this.AddGroupThread.Start(this.User);
+                this.AddGroupThread.Start();
 
                 HourCount = 0;
             }
@@ -71,39 +71,41 @@ namespace SocketOnline.Entity
         //关闭所有线程
         private void StopThread()
         {
-            try
+            if (this.FollowThread != null &&
+                this.GroupChatThread != null &&
+                this.UpdateGroupListThread != null &&
+                this.AddGroupThread != null)
             {
                 this.FollowThread.Abort();
                 this.GroupChatThread.Abort();
                 this.UpdateGroupListThread.Abort();
                 this.AddGroupThread.Abort();
             }
-            catch
-            {
-                //关闭线程失败
-            }
         }
         #endregion
 
         #region [回粉]
         private Thread FollowThread;
-        private void FollowThreadFunction(object obj)
+        private void FollowThreadFunction()
         {
-            Model.OnlineUser followUser = (Model.OnlineUser)obj;
             bool isCanFollow = true;
             while (isCanFollow)
             {
                 //回粉好友
-                List<Model.Fan> UnfollowFans = BLL.Weibo.GetUnfollowFansList(followUser.Cookies, followUser.Uid);
+                List<Model.Fan> UnfollowFans = BLL.Weibo.GetUnfollowFansList(User.Cookies, User.Uid);
                 foreach (Model.Fan fan in UnfollowFans)
                 {
-                    if (!BLL.Weibo.Follow(fan.Uid, fan.NickName, followUser.Cookies))
+                    if (!BLL.Weibo.Follow(fan.Uid, fan.NickName, User.Cookies))
                     {
                         //关注不成功则停止
                         //this.BeginInvoke(new StopFollowDelegate(StopFollowFunction));
                         this.StopThread();
                         isCanFollow = false;
                         break;
+                    }
+                    else
+                    {
+
                     }
                     Thread.Sleep(10000);
                 }
@@ -122,9 +124,8 @@ namespace SocketOnline.Entity
         #region [群聊]
         private Thread GroupChatThread;
         private Random random = new Random();
-        private void GroupChatThreadFunction(object obj)
+        private void GroupChatThreadFunction()
         {
-            Model.OnlineUser followUser = (Model.OnlineUser)obj;
             while (true)
             {
                 List<Model.Group> groupList = this.Groups;
@@ -135,11 +136,11 @@ namespace SocketOnline.Entity
                     string message = BLL.Weibo.GroupInviteFollowMe[random.Next(BLL.Weibo.GroupInviteFollowMe.Count - 1)];
                     try
                     {
-                        BLL.Weibo.SendMessage2Group(followUser.Cookies, groupList[i].Gid, message);
+                        BLL.Weibo.SendMessage2Group(User.Cookies, groupList[i].Gid, message);
                     }
                     catch
                     {
-                        //
+                        followCount++;
                     }
                     Thread.Sleep(intervalTime);
                 }
@@ -150,13 +151,12 @@ namespace SocketOnline.Entity
 
         #region [群列表更新]
         private Thread UpdateGroupListThread;
-        private void UpdateGroupListThreadFuntion(object obj)
+        private void UpdateGroupListThreadFuntion()
         {
-            Model.OnlineUser onlineUser = (Model.OnlineUser)obj;
             while (true)
             {
                 //获取当前群列表顺序第一页群聊
-                List<Model.Group> groups = BLL.Weibo.GetGroups(onlineUser.Cookies);
+                List<Model.Group> groups = BLL.Weibo.GetGroups(User.Cookies);
                 //加入总列表
                 this.AddGroupToList(groups);
 
@@ -179,20 +179,18 @@ namespace SocketOnline.Entity
 
         #region [加群]
         private Thread AddGroupThread;
-        private void AddGroupThreadFuntion(object obj)
+        private void AddGroupThreadFuntion()
         {
-            Model.OnlineUser addGroupUser = (Model.OnlineUser)obj;
-
             while (true)
             {
                 List<Model.Group> groups = BLL.ServerData.GetGroups();
                 foreach (Model.Group group in groups)
                 {
-                    if (!BLL.Weibo.IsAddedThisGroup(addGroupUser.Cookies, group.Gid))
+                    if (!BLL.Weibo.IsAddedThisGroup(User.Cookies, group.Gid))
                     {
                         try
                         {
-                            BLL.Weibo.AddGroup(addGroupUser.Cookies, group.Gid, group.Name);
+                            BLL.Weibo.AddGroup(User.Cookies, group.Gid, group.Name);
                         }
                         catch
                         {
@@ -207,6 +205,7 @@ namespace SocketOnline.Entity
         #endregion
 
         #region [发送邮件]
+        int followCount = 0;
         private void SendEmail()
         {
             if (User.Email.Equals(""))
@@ -214,9 +213,10 @@ namespace SocketOnline.Entity
                 return;
             }
 
-            string message = String.Format("尊敬的用户您好，您的小火箭互粉精灵今日数据如下：<br/>账号：{0}<br/>当前群聊数：<br/>到期时间：",User.NickName,this.Groups.Count.ToString(),this.User.EndTime.ToString());
-
+            string message = String.Format("尊敬的用户您好，您的小火箭互粉精灵今日运行数据如下：<br/><br/>账号昵称：{0}<br/>今日互粉成功数：{1}<br/>当前有效群聊数：{2}<br/>到期时间：{3}", User.NickName, this.followCount.ToString(), this.Groups.Count.ToString(), this.User.EndTime.ToString());
             BLL.EMail.SendEMailToUser(User.Email, "小火箭日报告", message);
+
+            followCount = 0;
         }
         #endregion
     }

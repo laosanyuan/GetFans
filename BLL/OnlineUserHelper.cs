@@ -16,7 +16,7 @@ namespace BLL
         {
             List<Model.OnlineUser> users = new List<Model.OnlineUser>();
 
-            //Model.OnlineUser onlineUser = new Model.OnlineUser();
+            Model.OnlineUser onlineUser = new Model.OnlineUser();
 
             //onlineUser.UserName = "2227622716@qq.com";
             //onlineUser.Password = "yuan?10ymglw";

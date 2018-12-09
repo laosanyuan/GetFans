@@ -41,28 +41,37 @@ namespace DAL
         {
             SQLiteConnection connection = DataBaseConnection();
 
-            if (connection.State != System.Data.ConnectionState.Open)
+            try
             {
-                connection.Open();
-                SQLiteCommand command = new SQLiteCommand();
-                command.Connection = connection;
-
-                //判断Users table是否存在
-                command.CommandText = "SELECT COUNT(*) FROM sqlite_master WHERE TYPE = 'table' AND NAME = 'users'";
-                command.ExecuteNonQuery();
-                SQLiteDataReader reader = command.ExecuteReader();
-                reader.Read();
-                int count = reader.GetInt32(0);
-                reader.Close();
-
-                if (count == 0)
+                if (connection.State != System.Data.ConnectionState.Open)
                 {
-                    //创建users表
-                    command.CommandText = "Create Table users (number varchar(200),username varchar(200),password varchar(200),nickname varchar(200),uid varchar(200),starttime varchar(200),endtime varchar(200),email varchar(200))";
+                    connection.Open();
+                    SQLiteCommand command = new SQLiteCommand();
+                    command.Connection = connection;
+
+                    //判断Users table是否存在
+                    command.CommandText = "SELECT COUNT(*) FROM sqlite_master WHERE TYPE = 'table' AND NAME = 'users'";
                     command.ExecuteNonQuery();
+                    SQLiteDataReader reader = command.ExecuteReader();
+                    reader.Read();
+                    int count = reader.GetInt32(0);
+                    reader.Close();
+
+                    if (count == 0)
+                    {
+                        //创建users表
+                        command.CommandText = "Create Table users (number varchar(200),username varchar(200),password varchar(200),nickname varchar(200),uid varchar(200),starttime varchar(200),endtime varchar(200),email varchar(200))";
+                        command.ExecuteNonQuery();
+                    }
                 }
             }
-            connection.Close();
+            catch
+            {
+            }
+            finally
+            {
+                connection.Close();
+            }
         }
 
         /// <summary>

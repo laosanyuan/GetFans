@@ -13,10 +13,16 @@ namespace BLL
         /// </summary>
         public static void InitDataBase()
         {
-            //创建数据库文件
-            DAL.OnlineSQLiteHelper.CreateDataBase();
-            //创建user表
-            DAL.OnlineSQLiteHelper.CreateUsersTable();
+            try
+            {
+                //创建数据库文件
+                DAL.OnlineSQLiteHelper.CreateDataBase();
+                //创建user表
+                DAL.OnlineSQLiteHelper.CreateUsersTable();
+            }
+            catch
+            {
+            }
         }
 
         /// <summary>
