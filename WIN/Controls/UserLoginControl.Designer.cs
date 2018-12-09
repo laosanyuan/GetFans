@@ -43,6 +43,7 @@
             this.labelNowFansCount = new System.Windows.Forms.Label();
             this.labelLoginFansCount = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.buttonClean = new System.Windows.Forms.Button();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
@@ -101,6 +102,7 @@
             // 
             this.skinGroupBox1.BackColor = System.Drawing.SystemColors.Control;
             this.skinGroupBox1.BorderColor = System.Drawing.Color.DarkGray;
+            this.skinGroupBox1.Controls.Add(this.buttonClean);
             this.skinGroupBox1.Controls.Add(this.buttonExit);
             this.skinGroupBox1.Controls.Add(this.buttonStart);
             this.skinGroupBox1.Controls.Add(this.labelGrouCount);
@@ -130,7 +132,7 @@
             // 
             // buttonExit
             // 
-            this.buttonExit.Location = new System.Drawing.Point(289, 81);
+            this.buttonExit.Location = new System.Drawing.Point(289, 94);
             this.buttonExit.Name = "buttonExit";
             this.buttonExit.Size = new System.Drawing.Size(80, 30);
             this.buttonExit.TabIndex = 12;
@@ -140,7 +142,7 @@
             // 
             // buttonStart
             // 
-            this.buttonStart.Location = new System.Drawing.Point(289, 28);
+            this.buttonStart.Location = new System.Drawing.Point(289, 20);
             this.buttonStart.Name = "buttonStart";
             this.buttonStart.Size = new System.Drawing.Size(80, 30);
             this.buttonStart.TabIndex = 11;
@@ -202,6 +204,16 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
+            // buttonClean
+            // 
+            this.buttonClean.Location = new System.Drawing.Point(289, 57);
+            this.buttonClean.Name = "buttonClean";
+            this.buttonClean.Size = new System.Drawing.Size(80, 30);
+            this.buttonClean.TabIndex = 13;
+            this.buttonClean.Text = "一键清粉";
+            this.buttonClean.UseVisualStyleBackColor = true;
+            this.buttonClean.Click += new System.EventHandler(this.buttonClean_Click);
+            // 
             // UserLoginControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -232,5 +244,6 @@
         private System.Windows.Forms.Label labelLoginFansCount;
         private System.Windows.Forms.Button buttonExit;
         private System.Windows.Forms.Button buttonStart;
+        private System.Windows.Forms.Button buttonClean;
     }
 }

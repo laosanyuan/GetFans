@@ -267,5 +267,12 @@ namespace WIN.Controls
             this.OptionEvent("今日互粉已达上限，请明天继续加油！");
         }
         #endregion
+
+        #region [一键清粉]
+        private void buttonClean_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
     }
 }
