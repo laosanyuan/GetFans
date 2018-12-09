@@ -155,13 +155,39 @@ namespace WIN.Controls
         public void EndFollow()
         {
             //关闭加群线程
-            this.AddGroupThread.Abort();
+            try
+            {
+                this.AddGroupThread.Abort();
+            }
+            catch
+            {
+            }
             //关闭更新群线程
-            this.UpdateListThread.Abort();
+            try
+            {
+                this.UpdateListThread.Abort();
+            }
+            catch
+            {
+
+            }
             //关闭群聊线程
-            this.GroupChatThread.Abort();
+            try
+            {
+                this.GroupChatThread.Abort();
+            }
+            catch
+            {
+
+            }
             //关闭回粉线程
-            this.FollowFriendThread.Abort();
+            try
+            {
+                this.FollowFriendThread.Abort();
+            }
+            catch
+            {
+            }
         }
         #endregion
 
