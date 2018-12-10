@@ -297,7 +297,11 @@ namespace WIN.Controls
         #region [一键清粉]
         private void buttonClean_Click(object sender, EventArgs e)
         {
+            //BLL.Weibo.
 
+            List<Model.Fan> fans = BLL.Weibo.GetUnFollowListFromBack(User.Cookies, User.Uid);
+            //更新显示数据
+            this.UpdateDisplay();
         }
         #endregion
     }

@@ -130,6 +130,16 @@ namespace BLL
         {
             DAL.Weibo.UpdateUsersFansCount(user);
         }
+        /// <summary>
+        /// 获取最后一页未回粉列表
+        /// </summary>
+        /// <param name="cookie"></param>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        public static List<Model.Fan> GetUnFollowListFromBack(CookieContainer cookie, string uid)
+        {
+            return DAL.Weibo.GetUnFollowListFromBack(cookie, uid);
+        }
         #endregion
 
         #region 群聊

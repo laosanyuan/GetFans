@@ -217,6 +217,53 @@ namespace DAL
             }
             return Model.FriendStatus.Unknown;
         }
+        /// <summary>
+        /// 获取倒数第一页未回粉列表
+        /// </summary>
+        /// <param name="cookie"></param>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        public static List<Model.Fan> GetUnFollowListFromBack(CookieContainer cookies, string uid)
+        {
+            string url = String.Format("https://weibo.com/{0}/follow?from=page_100505&wvr=6&mod=headfollow#place", uid);
+            string request = HttpHelper.Get(url, cookies, false);
+
+            string regexString = "(关注<\\\\/span><em class=\\\\\"num S_txt1\\\\\">)[\\d]*?(<\\\\/em>)";
+            MatchCollection matches = Regex.Matches(request, regexString);
+            int followersCount = 0;
+            foreach (Match match in matches)
+            {
+                followersCount = Convert.ToInt32(match.Value.Replace("关注<\\/span><em class=\\\"num S_txt1\\\">", "").Replace("<\\/em>", ""));
+            }
+
+            if (followersCount > 0)
+            {
+                int endPage = followersCount / 30 + 1;
+                for (; endPage > 0; endPage--)
+                {
+                    url = String.Format("https://weibo.com/p/100505{0}/myfollow?t=1&cfs=&Pl_Official_RelationMyfollow__95_page={1}#Pl_Official_RelationMyfollow__95",uid, endPage);
+                    request = HttpHelper.Get(url, cookies, false);
+                    regexString = "(uid=)[\\d]*?(&nick=)(.)*?(>私信)";
+                    matches = Regex.Matches(request, regexString);
+
+                    foreach (Match match in matches)
+                    {
+                        //count--;
+                        //string[] users = match.Value.Replace("uid=", "").Replace("\\\">私信", "").Replace("&nick=", "#").Split('#');
+                        //CancelFollowUser(users[0], users[1], cookies);
+                        //if (count <= 0)
+                        //{
+                        //    return;
+                        //}
+                    }
+                }
+            }
+            else
+            {
+                //return;
+            }
+            return null;
+        }
         #endregion
 
         #region 群聊相关
