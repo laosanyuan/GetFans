@@ -136,9 +136,9 @@ namespace BLL
         /// <param name="cookie"></param>
         /// <param name="uid"></param>
         /// <returns></returns>
-        public static List<Model.Fan> GetUnFollowListFromBack(CookieContainer cookie, string uid)
+        public static int CancelFollowFakerUser(CookieContainer cookie, string uid)
         {
-            return DAL.Weibo.GetUnFollowListFromBack(cookie, uid);
+            return DAL.Weibo.CancelFollowFakerUser(cookie, uid);
         }
         #endregion
 

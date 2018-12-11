@@ -218,13 +218,14 @@ namespace DAL
             return Model.FriendStatus.Unknown;
         }
         /// <summary>
-        /// 获取倒数第一页未回粉列表
+        /// 自关注列表末尾取消faker好友
         /// </summary>
-        /// <param name="cookie"></param>
+        /// <param name="cookies"></param>
         /// <param name="uid"></param>
         /// <returns></returns>
-        public static List<Model.Fan> GetUnFollowListFromBack(CookieContainer cookies, string uid)
+        public static int CancelFollowFakerUser(CookieContainer cookies, string uid)
         {
+            int count = 0;
             string url = String.Format("https://weibo.com/{0}/follow?from=page_100505&wvr=6&mod=headfollow#place", uid);
             string request = HttpHelper.Get(url, cookies, false);
 
@@ -241,7 +242,7 @@ namespace DAL
                 int endPage = followersCount / 30 + 1;
                 for (; endPage > 0; endPage--)
                 {
-                    url = String.Format("https://weibo.com/p/100505{0}/myfollow?t=1&cfs=&Pl_Official_RelationMyfollow__95_page={1}#Pl_Official_RelationMyfollow__95",uid, endPage);
+                    url = String.Format("https://weibo.com/p/100505{0}/myfollow?t=1&cfs=&Pl_Official_RelationMyfollow__95_page={1}#Pl_Official_RelationMyfollow__95", uid, endPage);
                     request = HttpHelper.Get(url, cookies, false);
                     regexString = "(uid=)[\\d]*?(&nick=)(.)*?(>私信)";
                     matches = Regex.Matches(request, regexString);
@@ -249,20 +250,30 @@ namespace DAL
                     foreach (Match match in matches)
                     {
                         //count--;
-                        //string[] users = match.Value.Replace("uid=", "").Replace("\\\">私信", "").Replace("&nick=", "#").Split('#');
-                        //CancelFollowUser(users[0], users[1], cookies);
-                        //if (count <= 0)
-                        //{
-                        //    return;
-                        //}
+                        string[] users = match.Value.Replace("uid=", "").Replace("\\\">私信", "").Replace("&nick=", "#").Split('#');
+                        regexString = String.Format("{0}(.)*?已关注(.)*?{0}", users[1]);
+                        matches = Regex.Matches(request, regexString);
+                        if (matches.Count == 0)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            Model.Fan fan = new Model.Fan() { Uid = users[0], NickName = users[1] };
+
+                            if (CancelFollow(users[0], users[1], cookies))
+                            {
+                                count++;
+                            }
+                            else
+                            {
+                                return count;
+                            }
+                        }
                     }
                 }
             }
-            else
-            {
-                //return;
-            }
-            return null;
+            return count;
         }
         #endregion
 

@@ -297,12 +297,34 @@ namespace WIN.Controls
         #region [一键清粉]
         private void buttonClean_Click(object sender, EventArgs e)
         {
-            //BLL.Weibo.
-
-            List<Model.Fan> fans = BLL.Weibo.GetUnFollowListFromBack(User.Cookies, User.Uid);
-            //更新显示数据
-            this.UpdateDisplay();
+            //清粉线程
+            Thread thread = new Thread(new ThreadStart(CancelUserFunction));
+            thread.Start();
         }
+
+        private delegate void CancelFollowUserMessageDelegate(int count);
+        private void CancelUserFunction()
+        {
+            int i = BLL.Weibo.CancelFollowFakerUser(User.Cookies, User.Uid);
+            this.BeginInvoke(new CancelFollowUserMessageDelegate(UnfollowUserMessage), i);
+            this.Invoke(new UpdateDisplayDelegate(UpdateDisplay));
+        }
+        //向提示框输出清粉结果
+        private void UnfollowUserMessage(int count)
+        {
+            string message = "";
+            if (count == 0)
+            {
+                message = "今日取关已达上限，请24小时后尝试下次清粉！";
+                this.buttonClean.Enabled = false;
+            }
+            else
+            {
+                message = "本次清粉【" + count + "】人已完成！";
+            }
+            this.OptionEvent(message);
+        }
+
         #endregion
     }
 }
