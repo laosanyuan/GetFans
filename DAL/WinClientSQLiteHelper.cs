@@ -109,7 +109,7 @@ namespace DAL
                 else
                 {
                     //更新
-                    command.CommandText = String.Format("UPDATE {0} SET isAdded 'true' WHERE gid = '{1}'", tableName, gid);
+                    command.CommandText = String.Format("UPDATE {0} SET isAdded = 'true' WHERE gid = '{1}'", tableName, gid);
                     command.ExecuteNonQuery();
                 }
             }

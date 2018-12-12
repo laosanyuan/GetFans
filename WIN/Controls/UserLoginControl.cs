@@ -122,16 +122,16 @@ namespace WIN.Controls
         //开始互粉
         private void buttonStart_Click(object sender, EventArgs e)
         {
-            if (this.buttonStart.Text.Equals("开始"))
+            if (this.buttonStart.Text.Equals("开始互粉"))
             {
-                this.buttonStart.Text = "停止";
+                this.buttonStart.Text = "停止互粉";
                 this.labelBeginTime.Text = DateTime.Now.ToShortTimeString();
 
                 this.PrepareFollow();
             }
             else
             {
-                this.buttonStart.Text = "开始";
+                this.buttonStart.Text = "开始互粉";
 
                 this.EndFollow();
 
