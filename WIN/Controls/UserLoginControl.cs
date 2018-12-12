@@ -297,6 +297,9 @@ namespace WIN.Controls
         #region [一键清粉]
         private void buttonClean_Click(object sender, EventArgs e)
         {
+            this.OptionEvent("开始清粉…");
+            this.buttonClean.Text = "正在清粉";
+            this.buttonClean.Enabled = false;
             //清粉线程
             Thread thread = new Thread(new ThreadStart(CancelUserFunction));
             thread.Start();
@@ -312,15 +315,16 @@ namespace WIN.Controls
         //向提示框输出清粉结果
         private void UnfollowUserMessage(int count)
         {
+            this.buttonClean.Text = "开始清粉";
             string message = "";
             if (count == 0)
             {
                 message = "今日取关已达上限，请24小时后尝试下次清粉！";
-                this.buttonClean.Enabled = false;
             }
             else
             {
                 message = "本次清粉【" + count + "】人已完成！";
+                this.buttonClean.Enabled = true;
             }
             this.OptionEvent(message);
         }
