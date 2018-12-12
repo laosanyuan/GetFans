@@ -52,6 +52,7 @@
     <Compile Include="Version.cs" />
     <Compile Include="Web.cs" />
     <Compile Include="Weibo.cs" />
+    <Compile Include="WinClientSQLiteHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj">

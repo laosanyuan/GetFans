@@ -31,6 +31,9 @@ namespace WIN
 
             this.labelSerialTime.Text = "有效期：" + BLL.Serial.GetSerialInvalidDate();
             this.labelSerialType.Text = "序列号种类：" + BLL.Serial.GetSerialType();
+
+            //创建数据库文件
+            BLL.WinClientSQLiteHelper.CreateDataBase();
         }
         //判断序列号、版本有效性
         private void TimerSerial_Tick(object sender, EventArgs e)

@@ -25,7 +25,8 @@ namespace WIN.Controls
         #region [界面加载]
         private void UserLoginControl_Load(object sender, EventArgs e)
         {
-
+            //创建用户数据表
+            BLL.WinClientSQLiteHelper.CreateUserGroupsTable(User.Uid);
         }
         #endregion
 
@@ -83,6 +84,8 @@ namespace WIN.Controls
                     continue;
                 }
                 this.Groups.Add(group);
+                //向数据库中插入群数据
+                BLL.WinClientSQLiteHelper.InsertGroup(User.Uid, group.Name, group.Gid);
             }
         }
 
