@@ -115,5 +115,27 @@ namespace DAL
             }
             connection.Close();
         }
+
+        /// <summary>
+        /// 退群
+        /// </summary>
+        /// <param name="uid">用户id</param>
+        /// <param name="gid">群id</param>
+        public static void ExitGroup(string uid, string gid)
+        {
+            string tableName = "group" + uid;
+
+            SQLiteConnection connection = DataBaseConnection();
+
+            if (connection.State != System.Data.ConnectionState.Open)
+            {
+                connection.Open();
+                SQLiteCommand command = new SQLiteCommand();
+                command.Connection = connection;
+
+                command.CommandText = String.Format("UPDATE {0} SET  isAdded = 'false',exitTime = '{1}' WHERE gid = '{2}'", tableName, DateTime.Now.ToString(), gid);
+                command.ExecuteNonQuery();
+            }
+        }
     }
 }

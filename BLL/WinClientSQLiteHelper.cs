@@ -33,5 +33,14 @@ namespace BLL
         {
             DAL.WinClientSQLiteHelper.InsertGroup(uid, name, gid);
         }
+        /// <summary>
+        /// 退群记录到数据库
+        /// </summary>
+        /// <param name="uid">用户id</param>
+        /// <param name="gid">群id</param>
+        public static void ExitGroup(string uid, string gid)
+        {
+            DAL.WinClientSQLiteHelper.ExitGroup(uid, gid);
+        }
     }
 }
