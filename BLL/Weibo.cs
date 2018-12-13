@@ -217,10 +217,32 @@ namespace BLL
         {
             return DAL.Weibo.IsAddedThisGroup(cookie, gid);
         }
+        /// <summary>
+        /// 退群
+        /// </summary>
+        /// <param name="cookie"></param>
+        /// <param name="uid">用户id</param>
+        /// <param name="gid">群id</param>
+        /// <param name="groupName">群名</param>
+        /// <returns></returns>
+        public static bool ExitGroup(CookieContainer cookie, string uid, string gid, string groupName)
+        {
+            //退群
+            if (DAL.Weibo.ExitGroup(cookie, gid, groupName))
+            {
+                //修改数据库
+                DAL.WinClientSQLiteHelper.ExitGroup(uid, gid);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         #endregion
 
-        #region [聊天内容]
-        //聊天内容
+            #region [聊天内容]
+            //聊天内容
         public static List<string> GroupInviteFollowMe = new List<string>()
         {
             "互粉！",

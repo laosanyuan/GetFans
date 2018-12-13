@@ -393,6 +393,21 @@ namespace DAL
             }
             return isAdded;
         }
+        /// <summary>
+        /// 退群
+        /// </summary>
+        /// <param name="cookie"></param>
+        /// <param name="gid">群id</param>
+        /// <param name="groupName">群名</param>
+        /// <returns></returns>
+        public static bool ExitGroup(CookieContainer cookie,string gid,string groupName)
+        {
+            string data = String.Format("gid={0}&name={1}&isadmin=&islast=0&_t=0", gid, groupName);
+            string url = @"https://weibo.com/p/aj/groupchat/exitgroup?ajwvr=6&__rnd=" + GetTimeStamp();
+            string s = HttpHelper.SendDataByPost(url, cookie, data);
+
+            return CheckBackCode(JsonHelper.GetBackJson(s).code);
+        }
         #endregion
 
         #region 私有方法
