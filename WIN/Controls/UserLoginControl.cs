@@ -300,7 +300,7 @@ namespace WIN.Controls
         #region [一键清粉]
         private void buttonClean_Click(object sender, EventArgs e)
         {
-            this.OptionEvent("正在清粉，此操作将无差别取关未回粉好友，请谨慎使用！");
+            this.OptionEvent("账号【" + User.NickName + "】正在清粉，此操作将无差别取关未回粉好友，请谨慎使用！");
             this.buttonClean.Text = "正在清粉";
             this.buttonClean.Enabled = false;
             //清粉线程
@@ -322,11 +322,11 @@ namespace WIN.Controls
             string message = "";
             if (count == 0)
             {
-                message = "今日取关已达上限，请24小时后尝试下次清粉！";
+                message = String.Format("账号【{0}】今日取关已达上限，请24小时后尝试下次清粉！",User.NickName);
             }
             else
             {
-                message = "本次清粉【" + count + "】人已完成！";
+                message = String.Format("账号【{0}】本次清粉【{1}】人已完成！", User.NickName, count);
                 this.buttonClean.Enabled = true;
             }
             this.OptionEvent(message);

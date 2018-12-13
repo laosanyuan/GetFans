@@ -253,7 +253,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LoginView";
-            this.Text = "登录";
+            this.Text = "登录微博账号";
             this.Load += new System.EventHandler(this.LoginView_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCode)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxErrorUserName)).EndInit();
