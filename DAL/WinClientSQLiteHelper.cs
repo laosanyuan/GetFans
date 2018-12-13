@@ -11,7 +11,8 @@ namespace DAL
     //桌面版SQLite数据库
     public class WinClientSQLiteHelper
     {
-        private static string DataBasePath = Environment.CurrentDirectory + "\\DataBase.db";
+        private static readonly string DataBasePath = Environment.CurrentDirectory + "\\DataBase.db";
+        private static readonly int GroupIntervalDays = 5; //群有效间隔
 
         /// <summary>
         /// 创建数据库文件
@@ -115,7 +116,6 @@ namespace DAL
             }
             connection.Close();
         }
-
         /// <summary>
         /// 退群
         /// </summary>
@@ -136,6 +136,68 @@ namespace DAL
                 command.CommandText = String.Format("UPDATE {0} SET  isAdded = 'false',exitTime = '{1}' WHERE gid = '{2}'", tableName, DateTime.Now.ToString(), gid);
                 command.ExecuteNonQuery();
             }
+            connection.Close();
         }
+        /// <summary>
+        /// 获取加群时间
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="gid"></param>
+        /// <returns></returns>
+        public static DateTime GetGroupEnterTime(string uid,string gid)
+        {
+            string tableName = "group" + uid;
+
+            DateTime dt = new DateTime();
+
+            SQLiteConnection connection = DataBaseConnection();
+            if (connection.State != System.Data.ConnectionState.Open)
+            {
+                connection.Open();
+                SQLiteCommand command = new SQLiteCommand();
+                command.Connection = connection;
+
+                command.CommandText = String.Format("SELECT enterTime FROM users WHERE gid = '{0}'", gid);
+                command.ExecuteNonQuery();
+                SQLiteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                   dt = Convert.ToDateTime(reader.GetString(0));
+                }
+            }
+            connection.Close();
+            return dt;
+        }
+        /// <summary>
+        /// 获取退群时间
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="gid"></param>
+        /// <returns></returns>
+        public static DateTime GetGroupExitTime(string uid, string gid)
+        {
+            string tableName = "group" + uid;
+
+            DateTime dt = new DateTime();
+
+            SQLiteConnection connection = DataBaseConnection();
+            if (connection.State != System.Data.ConnectionState.Open)
+            {
+                connection.Open();
+                SQLiteCommand command = new SQLiteCommand();
+                command.Connection = connection;
+
+                command.CommandText = String.Format("SELECT exitTime FROM users WHERE gid = '{0}'", gid);
+                command.ExecuteNonQuery();
+                SQLiteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    dt = Convert.ToDateTime(reader.GetString(0));
+                }
+            }
+            connection.Close();
+            return dt;
+        }
+
     }
 }
