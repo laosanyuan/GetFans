@@ -251,6 +251,10 @@ namespace DAL
                     {
                         //count--;
                         string[] users = match.Value.Replace("uid=", "").Replace("\\\">私信", "").Replace("&nick=", "#").Split('#');
+                        if (users[1].Equals("小火箭互粉精灵"))
+                        {
+                            continue;
+                        }
                         regexString = String.Format("{0}(.)*?已关注(.)*?{0}", users[1]);
                         matches = Regex.Matches(request, regexString);
                         if (matches.Count == 0)

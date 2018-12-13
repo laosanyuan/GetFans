@@ -300,7 +300,7 @@ namespace WIN.Controls
         #region [一键清粉]
         private void buttonClean_Click(object sender, EventArgs e)
         {
-            this.OptionEvent("开始清粉…");
+            this.OptionEvent("正在清粉，此操作将无差别取关未回粉好友，请谨慎使用！");
             this.buttonClean.Text = "正在清粉";
             this.buttonClean.Enabled = false;
             //清粉线程
