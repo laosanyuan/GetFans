@@ -12,6 +12,8 @@ namespace BLL
 {
     public class Weibo
     {
+        private static readonly int GroupIntervalDay = 5; //群间隔时间
+
         #region 登录
         /// <summary>
         /// 预登录
@@ -239,10 +241,60 @@ namespace BLL
                 return false;
             }
         }
+        /// <summary>
+        /// 根据加群时间退群
+        /// </summary>
+        /// <param name="cookie"></param>
+        /// <param name="uid"></param>
+        /// <param name="gid"></param>
+        /// <param name="groupName">群名</param>
+        /// <returns></returns>
+        public static bool ExitGroupByTime(CookieContainer cookie, string uid, string gid, string groupName)
+        {
+            DateTime enterTime = DAL.WinClientSQLiteHelper.GetGroupEnterTime(uid, gid);
+            TimeSpan span = DateTime.Now.Subtract(enterTime);
+            int days = Convert.ToInt32(span.Days);
+
+            if (days > GroupIntervalDay)
+            {
+                if (ExitGroup(cookie, uid, gid, groupName))
+                {
+                    //记录数据库
+                    DAL.WinClientSQLiteHelper.ExitGroup(uid, gid);
+                    return true;
+                }
+            }
+            return false;
+        }
+        /// <summary>
+        /// 根据上次退群时间间隔加群
+        /// </summary>
+        /// <param name="cookie"></param>
+        /// <param name="uid"></param>
+        /// <param name="gid"></param>
+        /// <param name="groupName"></param>
+        public static void EnterGroupByTime(CookieContainer cookie, string uid, string gid, string groupName)
+        {
+            bool isAddedBefore = DAL.WinClientSQLiteHelper.IsGroupAddedBefore(uid, gid);
+            if (!isAddedBefore)
+            {
+                AddGroup(cookie, gid, groupName);
+            }
+            else
+            {
+                DateTime exitTime = DAL.WinClientSQLiteHelper.GetGroupExitTime(uid, gid);
+                TimeSpan span = DateTime.Now.Subtract(exitTime);
+                int days = Convert.ToInt32(span.Days);
+                if (days > GroupIntervalDay)
+                {
+                    AddGroup(cookie, gid, groupName);
+                }
+            }
+        }
         #endregion
 
-            #region [聊天内容]
-            //聊天内容
+        #region [聊天内容]
+        //聊天内容
         public static List<string> GroupInviteFollowMe = new List<string>()
         {
             "互粉！",

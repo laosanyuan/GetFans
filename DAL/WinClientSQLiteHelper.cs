@@ -12,7 +12,6 @@ namespace DAL
     public class WinClientSQLiteHelper
     {
         private static readonly string DataBasePath = Environment.CurrentDirectory + "\\DataBase.db";
-        private static readonly int GroupIntervalDays = 5; //群有效间隔
 
         /// <summary>
         /// 创建数据库文件
@@ -198,6 +197,42 @@ namespace DAL
             connection.Close();
             return dt;
         }
+        /// <summary>
+        /// 判断群是否曾经加入并退出过
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="gid"></param>
+        /// <returns></returns>
+        public static bool IsGroupAddedBefore(string uid, string gid)
+        {
+            string tableName = "group" + uid;
+            bool isExist = false;
+            SQLiteConnection connection = DataBaseConnection();
+            if (connection.State != System.Data.ConnectionState.Open)
+            {
+                connection.Open();
+                SQLiteCommand command = new SQLiteCommand();
+                command.Connection = connection;
 
-    }
+                //判断Users table是否存在
+                command.CommandText = String.Format("SELECT COUNT FROM {0} WHERE gid = '{1}'", tableName, gid);
+                command.ExecuteNonQuery();
+                SQLiteDataReader reader = command.ExecuteReader();
+                reader.Read();
+                int count = reader.GetInt32(0);
+                reader.Close();
+
+                if (count == 0)
+                {
+                    isExist = false;
+                }
+                else
+                {
+                    isExist = true;
+                }
+            }
+            connection.Close();
+            return isExist;
+        }
+    }  
 }
