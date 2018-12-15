@@ -385,7 +385,7 @@ namespace DAL
         public static bool IsAddedThisGroup(CookieContainer cookie,string gid)
         {
             bool isAdded = false;
-            string url = String.Format(@"https://weibo.comp/230491{0}?source=webim", gid);
+            string url = String.Format(@"https://weibo.com/p/230491{0}?source=webim", gid);
             string s = HttpHelper.Get(url, cookie, false);
             if (Regex.IsMatch(s, "已加入"))
             {

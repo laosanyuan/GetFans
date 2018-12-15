@@ -156,7 +156,7 @@ namespace DAL
                 SQLiteCommand command = new SQLiteCommand();
                 command.Connection = connection;
 
-                command.CommandText = String.Format("SELECT enterTime FROM users WHERE gid = '{0}'", gid);
+                command.CommandText = String.Format("SELECT enterTime FROM {0} WHERE gid = '{1}'", tableName, gid);
                 command.ExecuteNonQuery();
                 SQLiteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -186,7 +186,7 @@ namespace DAL
                 SQLiteCommand command = new SQLiteCommand();
                 command.Connection = connection;
 
-                command.CommandText = String.Format("SELECT exitTime FROM users WHERE gid = '{0}'", gid);
+                command.CommandText = String.Format("SELECT exitTime FROM {0} WHERE gid = '{1}'", tableName, gid);
                 command.ExecuteNonQuery();
                 SQLiteDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -215,7 +215,7 @@ namespace DAL
                 command.Connection = connection;
 
                 //判断Users table是否存在
-                command.CommandText = String.Format("SELECT COUNT FROM {0} WHERE gid = '{1}'", tableName, gid);
+                command.CommandText = String.Format("SELECT COUNT(*) FROM {0} WHERE gid = '{1}'", tableName, gid);
                 command.ExecuteNonQuery();
                 SQLiteDataReader reader = command.ExecuteReader();
                 reader.Read();

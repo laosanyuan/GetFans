@@ -119,7 +119,7 @@ namespace WIN.Controls
                         if (BLL.Weibo.ExitGroupByTime(addGroupUser.Cookies, addGroupUser.Uid, group.Gid, group.Name))
                         {
                             //更新群列表
-                            this.BeginInvoke(new UpdateGroupListDelegate(DeleteGroupToList), group);
+                            this.BeginInvoke(new UpdateGroupListDelegate(DeleteGroupToList), new List<Model.Group>() { group });
                         }
                     }
                     Thread.Sleep(10000);
@@ -131,7 +131,7 @@ namespace WIN.Controls
 
         private void DeleteGroupToList(List<Group> list)
         {
-            this.Groups.Remove(list[0]);
+            this.Groups.RemoveAll(t => t.Gid.Equals(list[0].Gid));
         }
         #endregion
 

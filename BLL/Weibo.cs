@@ -252,6 +252,10 @@ namespace BLL
         public static bool ExitGroupByTime(CookieContainer cookie, string uid, string gid, string groupName)
         {
             DateTime enterTime = DAL.WinClientSQLiteHelper.GetGroupEnterTime(uid, gid);
+            if (enterTime.Equals(new DateTime()))
+            {
+                return false;
+            }
             TimeSpan span = DateTime.Now.Subtract(enterTime);
             int days = Convert.ToInt32(span.Days);
 
