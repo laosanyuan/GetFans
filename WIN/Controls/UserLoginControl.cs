@@ -6,6 +6,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading;
+using Model;
 
 namespace WIN.Controls
 {
@@ -104,17 +105,33 @@ namespace WIN.Controls
                     {
                         try
                         {
-                            BLL.Weibo.AddGroup(addGroupUser.Cookies, group.Gid, group.Name);
+                            //根据退群时间加群
+                            BLL.Weibo.EnterGroupByTime(addGroupUser.Cookies, addGroupUser.Uid, group.Gid, group.Name);
                         }
                         catch
                         {
                             //加群异常
                         }
                     }
+                    else
+                    {
+                        //如果从服务器获取到的群已经添加过了，根据时间退群
+                        if (BLL.Weibo.ExitGroupByTime(addGroupUser.Cookies, addGroupUser.Uid, group.Gid, group.Name))
+                        {
+                            //更新群列表
+                            this.BeginInvoke(new UpdateGroupListDelegate(DeleteGroupToList), group);
+                        }
+                    }
                     Thread.Sleep(10000);
                 }
+
                 Thread.Sleep(600000); //一轮间隔10分钟
             }
+        }
+
+        private void DeleteGroupToList(List<Group> list)
+        {
+            this.Groups.Remove(list[0]);
         }
         #endregion
 
