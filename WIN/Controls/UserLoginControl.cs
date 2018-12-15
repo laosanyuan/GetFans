@@ -143,6 +143,7 @@ namespace WIN.Controls
             {
                 this.buttonStart.Text = "停止互粉";
                 this.labelBeginTime.Text = DateTime.Now.ToShortTimeString();
+                this.OptionEvent(String.Format("【{0}】开始互粉…", User.NickName));
 
                 this.PrepareFollow();
             }
@@ -152,7 +153,7 @@ namespace WIN.Controls
 
                 this.EndFollow();
 
-                this.OptionEvent(String.Format("互粉结束，本次共互粉【{0}】个好友", this.labelSuccessCount.Text));
+                this.OptionEvent(String.Format("【{0}】互粉结束，本次共互粉【{1}】个好友", User.NickName, this.labelSuccessCount.Text));
             }
         }
         //开始互粉设置
@@ -310,7 +311,7 @@ namespace WIN.Controls
         /// </summary>
         private void StopFollowString()
         {
-            this.OptionEvent("今日互粉已达上限，请明天继续加油！");
+            this.OptionEvent(String.Format("【{0}】今日互粉已达上限，请明天继续加油！", User.NickName));
         }
         #endregion
 
