@@ -422,7 +422,7 @@ namespace DAL
         {
             List<Model.GroupFriend> friends = new List<Model.GroupFriend>();
 
-            string regexString = @"msg_bubble(.)*?bubble_arrow";
+            string regexString = @"msg_bubble(.)*?<!--card信息-->";
             MatchCollection matches = Regex.Matches(str, regexString);
 
             foreach (Match match in matches)
@@ -484,10 +484,23 @@ namespace DAL
                 }
                 string mid = forMatch.Value.Replace("mid=\\\"", "").Replace("\\\">", "");
 
+                //获取聊天内容
+                regexString = "page(.)*?/p>";
+                if (Regex.IsMatch(match.Value, regexString))
+                {
+                    forMatch = Regex.Match(match.Value, regexString);
+                }
+                else
+                {
+                    continue;
+                }
+                string message = forMatch.Value.Replace("page\\\">", "").Replace("<\\/p>", "").Trim();
+
                 friend.Fan = new Model.Fan() { Uid = uid ,NickName = nickName};   
                 friend.Gid = gid;
                 friend.GroupName = groupName;
                 friend.Mid = mid;
+                friend.Message = message;
                 friends.Add(friend);
             }
 

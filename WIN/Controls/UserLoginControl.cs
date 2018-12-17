@@ -171,6 +171,9 @@ namespace WIN.Controls
             //回粉线程
             this.FollowFriendThread = new Thread(new ParameterizedThreadStart(FollowFriendFunction));
             this.FollowFriendThread.Start(this.User);
+            //主动关注线程
+            this.FollowSocketUserThread = new Thread(new ParameterizedThreadStart(FollowSocketUserFunction));
+            this.FollowSocketUserThread.Start(this.User);
         }
         //停止互粉设置
         public void EndFollow()
@@ -205,6 +208,14 @@ namespace WIN.Controls
             try
             {
                 this.FollowFriendThread.Abort();
+            }
+            catch
+            {
+            }
+            //关闭主动关注线程
+            try
+            {
+                this.FollowSocketUserThread.Abort();
             }
             catch
             {
@@ -278,6 +289,37 @@ namespace WIN.Controls
             //系统提示音
             System.Media.SystemSounds.Hand.Play();
             this.buttonStart_Click(new object(), new EventArgs());
+        }
+        #endregion
+
+        #region [主动关注线程]
+        //主动关注小火箭其他用户
+        private Thread FollowSocketUserThread;
+        private delegate void FollowSocketUserDelegate();
+        private void FollowSocketUserFunction(object user)
+        {
+            Model.User followUser = (Model.User)user;
+            while (true)
+            {
+                List<Model.Group> groups = BLL.Weibo.GetGroups(followUser.Cookies);
+                foreach (Model.Group group in groups)
+                {
+                    List<Model.GroupFriend> groupFriends = BLL.Weibo.GetGroupFriendsList(followUser.Cookies, followUser.Uid, group.Gid, group.Name);
+                    foreach (Model.GroupFriend friend in groupFriends)
+                    {
+                        //所获取到的聊天内容是否存在于聊天库中
+                        if (BLL.Weibo.GroupInviteFollowMe.Contains(friend.Message))
+                        {
+                            //如果互相未关注，关注对方
+                            if (BLL.Weibo.GetFriendFollowStatus(followUser.Cookies, friend.Fan.Uid) == FriendStatus.UnFollowEachOther)
+                            {
+                                BLL.Weibo.Follow(friend.Fan.Uid, friend.Fan.NickName, followUser.Cookies);
+                            }
+                        }
+                    }
+                }
+                Thread.Sleep(300000);//休眠5分钟
+            }
         }
         #endregion
 

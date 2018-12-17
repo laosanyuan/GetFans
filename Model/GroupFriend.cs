@@ -17,5 +17,7 @@ namespace Model
         public string GroupName { get; set; } //群名
 
         public DateTime FollowTime { get; set; } // 关注对方时间
+
+        public string Message { get; set; } //聊天内容
     }
 }
