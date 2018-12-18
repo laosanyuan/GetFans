@@ -104,5 +104,18 @@ namespace DAL
             return JsonHelper.WebMessage(s);
         }
         #endregion
+
+        #region [用户信息]
+        /// <summary>
+        /// 向服务器传入用户名和序列号
+        /// </summary>
+        /// <param name="nickName"></param>
+        /// <param name="serialNum"></param>
+        public static void SendNickNameToServer(string nickName, string serialNum)
+        {
+            string str = String.Format("nickName={0}&serialNum={1}", nickName, serialNum);
+            string s = HttpHelper.Post(webApiUrl + "nickName", str);
+        }
+        #endregion
     }
 }

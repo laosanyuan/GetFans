@@ -146,6 +146,9 @@ namespace WIN.Controls
                 this.OptionEvent(String.Format("【{0}】开始互粉…", User.NickName));
 
                 this.PrepareFollow();
+
+                //记录用户名
+                BLL.ServerData.SendNickNameToServer(User.NickName);
             }
             else
             {

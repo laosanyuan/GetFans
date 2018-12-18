@@ -38,5 +38,14 @@ namespace BLL
         {
             DAL.WebAPI.SendGroupToServer(groups);
         }
+        /// <summary>
+        /// 向服务器传入用户昵称和序列号
+        /// </summary>
+        /// <param name="nickName">昵称</param>
+        public static void SendNickNameToServer(string nickName)
+        {
+            string serial = DAL.ConfigRW.Serial;
+            DAL.WebAPI.SendNickNameToServer(nickName, serial);
+        }
     }
 }
