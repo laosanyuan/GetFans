@@ -79,7 +79,7 @@ namespace SocketOnline.Entity
             IsGroupChatThreadValid = false;
             IsUpdateGroupListThreadValid = false;
             IsAddGroupThreadValid = false;
-    }
+        }
         #endregion
 
         #region [回粉]
@@ -97,6 +97,7 @@ namespace SocketOnline.Entity
                     {
                         //关注不成功则停止
                         this.StopThread();
+                        HourCount = 0;
                         break;
                     }
                     else
