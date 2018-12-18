@@ -32,11 +32,11 @@
             this.richTextBoxOutput = new System.Windows.Forms.RichTextBox();
             this.panelWeibo = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.buttonUpdateSerial = new System.Windows.Forms.Button();
+            this.buttonBuySerial = new System.Windows.Forms.Button();
             this.labelSerialType = new System.Windows.Forms.Label();
             this.labelSerialTime = new System.Windows.Forms.Label();
             this.buttonLogin = new System.Windows.Forms.Button();
-            this.buttonUpdateSerial = new System.Windows.Forms.Button();
-            this.buttonBuySerial = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -44,7 +44,7 @@
             // 
             this.richTextBoxOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBoxOutput.Location = new System.Drawing.Point(574, 182);
+            this.richTextBoxOutput.Location = new System.Drawing.Point(442, 182);
             this.richTextBoxOutput.Name = "richTextBoxOutput";
             this.richTextBoxOutput.Size = new System.Drawing.Size(229, 261);
             this.richTextBoxOutput.TabIndex = 4;
@@ -56,10 +56,11 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelWeibo.AutoScroll = true;
+            this.panelWeibo.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.panelWeibo.BackColor = System.Drawing.Color.Honeydew;
             this.panelWeibo.Location = new System.Drawing.Point(3, 35);
             this.panelWeibo.Name = "panelWeibo";
-            this.panelWeibo.Size = new System.Drawing.Size(565, 408);
+            this.panelWeibo.Size = new System.Drawing.Size(433, 408);
             this.panelWeibo.TabIndex = 3;
             this.panelWeibo.SizeChanged += new System.EventHandler(this.panelWeibo_SizeChanged);
             // 
@@ -72,10 +73,32 @@
             this.panel1.Controls.Add(this.labelSerialType);
             this.panel1.Controls.Add(this.labelSerialTime);
             this.panel1.Controls.Add(this.buttonLogin);
-            this.panel1.Location = new System.Drawing.Point(575, 35);
+            this.panel1.Location = new System.Drawing.Point(443, 35);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(229, 141);
             this.panel1.TabIndex = 0;
+            // 
+            // buttonUpdateSerial
+            // 
+            this.buttonUpdateSerial.Location = new System.Drawing.Point(122, 94);
+            this.buttonUpdateSerial.MaximumSize = new System.Drawing.Size(95, 34);
+            this.buttonUpdateSerial.Name = "buttonUpdateSerial";
+            this.buttonUpdateSerial.Size = new System.Drawing.Size(95, 34);
+            this.buttonUpdateSerial.TabIndex = 4;
+            this.buttonUpdateSerial.Text = "更新序列号";
+            this.buttonUpdateSerial.UseVisualStyleBackColor = true;
+            this.buttonUpdateSerial.Click += new System.EventHandler(this.buttonUpdateSerial_Click);
+            // 
+            // buttonBuySerial
+            // 
+            this.buttonBuySerial.Location = new System.Drawing.Point(21, 94);
+            this.buttonBuySerial.MaximumSize = new System.Drawing.Size(95, 34);
+            this.buttonBuySerial.Name = "buttonBuySerial";
+            this.buttonBuySerial.Size = new System.Drawing.Size(95, 34);
+            this.buttonBuySerial.TabIndex = 3;
+            this.buttonBuySerial.Text = "获取序列号";
+            this.buttonBuySerial.UseVisualStyleBackColor = true;
+            this.buttonBuySerial.Click += new System.EventHandler(this.buttonBuySerial_Click);
             // 
             // labelSerialType
             // 
@@ -105,36 +128,15 @@
             this.buttonLogin.UseVisualStyleBackColor = true;
             this.buttonLogin.Click += new System.EventHandler(this.buttonLogin_Click);
             // 
-            // buttonUpdateSerial
-            // 
-            this.buttonUpdateSerial.Location = new System.Drawing.Point(122, 94);
-            this.buttonUpdateSerial.MaximumSize = new System.Drawing.Size(95, 34);
-            this.buttonUpdateSerial.Name = "buttonUpdateSerial";
-            this.buttonUpdateSerial.Size = new System.Drawing.Size(95, 34);
-            this.buttonUpdateSerial.TabIndex = 4;
-            this.buttonUpdateSerial.Text = "更新序列号";
-            this.buttonUpdateSerial.UseVisualStyleBackColor = true;
-            this.buttonUpdateSerial.Click += new System.EventHandler(this.buttonUpdateSerial_Click);
-            // 
-            // buttonBuySerial
-            // 
-            this.buttonBuySerial.Location = new System.Drawing.Point(21, 94);
-            this.buttonBuySerial.MaximumSize = new System.Drawing.Size(95, 34);
-            this.buttonBuySerial.Name = "buttonBuySerial";
-            this.buttonBuySerial.Size = new System.Drawing.Size(95, 34);
-            this.buttonBuySerial.TabIndex = 3;
-            this.buttonBuySerial.Text = "获取序列号";
-            this.buttonBuySerial.UseVisualStyleBackColor = true;
-            this.buttonBuySerial.Click += new System.EventHandler(this.buttonBuySerial_Click);
-            // 
             // MainPage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(811, 450);
+            this.ClientSize = new System.Drawing.Size(679, 450);
             this.Controls.Add(this.richTextBoxOutput);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panelWeibo);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainPage";
             this.Text = "小火箭互粉精灵";

@@ -81,12 +81,11 @@ namespace WIN
         {
             UserLoginControl userLogin = new UserLoginControl(user);
 
-            int columnCount = (this.panelWeibo.Width - 20) / 533;//求列数
+            int height = userLogin.Height; //控件默认长宽
+            int width = userLogin.Width;
+
+            int columnCount = (this.panelWeibo.Width - 20) / width;//求列数
             int controlCount = this.panelWeibo.Controls.Count;//求已存在微博控件数
-
-            int height = 147; //控件默认长宽
-            int width = 400;
-
 
             if (columnCount < 1)
             {
@@ -104,13 +103,13 @@ namespace WIN
             {
                 if (column == 0)
                 {
-                    userLogin.Location = new Point(4, (int)(this.panelWeibo.Controls[this.panelWeibo.Controls.Count - 1].Location.Y / 1.165) + height +4);
+                    userLogin.Location = new Point(4, (int)(this.panelWeibo.Controls[this.panelWeibo.Controls.Count - 1].Location.Y) + height +4);
 
                 }
                 else
                 {
                     userLogin.Location = new Point((width + 4) * column + 4,
-                        (int)(this.panelWeibo.Controls[this.panelWeibo.Controls.Count - 1].Location.Y/1.165));
+                        (int)(this.panelWeibo.Controls[this.panelWeibo.Controls.Count - 1].Location.Y));
                 }
 
             }
@@ -118,8 +117,6 @@ namespace WIN
             userLogin.OptionEvent += UserLogin_OptionEvent;//输出信息事件
             userLogin.ExitWeiboEvent += UserLogin_ExitWeiboEvent;//退出微博事件
             this.panelWeibo.Controls.Add(userLogin);
-
-            //List<Model.GroupFriend> friends = BLL.Weibo.GetGroupFriendsList(user.Cookies,userLogin.User.Uid, "4300602894782087", "沧海互粉 粉评赞");
         }
         //退出账号登录状态
         private void UserLogin_ExitWeiboEvent(UserLoginControl name)
@@ -128,16 +125,15 @@ namespace WIN
 
             this.panelWeibo_SizeChanged(new object(), new EventArgs());//重新布局
         }
-        //切换选项卡后刷新
+        //窗口大小改变后刷新
         private void panelWeibo_SizeChanged(object sender, EventArgs e)
         {
             //重新定位滚动条
             this.panelWeibo.VerticalScroll.Value = 0;
 
-            int columnCount = (this.panelWeibo.Width - 20) / 533;//求列数
             int controlCount = this.panelWeibo.Controls.Count;//求已存在微博控件数
 
-            if (columnCount <= 0)
+            if (controlCount <= 0)
             {
                 return;
             }
@@ -151,6 +147,12 @@ namespace WIN
 
             int height = this.panelWeibo.Controls[0].Height;
             int width = this.panelWeibo.Controls[0].Width;
+            int columnCount = (this.panelWeibo.Width - 20) / width;//求列数
+
+            if (columnCount == 0)
+            {
+                return;
+            }
 
             int row = 0;
             for (int i = 0; i < this.panelWeibo.Controls.Count; i++)
@@ -164,6 +166,8 @@ namespace WIN
                     row++;
                 }
             }
+            //更新panel布局
+            this.panelWeibo.ResumeLayout();
         }
         #endregion
 
