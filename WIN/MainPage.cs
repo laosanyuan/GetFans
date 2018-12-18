@@ -297,5 +297,37 @@ namespace WIN
             }
         }
         #endregion
+
+        #region [最小化到托盘]
+        private void MainPage_SizeChanged(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                this.ShowInTaskbar = false;
+                this.notifyIcon1.Visible = true;
+                this.notifyIcon1.ShowBalloonTip(5000, "已为您将小火箭切换到系统托盘显示", "单击图标可恢复显示，右键菜单可选择退出。", ToolTipIcon.Info);
+            }
+        }
+        private void notifyIcon1_Click(object sender, EventArgs e)
+        {
+            if (((MouseEventArgs)e).Button == MouseButtons.Left)
+            {
+                this.WindowState = FormWindowState.Normal;
+                this.ShowInTaskbar = true;
+                this.notifyIcon1.Visible = false;
+            }
+        }
+
+        private void 关于小火箭ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(BLL.Web.HelpPath());
+        }
+
+        private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        #endregion
+
     }
 }
