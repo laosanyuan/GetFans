@@ -189,7 +189,7 @@ namespace BLL
             List<Model.GroupFriend> friends = DAL.Weibo.EnterGroup(cookie, gid, groupName);
 
             //如在进入群聊后获取到当前登录用户信息，说明在此期间聊天不活跃，不再继续获取前页
-            if (friends.Find(t => t.Fan.Uid.Equals(uid)) == null)
+            if (friends.Count != 0 && friends.Find(t => t.Fan.Uid.Equals(uid)) == null)
             {
                 friends.AddRange(DAL.Weibo.GetGroupBeforePageFriends(cookie, gid, groupName, friends[0].Mid));
             }
