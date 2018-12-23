@@ -17,7 +17,6 @@ namespace WIN
         public MainPage()
         {
             InitializeComponent();
-            BLL.Serial.GetSerialType();
             //主页面打开之前判断更新版本
             this.UpdateVersion();
         }
