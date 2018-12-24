@@ -381,7 +381,7 @@ namespace WIN.Controls
         //向提示框输出清粉结果
         private void UnfollowUserMessage(int count)
         {
-            this.buttonClean.Text = "开始清粉";
+            this.buttonClean.Text = "一键清粉";
             string message = "";
             if (count == 0)
             {
