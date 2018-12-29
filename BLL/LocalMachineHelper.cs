@@ -19,7 +19,7 @@ namespace BLL
             return DAL.HttpHelper.GetMachineIP();
         }
         /// <summary>
-        /// 获取cpu id
+        /// 获取cpu id + mac地址
         /// </summary>
         /// <returns></returns>
         public static string GetCpuID()
@@ -33,7 +33,36 @@ namespace BLL
             }
             moc = null;
             mc = null;
-            return cpuInfo;
+            return cpuInfo + GetMacByWMI();
+        }
+
+        /// <summary>
+        /// 获取第一个网卡的mac地址
+        /// </summary>
+        /// <returns></returns>
+        public static string GetMacByWMI()
+{
+            string mac = "";
+            try
+            {
+                ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration");
+                ManagementObjectCollection moc = mc.GetInstances();
+                foreach (ManagementObject mo in moc)
+                {
+                    if ((bool)mo["IPEnabled"])
+                    {
+                        mac = mo["MacAddress"].ToString();
+                        break;
+                    }
+                }
+                moc = null;
+                mc = null;
+            }
+            catch
+            {
+            }
+
+            return mac;
         }
     }
 }
