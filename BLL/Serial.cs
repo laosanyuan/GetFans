@@ -30,8 +30,8 @@ namespace BLL
             }
 
             string machineName = System.Environment.MachineName;
-            string IPAddress = BLL.LocalMachineHelper.GetIP();
-            Model.WebMessage webMessage = DAL.WebAPI.IsValidSerial(serial, IPAddress, machineName);
+            string CpuId = BLL.LocalMachineHelper.GetCpuID();
+            Model.WebMessage webMessage = DAL.WebAPI.IsValidSerial(serial, CpuId, machineName);
 
             if (webMessage.c.Equals("200"))
             {
@@ -79,8 +79,8 @@ namespace BLL
         {
             string serial = DAL.ConfigRW.Serial;
             string machineName = System.Environment.MachineName;
-            string IPAddress = BLL.LocalMachineHelper.GetIP();
-            Model.WebMessage webMessage = DAL.WebAPI.GetSerialType(serial, IPAddress, machineName);
+            string CpuId = BLL.LocalMachineHelper.GetCpuID();
+            Model.WebMessage webMessage = DAL.WebAPI.GetSerialType(serial, CpuId, machineName);
 
             if (webMessage.c.Equals("200"))
             {
