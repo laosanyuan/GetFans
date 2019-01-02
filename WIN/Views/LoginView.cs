@@ -141,7 +141,7 @@ namespace WIN.Views
             }
             else
             {
-                MessageBox.Show("未知错误！", "提示");
+                MessageBox.Show("未知错误！请关闭登录保护后重试！", "提示");
             }
         }
         //获取验证码

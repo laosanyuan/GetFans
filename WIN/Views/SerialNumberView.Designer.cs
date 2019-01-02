@@ -30,12 +30,14 @@
         {
             CCWin.SkinControl.SkinLabel skinLabel1;
             CCWin.SkinControl.SkinLabel skinLabel2;
+            CCWin.SkinControl.SkinLabel skinLabel3;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SerialNumberView));
             this.skinTextBox1 = new CCWin.SkinControl.SkinTextBox();
             this.buttonOK = new System.Windows.Forms.Button();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             skinLabel1 = new CCWin.SkinControl.SkinLabel();
             skinLabel2 = new CCWin.SkinControl.SkinLabel();
+            skinLabel3 = new CCWin.SkinControl.SkinLabel();
             this.SuspendLayout();
             // 
             // skinLabel1
@@ -78,7 +80,7 @@
             this.skinTextBox1.IsPasswordChat = '\0';
             this.skinTextBox1.IsSystemPasswordChar = false;
             this.skinTextBox1.Lines = new string[0];
-            this.skinTextBox1.Location = new System.Drawing.Point(95, 126);
+            this.skinTextBox1.Location = new System.Drawing.Point(95, 156);
             this.skinTextBox1.Margin = new System.Windows.Forms.Padding(0);
             this.skinTextBox1.MaxLength = 40;
             this.skinTextBox1.MinimumSize = new System.Drawing.Size(28, 28);
@@ -116,7 +118,7 @@
             // buttonOK
             // 
             this.buttonOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonOK.Location = new System.Drawing.Point(351, 178);
+            this.buttonOK.Location = new System.Drawing.Point(351, 206);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(97, 38);
             this.buttonOK.TabIndex = 4;
@@ -128,7 +130,7 @@
             // 
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.Font = new System.Drawing.Font("宋体", 12F);
-            this.linkLabel1.Location = new System.Drawing.Point(74, 187);
+            this.linkLabel1.Location = new System.Drawing.Point(74, 215);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(88, 16);
             this.linkLabel1.TabIndex = 5;
@@ -136,11 +138,27 @@
             this.linkLabel1.Text = "获取序列号";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
+            // skinLabel3
+            // 
+            skinLabel3.ArtTextStyle = CCWin.SkinControl.ArtTextStyle.Relievo;
+            skinLabel3.AutoSize = true;
+            skinLabel3.BackColor = System.Drawing.Color.Transparent;
+            skinLabel3.BorderColor = System.Drawing.Color.White;
+            skinLabel3.Font = new System.Drawing.Font("楷体", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            skinLabel3.ForeColor = System.Drawing.Color.Red;
+            skinLabel3.Location = new System.Drawing.Point(45, 113);
+            skinLabel3.Name = "skinLabel3";
+            skinLabel3.Size = new System.Drawing.Size(471, 19);
+            skinLabel3.TabIndex = 6;
+            skinLabel3.Text = "如您今日登录环境变更已超上限，请于明日重试！";
+            skinLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // SerialNumberView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(504, 233);
+            this.ClientSize = new System.Drawing.Size(504, 261);
+            this.Controls.Add(skinLabel3);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(skinLabel2);
