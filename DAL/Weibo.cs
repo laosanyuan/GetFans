@@ -125,7 +125,7 @@ namespace DAL
 
             var s = HttpHelper.SendDataByPost(url, cookie, data);
 
-            return CheckBackCode(JsonHelper.GetBackJson(s).code);
+            return s.Equals("") ? false : CheckBackCode(JsonHelper.GetBackJson(s).code);
         }
         /// <summary>
         /// 取消关注用户
@@ -141,7 +141,7 @@ namespace DAL
 
             string s = HttpHelper.SendDataByPost(url, cookie, data);
 
-            return CheckBackCode(JsonHelper.GetBackJson(s).code);
+            return s.Equals("") ? false : CheckBackCode(JsonHelper.GetBackJson(s).code);
         }
         /// <summary>
         /// 获取未关注粉丝列表
@@ -294,7 +294,7 @@ namespace DAL
             string url = @"https://weibo.com/aj/message/groupchatadd?_wv=5";//&ajwvr=6&__rnd=" + GetTimeStamp();
             string s = HttpHelper.SendDataByPost(url, cookie, data);
 
-            return CheckBackCode(JsonHelper.GetBackJson(s).code);
+            return s.Equals("") ? false : CheckBackCode(JsonHelper.GetBackJson(s).code);
         }
         /// <summary>
         /// 加群
@@ -308,7 +308,7 @@ namespace DAL
             string url = @"https://weibo.com/p/aj/groupchat/applygroup?ajwvr=6&__rnd=" + GetTimeStamp();
             string s = HttpHelper.SendDataByPost(url, cookie, data);
 
-            return CheckBackCode(JsonHelper.GetBackJson(s).code);
+            return s.Equals("") ? false : CheckBackCode(JsonHelper.GetBackJson(s).code);
         }
         /// <summary>
         /// 获取登录用户私信列表第一页的所有群（群名、gid）
@@ -406,7 +406,7 @@ namespace DAL
             string url = @"https://weibo.com/p/aj/groupchat/exitgroup?ajwvr=6&__rnd=" + GetTimeStamp();
             string s = HttpHelper.SendDataByPost(url, cookie, data);
 
-            return CheckBackCode(JsonHelper.GetBackJson(s).code);
+            return s.Equals("") ? false : CheckBackCode(JsonHelper.GetBackJson(s).code);
         }
         #endregion
 
