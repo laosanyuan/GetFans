@@ -43,32 +43,39 @@ namespace DAL
             lock (obj)
             {
                 string tableName = "group" + uid;
-
                 using (SQLiteConnection connection = DataBaseConnection())
                 {
-                    if (connection.State != System.Data.ConnectionState.Open)
+                    try
                     {
-                        connection.Open();
-                        using (SQLiteCommand command = new SQLiteCommand())
+                        if (connection.State != System.Data.ConnectionState.Open)
                         {
-                            command.Connection = connection;
-
-                            //判断Users table是否存在
-                            command.CommandText = String.Format("SELECT COUNT(*) FROM sqlite_master WHERE TYPE = 'table' AND NAME = '{0}'", tableName);
-                            command.ExecuteNonQuery();
-                            SQLiteDataReader reader = command.ExecuteReader();
-                            reader.Read();
-                            int count = reader.GetInt32(0);
-                            reader.Close();
-
-                            if (count == 0)
+                            connection.Open();
+                            using (SQLiteCommand command = new SQLiteCommand())
                             {
-                                //创建users表
-                                command.CommandText = String.Format("CREATE TABLE {0} (name varchar(200),gid varchar(200),enterTime varchar(200),exitTime varchar(200),isAdded varchar(200))", tableName);
+                                command.Connection = connection;
+
+                                //判断Users table是否存在
+                                command.CommandText = String.Format("SELECT COUNT(*) FROM sqlite_master WHERE TYPE = 'table' AND NAME = '{0}'", tableName);
                                 command.ExecuteNonQuery();
+                                SQLiteDataReader reader = command.ExecuteReader();
+                                reader.Read();
+                                int count = reader.GetInt32(0);
+                                reader.Close();
+
+                                if (count == 0)
+                                {
+                                    //创建users表
+                                    command.CommandText = String.Format("CREATE TABLE {0} (name varchar(200),gid varchar(200),enterTime varchar(200),exitTime varchar(200),isAdded varchar(200))", tableName);
+                                    command.ExecuteNonQuery();
+                                }
                             }
                         }
                     }
+                    catch
+                    {
+
+                    }
+                    connection.Close();
                 }
             }
         }
@@ -86,35 +93,43 @@ namespace DAL
 
                 using (SQLiteConnection connection = DataBaseConnection())
                 {
-
-                    if (connection.State != System.Data.ConnectionState.Open)
+                    try
                     {
-                        connection.Open();
-                        using (SQLiteCommand command = new SQLiteCommand())
+
+                        if (connection.State != System.Data.ConnectionState.Open)
                         {
-                            command.Connection = connection;
-
-                            //确认是否已存在
-                            command.CommandText = String.Format("SELECT COUNT(*) From {0} WHERE gid = '{1}'", tableName, gid);
-                            command.ExecuteNonQuery();
-                            SQLiteDataReader reader = command.ExecuteReader();
-                            reader.Read();
-                            int count = reader.GetInt32(0);
-                            reader.Close();
-
-                            if (count == 0)
+                            connection.Open();
+                            using (SQLiteCommand command = new SQLiteCommand())
                             {
-                                //添加
-                                command.CommandText = String.Format("INSERT INTO {0} (name,gid,enterTime,isAdded) VALUES ('{1}','{2}','{3}','{4}')", tableName, name, gid, DateTime.Now.ToString(), "true");
+                                command.Connection = connection;
+
+                                //确认是否已存在
+                                command.CommandText = String.Format("SELECT COUNT(*) From {0} WHERE gid = '{1}'", tableName, gid);
                                 command.ExecuteNonQuery();
-                            }
-                            else
-                            {
-                                //更新
-                                command.CommandText = String.Format("UPDATE {0} SET isAdded = 'true' WHERE gid = '{1}'", tableName, gid);
-                                command.ExecuteNonQuery();
+                                SQLiteDataReader reader = command.ExecuteReader();
+                                reader.Read();
+                                int count = reader.GetInt32(0);
+                                reader.Close();
+
+                                if (count == 0)
+                                {
+                                    //添加
+                                    command.CommandText = String.Format("INSERT INTO {0} (name,gid,enterTime,isAdded) VALUES ('{1}','{2}','{3}','{4}')", tableName, name, gid, DateTime.Now.ToString(), "true");
+                                    command.ExecuteNonQuery();
+                                }
+                                else
+                                {
+                                    //更新
+                                    command.CommandText = String.Format("UPDATE {0} SET isAdded = 'true' WHERE gid = '{1}'", tableName, gid);
+                                    command.ExecuteNonQuery();
+                                }
                             }
                         }
+
+                    }
+                    catch
+                    {
+
                     }
                     connection.Close();
                 }
@@ -134,16 +149,22 @@ namespace DAL
                 using (SQLiteConnection connection = DataBaseConnection())
                 {
 
-                    if (connection.State != System.Data.ConnectionState.Open)
+                    try
                     {
-                        connection.Open();
-                        using (SQLiteCommand command = new SQLiteCommand())
+                        if (connection.State != System.Data.ConnectionState.Open)
                         {
-                            command.Connection = connection;
+                            connection.Open();
+                            using (SQLiteCommand command = new SQLiteCommand())
+                            {
+                                command.Connection = connection;
 
-                            command.CommandText = String.Format("UPDATE {0} SET  isAdded = 'false',exitTime = '{1}' WHERE gid = '{2}'", tableName, DateTime.Now.ToString(), gid);
-                            command.ExecuteNonQuery();
+                                command.CommandText = String.Format("UPDATE {0} SET  isAdded = 'false',exitTime = '{1}' WHERE gid = '{2}'", tableName, DateTime.Now.ToString(), gid);
+                                command.ExecuteNonQuery();
+                            }
                         }
+                    }
+                    catch
+                    {
                     }
                     connection.Close();
                 }
@@ -165,21 +186,27 @@ namespace DAL
 
                 using (SQLiteConnection connection = DataBaseConnection())
                 {
-                    if (connection.State != System.Data.ConnectionState.Open)
+                    try
                     {
-                        connection.Open();
-                        using (SQLiteCommand command = new SQLiteCommand())
+                        if (connection.State != System.Data.ConnectionState.Open)
                         {
-                            command.Connection = connection;
-
-                            command.CommandText = String.Format("SELECT enterTime FROM {0} WHERE gid = '{1}'", tableName, gid);
-                            command.ExecuteNonQuery();
-                            SQLiteDataReader reader = command.ExecuteReader();
-                            while (reader.Read())
+                            connection.Open();
+                            using (SQLiteCommand command = new SQLiteCommand())
                             {
-                                dt = Convert.ToDateTime(reader.GetString(0));
+                                command.Connection = connection;
+
+                                command.CommandText = String.Format("SELECT enterTime FROM {0} WHERE gid = '{1}'", tableName, gid);
+                                command.ExecuteNonQuery();
+                                SQLiteDataReader reader = command.ExecuteReader();
+                                while (reader.Read())
+                                {
+                                    dt = Convert.ToDateTime(reader.GetString(0));
+                                }
                             }
                         }
+                    }
+                    catch
+                    {
                     }
                     connection.Close();
                 }
@@ -202,21 +229,27 @@ namespace DAL
 
                 using (SQLiteConnection connection = DataBaseConnection())
                 {
-                    if (connection.State != System.Data.ConnectionState.Open)
+                    try
                     {
-                        connection.Open();
-                        using (SQLiteCommand command = new SQLiteCommand())
+                        if (connection.State != System.Data.ConnectionState.Open)
                         {
-                            command.Connection = connection;
-
-                            command.CommandText = String.Format("SELECT exitTime FROM {0} WHERE gid = '{1}'", tableName, gid);
-                            command.ExecuteNonQuery();
-                            SQLiteDataReader reader = command.ExecuteReader();
-                            while (reader.Read())
+                            connection.Open();
+                            using (SQLiteCommand command = new SQLiteCommand())
                             {
-                                dt = Convert.ToDateTime(reader.GetString(0));
+                                command.Connection = connection;
+
+                                command.CommandText = String.Format("SELECT exitTime FROM {0} WHERE gid = '{1}'", tableName, gid);
+                                command.ExecuteNonQuery();
+                                SQLiteDataReader reader = command.ExecuteReader();
+                                while (reader.Read())
+                                {
+                                    dt = Convert.ToDateTime(reader.GetString(0));
+                                }
                             }
                         }
+                    }
+                    catch
+                    {
                     }
                     connection.Close();
                 }
@@ -237,30 +270,36 @@ namespace DAL
                 bool isExist = false;
                 using (SQLiteConnection connection = DataBaseConnection())
                 {
-                    if (connection.State != System.Data.ConnectionState.Open)
+                    try
                     {
-                        connection.Open();
-                        using (SQLiteCommand command = new SQLiteCommand())
+                        if (connection.State != System.Data.ConnectionState.Open)
                         {
-                            command.Connection = connection;
-
-                            //判断Users table是否存在
-                            command.CommandText = String.Format("SELECT COUNT(*) FROM {0} WHERE gid = '{1}'", tableName, gid);
-                            command.ExecuteNonQuery();
-                            SQLiteDataReader reader = command.ExecuteReader();
-                            reader.Read();
-                            int count = reader.GetInt32(0);
-                            reader.Close();
-
-                            if (count == 0)
+                            connection.Open();
+                            using (SQLiteCommand command = new SQLiteCommand())
                             {
-                                isExist = false;
-                            }
-                            else
-                            {
-                                isExist = true;
+                                command.Connection = connection;
+
+                                //判断Users table是否存在
+                                command.CommandText = String.Format("SELECT COUNT(*) FROM {0} WHERE gid = '{1}'", tableName, gid);
+                                command.ExecuteNonQuery();
+                                SQLiteDataReader reader = command.ExecuteReader();
+                                reader.Read();
+                                int count = reader.GetInt32(0);
+                                reader.Close();
+
+                                if (count == 0)
+                                {
+                                    isExist = false;
+                                }
+                                else
+                                {
+                                    isExist = true;
+                                }
                             }
                         }
+                    }
+                    catch
+                    {
                     }
                     connection.Close();
                 }

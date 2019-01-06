@@ -252,7 +252,7 @@ namespace BLL
         public static bool ExitGroupByTime(CookieContainer cookie, string uid, string gid, string groupName)
         {
             DateTime enterTime = DAL.WinClientSQLiteHelper.GetGroupEnterTime(uid, gid);
-            if (enterTime.Equals(new DateTime()))
+            if (enterTime.Equals(new DateTime()) || enterTime.Year < 2018)
             {
                 return false;
             }
@@ -287,6 +287,10 @@ namespace BLL
             else
             {
                 DateTime exitTime = DAL.WinClientSQLiteHelper.GetGroupExitTime(uid, gid);
+                if (exitTime.Year < 2018)
+                {
+                    return;
+                }
                 TimeSpan span = DateTime.Now.Subtract(exitTime);
                 int days = Convert.ToInt32(span.Days);
                 if (days > GroupIntervalDay)
