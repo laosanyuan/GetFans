@@ -41,10 +41,10 @@
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.设置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemAccountAdd = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemAccount = new System.Windows.Forms.ToolStripMenuItem();
-            this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -168,6 +168,12 @@
             this.文件ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.文件ToolStripMenuItem.Text = "文件";
             // 
+            // 退出ToolStripMenuItem
+            // 
+            this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
+            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.退出ToolStripMenuItem.Text = "退出";
+            // 
             // 设置ToolStripMenuItem
             // 
             this.设置ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -182,18 +188,13 @@
             this.ToolStripMenuItemAccountAdd.Name = "ToolStripMenuItemAccountAdd";
             this.ToolStripMenuItemAccountAdd.Size = new System.Drawing.Size(180, 22);
             this.ToolStripMenuItemAccountAdd.Text = "添加账号";
+            this.ToolStripMenuItemAccountAdd.Click += new System.EventHandler(this.ToolStripMenuItemAccountAdd_Click);
             // 
             // ToolStripMenuItemAccount
             // 
             this.ToolStripMenuItemAccount.Name = "ToolStripMenuItemAccount";
             this.ToolStripMenuItemAccount.Size = new System.Drawing.Size(180, 22);
             this.ToolStripMenuItemAccount.Text = "管理账号";
-            // 
-            // 退出ToolStripMenuItem
-            // 
-            this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
-            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.退出ToolStripMenuItem.Text = "退出";
             // 
             // MainPageView
             // 

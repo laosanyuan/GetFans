@@ -226,5 +226,20 @@ namespace SocketOnline.Views
 
 
         #endregion
+
+        #region [菜单选项]
+        //添加账号
+        private void ToolStripMenuItemAccountAdd_Click(object sender, EventArgs e)
+        {
+            Views.LoginView loginView = new LoginView();
+            loginView.ShowDialog();
+
+            //判断是否登录成功
+            if (loginView.IsSuccess)
+            {
+
+            }
+        }
+        #endregion
     }
 }
