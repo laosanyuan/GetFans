@@ -149,6 +149,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\sinaSSOEncoder" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -168,6 +169,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Resources\SQLite.Interop.dll" />
     <Content Include="Rocket_128.ico" />
   </ItemGroup>
   <ItemGroup>
