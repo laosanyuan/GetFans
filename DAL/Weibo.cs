@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Model;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -319,29 +321,23 @@ namespace DAL
         {
             List<Model.Group> Groups = new List<Model.Group>();
 
-            string url = @"https://weibo.com/messages?topnav=1&wvr=6";
+            string referer = "https://api.weibo.com/chat/";
+            string url = @"https://api.weibo.com/webim/groupchat/query_join_groups.json?source=209678993&t="+GetTimeStamp();
             string regexString = @"gid=(\d)*?&name=(.)*?&type=2";
-            string result = HttpHelper.Get(url, cookie, true);
+            string result = HttpHelper.Get(url, cookie, referer, true);
 
-            MatchCollection matches = Regex.Matches(result, regexString);
+            var list = JsonConvert.DeserializeObject<GroupList>(result);
 
-            foreach (Match match in matches)
+            foreach (var group in list.join_groups)
             {
-                //剔除非互粉群
-                if (match.Value.IndexOf("互") == -1 &&
-                    (match.Value.IndexOf("粉") == -1 || match.Value.IndexOf("评") == -1 || match.Value.IndexOf("赞") == -1))
+                if(group.name.Contains("互") &&
+                    (group.name.Contains("评") || group.name.Contains("赞") || group.name.Contains("粉")))
                 {
-                    continue;
+                    Model.Group g = new Model.Group();
+                    g.Gid = group.id.ToString();
+                    g.Name = group.name;
+                    Groups.Add(g);
                 }
-
-                string data = match.Value.Replace("gid=", "").Replace("&type=2", "").Replace("name=","");
-                string[] values = data.Split('&');
-
-                Model.Group group = new Model.Group();
-                group.Gid = values[0];
-                group.Name = values[1];
-
-                Groups.Add(group);
             }
             return Groups;
         }

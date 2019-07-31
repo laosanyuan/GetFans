@@ -38,6 +38,27 @@ namespace DAL
             }
         }
 
+        public static string Get(string url, CookieContainer myCookieContainer,string referer, bool autoRedirect)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                request.Method = "GET";
+                request.CookieContainer = myCookieContainer;
+                request.AllowAutoRedirect = autoRedirect;
+                request.Referer = referer;
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
+                string retStr = sr.ReadToEnd();
+                sr.Close();
+                return retStr;
+            }
+            catch (Exception ex)
+            {
+                return "";
+            }
+        }
+
         /// <summary>
         /// 创建GET方式的HTTP请求
         /// </summary>

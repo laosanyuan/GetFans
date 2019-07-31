@@ -73,7 +73,7 @@ namespace WIN.Controls
                 List<Model.Group> groups = BLL.Weibo.GetGroups(updateGroupUser.Cookies);
                 //加入总列表
                 this.BeginInvoke(new UpdateGroupListDelegate(AddGroupToList) , groups);
-                Thread.Sleep(180000); //三分钟更新一次
+                Thread.Sleep(600000); //10分钟更新一次
             }
         }
         private void AddGroupToList(List<Model.Group> groups)
