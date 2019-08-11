@@ -307,21 +307,23 @@ namespace WIN.Controls
                 List<Model.Group> groups = BLL.Weibo.GetGroups(followUser.Cookies);
                 foreach (Model.Group group in groups)
                 {
-                    List<Model.GroupFriend> groupFriends = BLL.Weibo.GetGroupFriendsList(followUser.Cookies, followUser.Uid, group.Gid, group.Name);
-                    foreach (Model.GroupFriend friend in groupFriends)
+                    List<MessagesItem> groupFriends = BLL.Weibo.GetGroupFriendsList(followUser.Cookies, followUser.Uid, group.Gid, group.Name);
+                    foreach (var friend in groupFriends)
                     {
                         //所获取到的聊天内容是否存在于聊天库中
-                        if (BLL.Weibo.GroupInviteFollowMe.Contains(friend.Message))
+                        if (BLL.Weibo.GroupInviteFollowMe.Contains(friend.content))
                         {
                             //如果互相未关注，关注对方
-                            if (BLL.Weibo.GetFriendFollowStatus(followUser.Cookies, friend.Fan.Uid) == FriendStatus.UnFollowEachOther)
+                            if (BLL.Weibo.GetFriendFollowStatus(followUser.Cookies, friend.from_uid.ToString()) == FriendStatus.UnFollowEachOther)
                             {
-                                BLL.Weibo.Follow(friend.Fan.Uid, friend.Fan.NickName, followUser.Cookies);
+                                BLL.Weibo.Follow(friend.from_uid.ToString(), friend.from_user.screen_name, followUser.Cookies);
+                                Thread.Sleep(20000);    //间隔20秒
                             }
                         }
+                        Thread.Sleep(500);
                     }
                 }
-                Thread.Sleep(300000);//休眠5分钟
+                Thread.Sleep(600000 / (groups.Count + 1));
             }
         }
         #endregion

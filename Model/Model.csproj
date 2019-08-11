@@ -46,8 +46,8 @@
     <Compile Include="Enums.cs" />
     <Compile Include="Fan.cs" />
     <Compile Include="Group.cs" />
-    <Compile Include="GroupFriend.cs" />
     <Compile Include="GroupList.cs" />
+    <Compile Include="GroupMessageResponseModel.cs" />
     <Compile Include="LoginParameter.cs" />
     <Compile Include="OnlineUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -184,20 +184,9 @@ namespace BLL
         /// <param name="gid">群id</param>
         /// <param name="groupName">群名</param>
         /// <returns></returns>
-        public static List<Model.GroupFriend> GetGroupFriendsList(CookieContainer cookie,string uid, string gid,string groupName )
+        public static List<Model.MessagesItem> GetGroupFriendsList(CookieContainer cookie,string uid, string gid,string groupName )
         {
-            List<Model.GroupFriend> friends = DAL.Weibo.EnterGroup(cookie, gid, groupName);
-
-            //如在进入群聊后获取到当前登录用户信息，说明在此期间聊天不活跃，不再继续获取前页
-            if (friends.Count != 0 && friends.Find(t => t.Fan.Uid.Equals(uid)) == null)
-            {
-                friends.AddRange(DAL.Weibo.GetGroupBeforePageFriends(cookie, gid, groupName, friends[0].Mid));
-            }
-            else
-            {
-                friends.Clear();
-            }
-            return friends;
+            return DAL.Weibo.GetGroupBeforePageFriends(cookie, gid);
         }
         /// <summary>
         /// 获取特定好友的关注状态
@@ -352,7 +341,18 @@ namespace BLL
             "有粉必回，信誉保证",
             "粉我的都已回关，请继续[坏笑][坏笑][坏笑]",
             "真实互粉，诚信为主，有粉必回",
-            "欢迎关注我，立即回关！"
+            "欢迎关注我，立即回关！",
+
+            "[心]互粉啊亲",
+            "在线互粉，我等你！",
+            "互粉回关开始了，欢迎关注，即刻回粉",
+            "互粉不限量！",
+            "互粉啊，关注即可，立即回关，不用艾特~",
+            "都回关了呦，继续互粉[握手]",
+            "互粉互粉，有粉必回不犹豫",
+            "开始互粉了，互粉冲鸭",
+            "[互粉]",
+            "互粉互赞互评，互相帮助快快增粉！"
         };
         #endregion
     }

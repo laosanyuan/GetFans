@@ -313,7 +313,7 @@ namespace DAL
             return s.Equals("") ? false : CheckBackCode(JsonHelper.GetBackJson(s).code);
         }
         /// <summary>
-        /// 获取登录用户私信列表第一页的所有群（群名、gid）
+        /// 获取当前登录用户私信列表的所有群（群名、gid）
         /// </summary>
         /// <param name="cookie"></param>
         /// <returns></returns>
@@ -323,20 +323,22 @@ namespace DAL
 
             string referer = "https://api.weibo.com/chat/";
             string url = @"https://api.weibo.com/webim/groupchat/query_join_groups.json?source=209678993&t="+GetTimeStamp();
-            string regexString = @"gid=(\d)*?&name=(.)*?&type=2";
+
             string result = HttpHelper.Get(url, cookie, referer, true);
 
             var list = JsonConvert.DeserializeObject<GroupList>(result);
-
-            foreach (var group in list.join_groups)
+            if (list != null && list.join_groups != null)
             {
-                if(group.name.Contains("互") &&
-                    (group.name.Contains("评") || group.name.Contains("赞") || group.name.Contains("粉")))
+                foreach (var group in list.join_groups)
                 {
-                    Model.Group g = new Model.Group();
-                    g.Gid = group.id.ToString();
-                    g.Name = group.name;
-                    Groups.Add(g);
+                    if (group.name.Contains("互") &&
+                        (group.name.Contains("评") || group.name.Contains("赞") || group.name.Contains("粉")))
+                    {
+                        Model.Group g = new Model.Group();
+                        g.Gid = group.id.ToString();
+                        g.Name = group.name;
+                        Groups.Add(g);
+                    }
                 }
             }
             return Groups;
@@ -349,28 +351,21 @@ namespace DAL
         /// <param name="groupName">群名</param>
         /// <param name="mid">定位聊天信息</param>
         /// <returns></returns>
-        public static List<Model.GroupFriend> GetGroupBeforePageFriends(CookieContainer cookie,string gid,string groupName,string mid)
+        public static List<Model.MessagesItem> GetGroupBeforePageFriends(CookieContainer cookie,string mid)
         {
-            string url = String.Format(@"https://weibo.com/aj/groupchat/getdialog?_wv=5&ajwvr=6&mid={0}&count=20&gid={1}&_t=0&__rnd=", mid, gid) + GetTimeStamp();
+            List<Model.MessagesItem> Messages = new List<MessagesItem>();
+            string referer = "https://api.weibo.com/chat/";
+            string url = String.Format("https://api.weibo.com/webim/groupchat/query_messages.json?convert_emoji=1&query_sender=1&count=20&id={0}&max_mid=0&source=209678993&t={1}", mid, GetTimeStamp());
 
-            string s = HttpHelper.Get(url, cookie, false);
+            string s = HttpHelper.Get(url, cookie, referer, true);
 
-            return AnalysisGroupFriend(s, gid, groupName);
-        }
-        /// <summary>
-        /// 进入群聊并获取当前聊天好友信息
-        /// </summary>
-        /// <param name="cookie"></param>
-        /// <param name="gid">群id</param>
-        /// <param name="groupName">群名</param>
-        /// <returns>初始正在聊天好友</returns>
-        public static List<Model.GroupFriend> EnterGroup(CookieContainer cookie,string gid,string groupName)
-        {
-            string url = String.Format(@"https://weibo.com/message/history?gid={0}&name={1}&type=2&ajaxpagelet=1&ajaxpagelet_v6=1&__ref=%2Fmessages&_t=FM_{2}", gid, groupName, GetTimeStamp());
+            if (!s.Equals(""))
+            {
+                var messages = JsonConvert.DeserializeObject<Model.GroupMessageResponse>(s);
+                Messages = messages.messages;
+            }
 
-            string s = HttpHelper.Get(url, cookie, false);
-
-            return AnalysisGroupFriend(s, gid,groupName);
+            return Messages;
         }
         /// <summary>
         /// 判断是否已经加过此群
@@ -407,101 +402,6 @@ namespace DAL
         #endregion
 
         #region 私有方法
-        /// <summary>
-        /// 根据网页信息获得群聊天好友信息
-        /// </summary>
-        /// <param name="str">网页字符串</param>
-        /// <param name="gid">群id</param>
-        /// <param name="groupName">群名</param>
-        /// <returns></returns>
-        private static List<Model.GroupFriend> AnalysisGroupFriend(string str,string gid,string groupName)
-        {
-            List<Model.GroupFriend> friends = new List<Model.GroupFriend>();
-
-            string regexString = @"msg_bubble(.)*?<!--card信息-->";
-            MatchCollection matches = Regex.Matches(str, regexString);
-
-            foreach (Match match in matches)
-            {
-                Model.GroupFriend friend = new Model.GroupFriend();
-
-                Match forMatch;
-                //获取uid
-                regexString = @"id=(\d){1,}";
-                if (Regex.IsMatch(match.Value, regexString))
-                {
-                    forMatch = Regex.Match(match.Value, regexString);
-                }
-                else
-                {
-                    continue;
-                }
-                string uid = forMatch.Value.Replace("id=", "");
-                if (friends.Find(t => t.Fan.Uid.Equals(uid)) != null)
-                {
-                    continue;
-                }
-                //获取nickName
-                regexString = "bubble_name(.)*?<";
-                if (Regex.IsMatch(match.Value, regexString))
-                {
-                    forMatch = Regex.Match(match.Value, regexString);
-                }
-                else
-                {
-                    continue;
-                }
-                string nickName = forMatch.Value.Replace("bubble_name\\\">", "").Replace("<", "");
-                //解码unicode昵称
-                if (Regex.IsMatch(nickName, "(\\\\u[0-9a-fA-F]{4})+"))
-                {
-                    matches = Regex.Matches(nickName, "(\\\\u[0-9a-fA-F]{4})+");
-                    foreach (Match m in matches)
-                    {
-                        string[] unicodes = m.Value.Replace("\\", "").Split('u');
-                        char[] chars = new char[unicodes.Length - 1];
-                        for (int i = 1; i < unicodes.Length; i++)
-                        {
-                            chars[i - 1] = (char)Convert.ToInt32(unicodes[i], 16);
-                        }
-                        nickName = nickName.Replace(m.Value, new string(chars));
-                    }
-                }
-
-                //获取mid
-                regexString = "mid=(.)*?>";
-                if (Regex.IsMatch(match.Value, regexString))
-                {
-                    forMatch = Regex.Match(match.Value, regexString);
-                }
-                else
-                {
-                    continue;
-                }
-                string mid = forMatch.Value.Replace("mid=\\\"", "").Replace("\\\">", "");
-
-                //获取聊天内容
-                regexString = "page(.)*?/p>";
-                if (Regex.IsMatch(match.Value, regexString))
-                {
-                    forMatch = Regex.Match(match.Value, regexString);
-                }
-                else
-                {
-                    continue;
-                }
-                string message = forMatch.Value.Replace("page\\\">", "").Replace("<\\/p>", "").Trim();
-
-                friend.Fan = new Model.Fan() { Uid = uid ,NickName = nickName};   
-                friend.Gid = gid;
-                friend.GroupName = groupName;
-                friend.Mid = mid;
-                friend.Message = message;
-                friends.Add(friend);
-            }
-
-            return friends;
-        }
         /// <summary>
         /// 获取加密后的密码
         /// </summary>
