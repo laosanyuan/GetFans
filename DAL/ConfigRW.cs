@@ -26,7 +26,8 @@ namespace DAL
         {
             get
             {
-                return ConfigurationManager.AppSettings["BuySerialPath"];
+                return "http://49.235.163.245/pay";
+                //return ConfigurationManager.AppSettings["BuySerialPath"];
             }
         }
         #endregion
@@ -90,7 +91,8 @@ namespace DAL
         {
             get
             {
-                return ConfigurationManager.AppSettings["HelpPath"];
+                return "http://47.100.249.244/rocket";
+                //return ConfigurationManager.AppSettings["HelpPath"];
             }
         }
 
