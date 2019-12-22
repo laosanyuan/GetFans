@@ -2,7 +2,7 @@
 
 ; 安装程序初始定义常量
 !define PRODUCT_NAME "极光互粉助手"
-!define PRODUCT_VERSION "1.2.0"
+!define PRODUCT_VERSION "1.2.2"
 !define PRODUCT_PUBLISHER "极光互粉助手, Inc."
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\极光互粉助手.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"

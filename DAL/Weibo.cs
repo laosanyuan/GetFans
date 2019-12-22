@@ -448,7 +448,7 @@ namespace DAL
                 userHomePageTxt = userHomePageTxt.Substring(indexStart);
                 string url = userHomePageTxt.Substring(0, userHomePageTxt.IndexOf("';"));
                 WebClient wc = new WebClient();
-                user.HeaderPicture = Image.FromStream(wc.OpenRead("http:" + url));
+                user.HeaderPicture = Image.FromStream(wc.OpenRead(url));
             }
             catch (Exception ex)
             {
