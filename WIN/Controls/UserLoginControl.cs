@@ -233,6 +233,7 @@ namespace WIN.Controls
         private Random random = new Random();
         private void GroupChatFunction(object user)
         {
+            string serialType = BLL.Serial.GetSerialType();
             Model.User followUser = (Model.User)user;
             while (true)
             {
@@ -242,6 +243,10 @@ namespace WIN.Controls
                 for (int i = 0; i < groupList.Count; i++)
                 {
                     string message = BLL.Weibo.GroupInviteFollowMe[random.Next(BLL.Weibo.GroupInviteFollowMe.Count - 1)];
+                    if (serialType.Equals("试用号"))
+                    {
+                        message += "@极光互粉助手";
+                    }
                     try
                     {
                         BLL.Weibo.SendMessage2Group(followUser.Cookies, groupList[i].Gid, message);

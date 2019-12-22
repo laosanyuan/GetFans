@@ -271,7 +271,7 @@ namespace WIN
             }
 
             //标题栏 显示版本号
-            this.Text = "小火箭互粉精灵 V" + BLL.Version.CurrentClientVersion();
+            this.Text = "极光互粉助手 V" + BLL.Version.CurrentClientVersion();
         }
         //验证版本有效性
         private void CheckVersion()
@@ -304,7 +304,7 @@ namespace WIN
             {
                 this.ShowInTaskbar = false;
                 this.notifyIcon1.Visible = true;
-                this.notifyIcon1.ShowBalloonTip(5000, "已为您将小火箭切换到系统托盘显示", "单击图标可恢复显示，右键菜单可选择退出。", ToolTipIcon.Info);
+                this.notifyIcon1.ShowBalloonTip(5000, "已为您将极光互粉助手切换到系统托盘显示", "单击图标可恢复显示，右键菜单可选择退出。", ToolTipIcon.Info);
             }
         }
         private void notifyIcon1_Click(object sender, EventArgs e)

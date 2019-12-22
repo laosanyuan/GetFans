@@ -58,15 +58,22 @@ namespace BLL
         public static string GetSerialInvalidDate()
         {
             Model.WebMessage webMessage = DAL.WebAPI.GetSerialInvalidDate(DAL.ConfigRW.Serial);
-            if (webMessage.c.Equals("200")&& !webMessage.d.ToString().Equals("0"))
+            try
             {
-                System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
-                DateTime dt = startTime.AddSeconds(Convert.ToInt64(webMessage.d));
-                return dt.ToString("yyyy/MM/dd HH:mm:ss");
+                if (webMessage.c.Equals("200") && !webMessage.d.ToString().Equals("0"))
+                {
+                    System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
+                    DateTime dt = startTime.AddSeconds(Convert.ToInt64(webMessage.d));
+                    return dt.ToString("yyyy/MM/dd HH:mm:ss");
+                }
+                else if (webMessage.c.Equals("200") && webMessage.d.ToString().Equals("0"))
+                {
+                    return "无效序列号";
+                }
             }
-            else if(webMessage.c.Equals("200") && webMessage.d.ToString().Equals("0"))
+            catch
             {
-                return "无效序列号";
+
             }
             return "有效期获取失败";
         }
@@ -82,20 +89,26 @@ namespace BLL
             string CpuId = BLL.LocalMachineHelper.GetCpuID();
             Model.WebMessage webMessage = DAL.WebAPI.GetSerialType(serial, CpuId, machineName);
 
-            if (webMessage.c.Equals("200"))
+            try
             {
-                if (webMessage.d.ToString().Equals("1"))
+                if (webMessage.c.Equals("200"))
                 {
-                    return "试用号";
+                    if (webMessage.d.ToString().Equals("1"))
+                    {
+                        return "试用号";
+                    }
+                    else if (webMessage.d.ToString().Equals("2"))
+                    {
+                        return "普通号";
+                    }
+                    else if (webMessage.d.ToString().Equals("3"))
+                    {
+                        return "VIP账号";
+                    }
                 }
-                else if (webMessage.d.ToString().Equals("2"))
-                {
-                    return "普通号";
-                }
-                else if (webMessage.d.ToString().Equals("3"))
-                {
-                    return "VIP账号";
-                }
+            }
+            catch
+            {
             }
             return "未知种类";
         }

@@ -137,11 +137,11 @@
             // notifyIcon1
             // 
             this.notifyIcon1.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Error;
-            this.notifyIcon1.BalloonTipText = "小火箭互粉精灵";
+            this.notifyIcon1.BalloonTipText = "极光互粉助手";
             this.notifyIcon1.BalloonTipTitle = "提示";
             this.notifyIcon1.ContextMenuStrip = this.contextMenuStrip1;
             this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
-            this.notifyIcon1.Text = "小火箭互粉精灵";
+            this.notifyIcon1.Text = "极光互粉助手";
             this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
             // 
             // contextMenuStrip1
@@ -150,19 +150,19 @@
             this.关于小火箭ToolStripMenuItem,
             this.退出ToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 70);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(125, 48);
             // 
             // 关于小火箭ToolStripMenuItem
             // 
             this.关于小火箭ToolStripMenuItem.Name = "关于小火箭ToolStripMenuItem";
-            this.关于小火箭ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.关于小火箭ToolStripMenuItem.Text = "关于小火箭";
+            this.关于小火箭ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.关于小火箭ToolStripMenuItem.Text = "关于极光";
             this.关于小火箭ToolStripMenuItem.Click += new System.EventHandler(this.关于小火箭ToolStripMenuItem_Click);
             // 
             // 退出ToolStripMenuItem
             // 
             this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
-            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.退出ToolStripMenuItem.Text = "退出";
             this.退出ToolStripMenuItem.Click += new System.EventHandler(this.退出ToolStripMenuItem_Click);
             // 
@@ -177,7 +177,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainPage";
-            this.Text = "小火箭互粉精灵";
+            this.Text = "极光互粉助手";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainPage_FormClosing);
             this.Load += new System.EventHandler(this.MainPage_Load);
             this.SizeChanged += new System.EventHandler(this.MainPage_SizeChanged);

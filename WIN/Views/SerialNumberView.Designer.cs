@@ -70,6 +70,21 @@
             skinLabel2.Text = "请获取序列号或及时续费以便后续功能的使用";
             skinLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // skinLabel3
+            // 
+            skinLabel3.ArtTextStyle = CCWin.SkinControl.ArtTextStyle.Relievo;
+            skinLabel3.AutoSize = true;
+            skinLabel3.BackColor = System.Drawing.Color.Transparent;
+            skinLabel3.BorderColor = System.Drawing.Color.White;
+            skinLabel3.Font = new System.Drawing.Font("楷体", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            skinLabel3.ForeColor = System.Drawing.Color.Red;
+            skinLabel3.Location = new System.Drawing.Point(45, 113);
+            skinLabel3.Name = "skinLabel3";
+            skinLabel3.Size = new System.Drawing.Size(471, 19);
+            skinLabel3.TabIndex = 6;
+            skinLabel3.Text = "如您今日登录环境变更已超上限，请于明日重试！";
+            skinLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // skinTextBox1
             // 
             this.skinTextBox1.BackColor = System.Drawing.Color.Transparent;
@@ -137,21 +152,6 @@
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "获取序列号";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
-            // 
-            // skinLabel3
-            // 
-            skinLabel3.ArtTextStyle = CCWin.SkinControl.ArtTextStyle.Relievo;
-            skinLabel3.AutoSize = true;
-            skinLabel3.BackColor = System.Drawing.Color.Transparent;
-            skinLabel3.BorderColor = System.Drawing.Color.White;
-            skinLabel3.Font = new System.Drawing.Font("楷体", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            skinLabel3.ForeColor = System.Drawing.Color.Red;
-            skinLabel3.Location = new System.Drawing.Point(45, 113);
-            skinLabel3.Name = "skinLabel3";
-            skinLabel3.Size = new System.Drawing.Size(471, 19);
-            skinLabel3.TabIndex = 6;
-            skinLabel3.Text = "如您今日登录环境变更已超上限，请于明日重试！";
-            skinLabel3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // SerialNumberView
             // 

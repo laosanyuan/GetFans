@@ -26,7 +26,7 @@ namespace DAL
         {
             get
             {
-                return "http://49.235.163.245/pay";
+                return "http://111.229.208.86/pay";
                 //return ConfigurationManager.AppSettings["BuySerialPath"];
             }
         }
@@ -100,7 +100,7 @@ namespace DAL
         {
             get
             {
-                var versionInfo = FileVersionInfo.GetVersionInfo("小火箭互粉精灵.exe");
+                var versionInfo = FileVersionInfo.GetVersionInfo("极光互粉助手.exe");
                 return versionInfo.ProductVersion;
             }
         }

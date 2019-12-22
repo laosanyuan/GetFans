@@ -44,54 +44,6 @@ namespace BLL
         {
             return DAL.Weibo.StartLogin(user, door);
         }
-        /// <summary>
-        /// 更新cookies
-        /// </summary>
-        /// <param name="userName"></param>
-        /// <param name="password"></param>
-        /// <returns></returns>
-        public static CookieContainer UpdateCookies(string userName ,string password)
-        {
-            Model.User user = PrepareLogin(userName, password);
-            if (StartLogin(user).Equals("0"))
-            {
-                return user.Cookies;
-            }
-            else
-            {
-                bool isSuccess = false;
-                //解码
-                for (int i = 0; i < 5; i++)
-                {
-                    Image image = GetCodeImage(user);
-                    string code = BLL.CheckCode.DecodeCheckCode(image, out int resultId);
-                    if (code.Equals(""))
-                    {
-                        continue;
-                    }
-                    string result = BLL.Weibo.StartLogin(user, code);
-                    if (result.Equals("0"))
-                    {
-                        //登录成功
-                        isSuccess = true;
-                        break;
-                    }
-                    else
-                    {
-                        //解码失败
-                    }
-                }
-                //判断是否登录成功
-                if (isSuccess)
-                {
-                    return user.Cookies;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
         #endregion
 
         #region 关注
@@ -306,9 +258,9 @@ namespace BLL
             "朋友们求互粉，在线秒回！",
 
             //广告
-            "亲爱的朋友们，我正在使用@小火箭互粉精灵 辅助互粉。互粉我三分钟之内秒回，绝对智能！",
-            "有互粉的亲吗，智能回粉，绝不漏粉     ——来自@小火箭互粉精灵 智能互粉",
-            "在线秒回，欢迎互粉[心][心][心]   ——自动回粉功能由@小火箭互粉精灵 提供",
+            "亲爱的朋友们，我正在使用@极光互粉助手 辅助互粉。互粉我三分钟之内秒回，绝对智能！",
+            "有互粉的亲吗，智能回粉，绝不漏粉     ——来自@极光互粉助手 智能互粉",
+            "在线秒回，欢迎互粉[心][心][心]   ——自动回粉功能由@极光互粉租助手 提供",
 
             "在线互粉[doge]!",
             "互粉，秒回[心]",
@@ -345,14 +297,6 @@ namespace BLL
 
             "[心]互粉啊亲",
             "在线互粉，我等你！",
-            "互粉回关开始了，欢迎关注，即刻回粉",
-            "互粉不限量！",
-            "互粉啊，关注即可，立即回关，不用艾特~",
-            "都回关了呦，继续互粉[握手]",
-            "互粉互粉，有粉必回不犹豫",
-            "开始互粉了，互粉冲鸭",
-            "[互粉]",
-            "互粉互赞互评，互相帮助快快增粉！"
         };
         #endregion
     }

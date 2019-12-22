@@ -16,15 +16,25 @@ namespace BLL
         /// <returns></returns>
         public static Model.ClientVersion GetNewestClientVersion()
         {
-            Model.WebMessage webMessage = DAL.WebAPI.GetNewestClientVersion();
-            Model.ClientVersion version = new Model.ClientVersion();
-            if (webMessage.c.Equals("200"))
+            try
             {
-                version.DownloadPath = ((Dictionary<string, object>)webMessage.d)["link"].ToString();
-                version.Version = ((Dictionary<string, object>)webMessage.d)["version"].ToString();
-                version.VersionDirection = ((Dictionary<string, object>)webMessage.d)["des"].ToString();
+                Model.WebMessage webMessage = DAL.WebAPI.GetNewestClientVersion();
+                Model.ClientVersion version = new Model.ClientVersion();
+                if (webMessage.c.Equals("200"))
+                {
+                    version.DownloadPath = ((Dictionary<string, object>)webMessage.d)["link"].ToString();
+                    version.Version = ((Dictionary<string, object>)webMessage.d)["version"].ToString();
+                    version.VersionDirection = ((Dictionary<string, object>)webMessage.d)["des"].ToString();
+                }
+                return version;
             }
-            return version;
+            catch
+            {
+                return new Model.ClientVersion()
+                {
+                    Version = DAL.ConfigRW.Version
+                };
+            }
         }
         /// <summary>
         /// 判断当前版本是否已停用
@@ -35,12 +45,19 @@ namespace BLL
         {
             string version = DAL.ConfigRW.Version;
             Model.WebMessage webMessage = DAL.WebAPI.CurrentClientValid(version);
-            if (webMessage.c.Equals("200"))
+            try
             {
-                if (webMessage.d.ToString().Equals("0"))
+                if (webMessage.c.Equals("200"))
                 {
-                    return false;
+                    if (webMessage.d.ToString().Equals("0"))
+                    {
+                        return false;
+                    }
                 }
+            }
+            catch
+            {
+
             }
             return true;
         }

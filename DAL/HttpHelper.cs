@@ -66,14 +66,21 @@ namespace DAL
         /// <returns>返回字符串</returns>
         public static string Get(string url)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.Method = "GET";
-            request.AllowAutoRedirect = false;
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
-            string retStr = sr.ReadToEnd();
-            sr.Close();
-            return retStr;
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                request.Method = "GET";
+                request.AllowAutoRedirect = false;
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
+                string retStr = sr.ReadToEnd();
+                sr.Close();
+                return retStr;
+            }
+            catch
+            {
+                return "";
+            }
         }
 
         /// <summary>
@@ -84,24 +91,31 @@ namespace DAL
         /// <returns>返回字符串</returns>
         public static string Post(string url, string postDataStr)
         {
-            CookieContainer cookie = new CookieContainer();
+            try
+            {
+                CookieContainer cookie = new CookieContainer();
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.Method = "POST";
-            request.ContentType = "application/x-www-form-urlencoded"; //必须要的
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                request.Method = "POST";
+                request.ContentType = "application/x-www-form-urlencoded"; //必须要的
 
-            request.CookieContainer = cookie;
+                request.CookieContainer = cookie;
 
-            //request.ContentLength = postDataStr.Length;
-            StreamWriter writer = new StreamWriter(request.GetRequestStream());
-            writer.Write(postDataStr);
-            writer.Flush();
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            string encoding = response.ContentEncoding;
-            StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("UTF-8"));
-            string retStr = sr.ReadToEnd();
-            sr.Close();
-            return retStr;
+                //request.ContentLength = postDataStr.Length;
+                StreamWriter writer = new StreamWriter(request.GetRequestStream());
+                writer.Write(postDataStr);
+                writer.Flush();
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                string encoding = response.ContentEncoding;
+                StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.GetEncoding("UTF-8"));
+                string retStr = sr.ReadToEnd();
+                sr.Close();
+                return retStr;
+            }
+            catch
+            {
+                return "";
+            }
         }
 
         /// <summary>
@@ -161,10 +175,17 @@ namespace DAL
         /// <returns>返回图像</returns>
         public static Image GetImage(string url)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.Method = "GET";
-            WebResponse response = request.GetResponse();
-            return Image.FromStream(response.GetResponseStream());
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                request.Method = "GET";
+                WebResponse response = request.GetResponse();
+                return Image.FromStream(response.GetResponseStream());
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>
