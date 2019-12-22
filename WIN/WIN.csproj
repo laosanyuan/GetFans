@@ -169,6 +169,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Licence.txt" />
     <Content Include="Resources\SQLite.Interop.dll" />
     <Content Include="Rocket_128.ico" />
   </ItemGroup>
