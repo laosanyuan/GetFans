@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Threading;
 using Model;
+using WIN.Common;
 
 namespace WIN.Controls
 {
@@ -95,7 +96,6 @@ namespace WIN.Controls
         private void AddGroupFunction(object obj)
         {
             Model.User addGroupUser = (Model.User)obj;
-
             while (true)
             {
                 List<Model.Group> groups = BLL.ServerData.GetGroups();
@@ -348,6 +348,9 @@ namespace WIN.Controls
             this.SendGroupToServer();
 
             this.EndFollow();
+            this.StopComment();
+            this.StopGroupPush();
+
             //退出登录事件
             this.ExitWeiboEvent(this);
         }
@@ -402,6 +405,188 @@ namespace WIN.Controls
             this.OptionEvent(message);
         }
 
+        #endregion
+
+        #region [群推]
+        private Thread GroupPushThread;
+        private void ButtonChat_Click(object sender, EventArgs e)
+        {
+            if (this.buttonChat.Text.Equals("开始群推"))
+            {
+                this.buttonChat.Text = "停止群推";
+                this.OptionEvent($"【{User.NickName}】开始群推...");
+
+                this.GroupPushThread = new Thread(new ParameterizedThreadStart(this.PushFunction));
+                this.GroupPushThread.Start(this.User);
+            }
+            else
+            {
+                this.buttonChat.Text = "开始群推";
+                this.OptionEvent($"【{User.NickName}】群推已停止，本次共计推送微博[{this.labelChat.Text}]次");
+                this.StopGroupPush();
+            }
+        }
+
+        //群推
+        private void PushFunction(object obj)
+        {
+            var user = obj as User;
+
+            List<Group> groupList = new List<Group>();          //群列表
+            List<string> pushWeiboUrls = new List<string>();    //最新微博列表
+            int times = 0;
+
+            while (true)
+            {
+                //获取群列表
+                List<Group> groups = (List<Group>)Invoke(new GetAllGroupListDelegate(GetAllGroupList));
+
+                if (groups.Count == 0)
+                {
+                    //获取当前群列表顺序第一页群聊
+                    groups = BLL.Weibo.GetGroups(user.Cookies);
+                    //加入总列表
+                    this.BeginInvoke(new UpdateGroupListDelegate(AddGroupToList), groups);
+                }
+
+                foreach (var g in groups)
+                {
+                    if (groupList.FindIndex(t => t.Gid.Equals(g.Gid)) >= 0)
+                    {
+                        continue;
+                    }
+                    groupList.Add(g);
+                }
+                //获取最新微博分享链接
+                List<string> urls = BLL.Weibo.GetNewestWeiboUrls(user.Cookies, user.Uid);
+                if (urls.Count > 0)
+                {
+                    pushWeiboUrls = urls;
+                }
+                //开始群推
+                foreach (var url in pushWeiboUrls)
+                {
+                    foreach (var g in groupList)
+                    {
+                        try
+                        {
+                            BLL.Weibo.SendMessage2Group(user.Cookies, g.Gid, url);
+                            this.Invoke(new Action(() =>
+                            {
+                                this.OptionEvent($"【{user.NickName}】向群聊[{g.Name}]分享一条微博");
+                                this.labelChat.Text = times++.ToString();
+                            }));
+                        }
+                        catch
+                        {
+                            this.Invoke(new Action(() =>
+                            {
+                                this.OptionEvent($"【{user.NickName}】向群聊[{g.Name}]分享微博失败");
+                            }));
+                        }
+                        Thread.Sleep(1000);
+                    }
+                    Thread.Sleep(300000);
+                }
+            }
+        }
+
+        public void StopGroupPush()
+        {
+            if (this.GroupPushThread != null && this.GroupPushThread.IsAlive)
+            {
+                try
+                {
+                    this.GroupPushThread.Abort();
+                }
+                catch
+                {
+                }
+            }
+        }
+        #endregion
+
+        #region [互动]
+        private Thread CommentThread;
+        private void ButtonComment_Click(object sender, EventArgs e)
+        {
+            if (this.buttonComment.Text.Equals("开始互动"))
+            {
+                this.buttonComment.Text = "停止互动";
+                this.OptionEvent($"【{User.NickName}】开始互动...");
+
+                this.CommentThread = new Thread(new ParameterizedThreadStart(this.CommentFunction));
+                this.CommentThread.Start(this.User);
+            }
+            else
+            {
+                this.buttonComment.Text = "开始互动";
+                this.OptionEvent($"【{User.NickName}】互动已停止,本次攻击互动[{this.labelComment.Text}]次");
+                this.StopComment();
+            }
+        }
+
+        private void CommentFunction(object obj)
+        {
+            var user = obj as User;
+            int times = 0;
+            var comments = FileUtil.ReadFile(System.Environment.CurrentDirectory + "\\CommentDetails.co").Split('%');
+            while (true)
+            {
+                var weibos = BLL.Weibo.GetFriendNewestWeiboMids(user.Cookies);
+                foreach (var weibo in weibos)
+                {
+                    try
+                    {
+                        var comment = comments[new Random().Next(comments.Length - 1)];
+                        //点赞
+                        var likeResult = BLL.Weibo.LikeWeibo(user.Cookies, weibo.Mid);
+                        Thread.Sleep(1000);
+                        //评论
+                        var result = "";
+                        var commentResult = BLL.Weibo.CommentWeibo(user.Cookies, weibo.Mid, user.Uid, weibo.Uid, comment, ref result);
+                        this.Invoke(new Action(() =>
+                        {
+                            if (likeResult && commentResult)
+                            {
+                                this.OptionEvent($"互动成功，评论并点赞用户【{weibo.NickName}】微博成功！评论内容为：{comment}。");
+                            }
+                            else if (likeResult)
+                            {
+                                this.OptionEvent($"点赞用户【{weibo.NickName}】微博成功！");
+                            }
+                            else if (commentResult)
+                            {
+                                this.OptionEvent($"互动成功，评论用户【{weibo.NickName}】微博成功！评论内容为：{comment}。");
+                            }
+                            this.labelComment.Text = times++.ToString();
+                        }));
+                    }
+                    catch (Exception ex)
+                    {
+                        this.Invoke(new Action(() =>
+                        {
+                            this.OptionEvent($"评论用户【{weibo.NickName}】微博失败");
+                        }));
+                    }
+                    Thread.Sleep(10000);
+                }
+                Thread.Sleep(900000);
+            }
+        }
+
+        public void StopComment()
+        {
+            if (this.CommentThread != null && this.CommentThread.IsAlive)
+            {
+                try
+                {
+                    this.CommentThread.Abort();
+                }
+                catch
+                { }
+            }
+        }
         #endregion
     }
 }

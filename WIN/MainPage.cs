@@ -39,14 +39,18 @@ namespace WIN
         {
             this.timerSerial.Enabled = false;
 
+#if DEBUG
+
+#else
             this.CheckVersion();
             
             this.CheckSerial();
+#endif
         }
 
-        #endregion
+#endregion
 
-        #region [登录账号]
+#region [登录账号]
         private void buttonLogin_Click(object sender, EventArgs e)
         {
 
@@ -70,9 +74,9 @@ namespace WIN
                 return;
             }
         }
-        #endregion
+#endregion
 
-        #region [页面布局]
+#region [页面布局]
         /// <summary>
         /// 根据页面情况对登录后控件进行布局
         /// </summary>
@@ -168,9 +172,9 @@ namespace WIN
             //更新panel布局
             this.panelWeibo.ResumeLayout();
         }
-        #endregion
+#endregion
 
-        #region [输出信息]
+#region [输出信息]
         /// <summary>
         /// 向状态窗口输出一组信息
         /// </summary>
@@ -194,9 +198,9 @@ namespace WIN
         {
             this.WriteOutputMessages(new string[] { message });
         }
-        #endregion
+#endregion
 
-        #region [控件事件]
+#region [控件事件]
         /// <summary>
         /// 账号消息
         /// </summary>
@@ -205,9 +209,9 @@ namespace WIN
         {
             this.WriteOutputMessage(message);
         }
-        #endregion
+#endregion
 
-        #region [序列号]
+#region [序列号]
         //购买序列号
         private void buttonBuySerial_Click(object sender, EventArgs e)
         {
@@ -229,12 +233,7 @@ namespace WIN
         {
             if (!BLL.Serial.IsValidSerial())
             {
-                //this.labelSeriaPoint.Visible = true;
-                //this.labelSeriaPoint.Refresh();
-                //this.skinTabControl1.SelectedTab = this.skinTabPageSerial;
                 this.buttonLogin.Enabled = false;
-                //this.skinTabControl1.SelectedTab = this.skinTabPageSerial;
-                //弹出购买页面
                 Views.SerialNumberView serialNumberView = new Views.SerialNumberView();
                 serialNumberView.ShowDialog();
                 //检验序列号有效恢复可用
@@ -258,9 +257,9 @@ namespace WIN
 
             this.buttonLogin.Enabled = true;
         }
-        #endregion
+#endregion
 
-        #region [版本]
+#region [版本]
         //版本更新提醒
         private void UpdateVersion()
         {
@@ -283,21 +282,23 @@ namespace WIN
                 versionView.ShowDialog();
             }
         }
-        #endregion
+#endregion
 
-        #region [頁面關閉]
+#region [頁面關閉]
         private void MainPage_FormClosing(object sender, FormClosingEventArgs e)
         {
             //如果存在未退出的賬號，則分別上傳群信息
             foreach (UserLoginControl control in this.panelWeibo.Controls)
             {
                 control.EndFollow();
+                control.StopGroupPush();
+                control.StopComment();
                 control.SendGroupToServer();
             }
         }
-        #endregion
+#endregion
 
-        #region [最小化到托盘]
+#region [最小化到托盘]
         private void MainPage_SizeChanged(object sender, EventArgs e)
         {
             if (this.WindowState == FormWindowState.Minimized)
@@ -326,7 +327,7 @@ namespace WIN
         {
             this.Close();
         }
-        #endregion
+#endregion
 
     }
 }

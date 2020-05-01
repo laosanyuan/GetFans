@@ -307,10 +307,12 @@ namespace DAL
         public static bool AddGroup(CookieContainer cookie, string gid, string groupName)
         {
             string data = String.Format("gid={0}&name={1}&isadmin=&_t=0", gid, groupName);
-            string url = @"https://weibo.com/p/aj/groupchat/applygroup?ajwvr=6&__rnd=" + GetTimeStamp();
-            string s = HttpHelper.SendDataByPost(url, cookie, data);
+            //string url = @"https://weibo.com/p/aj/groupchat/applygroup?ajwvr=6&__rnd=" + GetTimeStamp();
+            //string s = HttpHelper.SendDataByPost(url, cookie, data);
+            string url = @"https://api.weibo.com/webim/groupchat/apply_join.json";
+            string s = HttpHelper.ApiSendDataByPost(url, cookie, $"id={gid}&source=209678993");
 
-            return s.Equals("") ? false : CheckBackCode(JsonHelper.GetBackJson(s).code);
+            return s.Contains("true");
         }
         /// <summary>
         /// 获取当前登录用户私信列表的所有群（群名、gid）
@@ -393,11 +395,11 @@ namespace DAL
         /// <returns></returns>
         public static bool ExitGroup(CookieContainer cookie,string gid,string groupName)
         {
-            string data = String.Format("gid={0}&name={1}&isadmin=&islast=0&_t=0", gid, groupName);
-            string url = @"https://weibo.com/p/aj/groupchat/exitgroup?ajwvr=6&__rnd=" + GetTimeStamp();
-            string s = HttpHelper.SendDataByPost(url, cookie, data);
+            string data = $"id={gid}&keep_entrance=0&source=209678993";
+            string url = @"https://api.weibo.com/webim/groupchat/exit.json";
+            string s = HttpHelper.ApiSendDataByPost(url, cookie, data);
 
-            return s.Equals("") ? false : CheckBackCode(JsonHelper.GetBackJson(s).code);
+            return s.Contains("true");
         }
         #endregion
 
@@ -433,8 +435,30 @@ namespace DAL
         #region [互动相关]
         public static List<Model.CommentWeibo> GetFriendNewestWeibo(CookieContainer cookie)
         {
+            var list = new List<CommentWeibo>();
 
-            return null;     
+            var userHomePageTxt = HttpHelper.Get("https://weibo.com", cookie, true);
+            string regexStr1 = "(&uid=)(\\d)*?(&nickname=)(.)*?(&gender=)";
+            string regexStr2 = "(touid%3D)(.)*?(&title=推广)";
+
+            MatchCollection matches = Regex.Matches(userHomePageTxt, regexStr2);
+            foreach (Match m in matches)
+            {
+                var strs = m.Value.Replace("touid%3D", "").Replace("&title=推广", "").Replace("%26mid%3D", "$").Split('$');
+                var weibo = new CommentWeibo();
+                weibo.Uid = strs[0];
+                weibo.Mid = strs[1];
+                list.Add(weibo);
+            }
+
+            matches = Regex.Matches(userHomePageTxt, regexStr1);
+            foreach (Match match in matches)
+            {
+                CommentWeibo weibo = new CommentWeibo();
+                var strs = match.Value.Replace("&uid=", "").Replace("&gender=", "").Split('&');
+                list.Find(t => t.Uid.Equals(strs[0])).NickName = strs[strs.Length - 1].Replace("nickname=", "");
+            }
+            return list;    
         }
 
         /// <summary>

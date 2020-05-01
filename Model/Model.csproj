@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="BackJson.cs" />
     <Compile Include="ClientVersion.cs" />
+    <Compile Include="CommentWeibo.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Fan.cs" />
     <Compile Include="Group.cs" />

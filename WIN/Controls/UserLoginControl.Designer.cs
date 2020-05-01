@@ -34,6 +34,8 @@
             System.Windows.Forms.Label label4;
             System.Windows.Forms.Label label5;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserLoginControl));
+            System.Windows.Forms.Label label6;
+            System.Windows.Forms.Label label7;
             this.skinGroupBox1 = new CCWin.SkinControl.SkinGroupBox();
             this.buttonClean = new System.Windows.Forms.Button();
             this.buttonExit = new System.Windows.Forms.Button();
@@ -44,11 +46,17 @@
             this.labelNowFansCount = new System.Windows.Forms.Label();
             this.labelLoginFansCount = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.buttonChat = new System.Windows.Forms.Button();
+            this.buttonComment = new System.Windows.Forms.Button();
+            this.labelComment = new System.Windows.Forms.Label();
+            this.labelChat = new System.Windows.Forms.Label();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
             label5 = new System.Windows.Forms.Label();
+            label6 = new System.Windows.Forms.Label();
+            label7 = new System.Windows.Forms.Label();
             this.skinGroupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -102,6 +110,12 @@
             // 
             this.skinGroupBox1.BackColor = System.Drawing.SystemColors.Control;
             this.skinGroupBox1.BorderColor = System.Drawing.Color.DarkGray;
+            this.skinGroupBox1.Controls.Add(this.labelChat);
+            this.skinGroupBox1.Controls.Add(label7);
+            this.skinGroupBox1.Controls.Add(this.labelComment);
+            this.skinGroupBox1.Controls.Add(label6);
+            this.skinGroupBox1.Controls.Add(this.buttonComment);
+            this.skinGroupBox1.Controls.Add(this.buttonChat);
             this.skinGroupBox1.Controls.Add(this.buttonClean);
             this.skinGroupBox1.Controls.Add(this.buttonExit);
             this.skinGroupBox1.Controls.Add(this.buttonStart);
@@ -121,7 +135,7 @@
             this.skinGroupBox1.Name = "skinGroupBox1";
             this.skinGroupBox1.RectBackColor = System.Drawing.SystemColors.Control;
             this.skinGroupBox1.RoundStyle = CCWin.SkinClass.RoundStyle.All;
-            this.skinGroupBox1.Size = new System.Drawing.Size(390, 137);
+            this.skinGroupBox1.Size = new System.Drawing.Size(390, 203);
             this.skinGroupBox1.TabIndex = 0;
             this.skinGroupBox1.TabStop = false;
             this.skinGroupBox1.Text = "登录窗口";
@@ -132,7 +146,7 @@
             // 
             // buttonClean
             // 
-            this.buttonClean.Location = new System.Drawing.Point(289, 57);
+            this.buttonClean.Location = new System.Drawing.Point(289, 129);
             this.buttonClean.Name = "buttonClean";
             this.buttonClean.Size = new System.Drawing.Size(80, 30);
             this.buttonClean.TabIndex = 13;
@@ -142,7 +156,7 @@
             // 
             // buttonExit
             // 
-            this.buttonExit.Location = new System.Drawing.Point(289, 94);
+            this.buttonExit.Location = new System.Drawing.Point(289, 167);
             this.buttonExit.Name = "buttonExit";
             this.buttonExit.Size = new System.Drawing.Size(80, 30);
             this.buttonExit.TabIndex = 12;
@@ -214,17 +228,72 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
+            // buttonChat
+            // 
+            this.buttonChat.Location = new System.Drawing.Point(289, 56);
+            this.buttonChat.Name = "buttonChat";
+            this.buttonChat.Size = new System.Drawing.Size(80, 30);
+            this.buttonChat.TabIndex = 14;
+            this.buttonChat.Text = "开始群推";
+            this.buttonChat.UseVisualStyleBackColor = true;
+            this.buttonChat.Click += new System.EventHandler(this.ButtonChat_Click);
+            // 
+            // buttonComment
+            // 
+            this.buttonComment.Location = new System.Drawing.Point(289, 93);
+            this.buttonComment.Name = "buttonComment";
+            this.buttonComment.Size = new System.Drawing.Size(80, 30);
+            this.buttonComment.TabIndex = 15;
+            this.buttonComment.Text = "开始互动";
+            this.buttonComment.UseVisualStyleBackColor = true;
+            this.buttonComment.Click += new System.EventHandler(this.ButtonComment_Click);
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new System.Drawing.Point(102, 134);
+            label6.Name = "label6";
+            label6.Size = new System.Drawing.Size(77, 12);
+            label6.TabIndex = 16;
+            label6.Text = "互动成功数：";
+            // 
+            // labelComment
+            // 
+            this.labelComment.AutoSize = true;
+            this.labelComment.Location = new System.Drawing.Point(217, 134);
+            this.labelComment.Name = "labelComment";
+            this.labelComment.Size = new System.Drawing.Size(11, 12);
+            this.labelComment.TabIndex = 17;
+            this.labelComment.Text = "0";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new System.Drawing.Point(102, 156);
+            label7.Name = "label7";
+            label7.Size = new System.Drawing.Size(65, 12);
+            label7.TabIndex = 18;
+            label7.Text = "群推次数：";
+            // 
+            // labelChat
+            // 
+            this.labelChat.AutoSize = true;
+            this.labelChat.Location = new System.Drawing.Point(217, 156);
+            this.labelChat.Name = "labelChat";
+            this.labelChat.Size = new System.Drawing.Size(11, 12);
+            this.labelChat.TabIndex = 19;
+            this.labelChat.Text = "0";
+            // 
             // UserLoginControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.Controls.Add(this.skinGroupBox1);
-            this.MaximumSize = new System.Drawing.Size(400, 147);
             this.MinimumSize = new System.Drawing.Size(400, 147);
             this.Name = "UserLoginControl";
             this.Padding = new System.Windows.Forms.Padding(0, 0, 3, 3);
-            this.Size = new System.Drawing.Size(400, 147);
+            this.Size = new System.Drawing.Size(400, 213);
             this.Load += new System.EventHandler(this.UserLoginControl_Load);
             this.skinGroupBox1.ResumeLayout(false);
             this.skinGroupBox1.PerformLayout();
@@ -245,5 +314,9 @@
         private System.Windows.Forms.Button buttonExit;
         private System.Windows.Forms.Button buttonStart;
         private System.Windows.Forms.Button buttonClean;
+        private System.Windows.Forms.Button buttonComment;
+        private System.Windows.Forms.Button buttonChat;
+        private System.Windows.Forms.Label labelChat;
+        private System.Windows.Forms.Label labelComment;
     }
 }

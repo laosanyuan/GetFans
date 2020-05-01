@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using WIN.Common;
 
 namespace WIN.Views
 {
@@ -28,6 +30,19 @@ namespace WIN.Views
             this.skinTextBoxUserName.Enter += this.HideError;
             this.skinTextBoxPassword.Enter += this.HideError;
             this.skinTextBoxCheck.Enter += this.HideError;
+
+            try
+            {
+                if (File.Exists(Environment.CurrentDirectory + "\\user.info"))
+                {
+                    var userInfo = FileUtil.ReadFile(Environment.CurrentDirectory + "\\user.info").Split('%');
+                    this.skinTextBoxUserName.Text = userInfo[0];
+                    this.skinTextBoxPassword.Text = userInfo[1];
+                }
+            }
+            catch(Exception ex)
+            {
+            }
         }
         //无验证码登录
         private void NormalLogin()
@@ -108,6 +123,11 @@ namespace WIN.Views
 
             if (result.Equals("0"))
             {
+                if (String.IsNullOrEmpty(this.User.NickName))
+                {
+                    MessageBox.Show("获取账号信息失败，可能是由于登录或操作次数频繁所致，请间隔一段时间后重试");
+                    this.Close();
+                }
                 if (this.User.NickName.IndexOf('<') > -1)
                 {
                     MessageBox.Show("账号被锁，请登录网页微博解锁后再登录","提示");
@@ -117,6 +137,7 @@ namespace WIN.Views
                 {
                     //登录成功
                     this.IsSuccess = true;
+                    FileUtil.WriteFile(System.Environment.CurrentDirectory + "\\user.info", $"{this.User.UserName}%{this.User.Password}");
                     this.Close();
                 }
             }
